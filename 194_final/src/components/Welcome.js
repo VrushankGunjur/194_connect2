@@ -17,17 +17,10 @@ const Welcome = () => {
       <h2>Welcome to Wordle with Friends.</h2>
       <img src={wordle} alt="ReactJs logo" width={50} height={50} />
       <p>Sign in with Google to chat with with your fellow Worlde group members.</p>
-      <button className="GetRand">
-        <img
-          onClick={Game}
-          alt="Get Random User"
-          type="button"
-        />
-      </button>
       <button className="Dropdown">
         <img
           onClick={UserDropdown}
-          alt="Dropdown"
+          alt="User Dropdown"
           type="button"
         />
       </button>

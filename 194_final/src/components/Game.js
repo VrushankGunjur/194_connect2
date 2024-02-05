@@ -1,33 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import { collection, getDocs, query } from 'firebase/firestore';
-import { db } from "../firebase";
+import React, { useEffect, useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase'; // Adjust this import according to your Firebase config file's location
 
-export const Game = () => {
-    console.log("starting game")
-    // const [validGuesses, setValidGuesses] = useState([]);
-    // const [guesses, setGuesses] = useState([]);
-    // const [correctGuess, setCorrectGuess] = useState(false);
-    //const [users, setUsers] = useState([]);
-    // let user = null;
-    // let data = null;
+function Game() {
+  const [randomUser, setRandomUser] = useState(null);
+  const [guess, setGuess] = useState('');
+  const [feedback, setFeedback] = useState('');
 
-    console.log("fetching users ")
-    // useEffect(() => {
-    //     const fetchUsers = () => {
-    //         const data = getDocs(query(collection(db, "users")));
-    //         data.then(r => setUsers(r.docs[Math.floor(Math.random() * 5)].data()));
-    //     };
+  useEffect(() => {
+    const fetchRandomUser = async () => {
+      const querySnapshot = await getDocs(collection(db, "users"));
+      const users = querySnapshot.docs.map(doc => doc.data());
+      if (users.length > 0) {
+        const randomIndex = Math.floor(Math.random() * users.length);
+        setRandomUser(users[randomIndex]);
+      }
+    };
 
-    //     fetchUsers();
-    // }, []);
-    
-    console.log("fetched users ")
-    // console.log(users);
+    fetchRandomUser();
+  }, []);
+  console.log(randomUser)
 
-    return (
-        <div>
-          <h1>This is my component!</h1>
-          <p>It is a simple component that renders a heading and a paragraph.</p>
-        </div>
-      );
-};
+  const handleGuessSubmit = (event) => {
+    event.preventDefault();
+    if (guess.toLowerCase() === randomUser['FirstName'].toLowerCase()) {
+      setFeedback('Correct! You guessed the right user.');
+    } else {
+      setFeedback('Incorrect guess. Try again!');
+    }
+  };
+
+  const handleGuessChange = (event) => {
+    setGuess(event.target.value);
+  };
+
+  return (
+    <div>
+      <h2>Guess the User's Name</h2>
+      {randomUser ? (
+        <>
+          <p>Can you guess the name of the user?</p>
+          <form onSubmit={handleGuessSubmit}>
+            <input
+              type="text"
+              value={guess}
+              onChange={handleGuessChange}
+              placeholder="Enter your guess"
+            />
+            <button type="submit">Guess</button>
+          </form>
+          {feedback && <p>{feedback}</p>}
+        </>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
+  );
+}
+
+export default Game;
