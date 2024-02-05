@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar";
 import ChatBox from "./components/ChatBox";
 import Welcome from "./components/Welcome";
 import Game from "./components/Game";
+import UserDropDown from "./components/UserDropDown";
 
 function App() {
   const [user] = useAuthState(auth);
@@ -16,7 +17,7 @@ function App() {
         <Welcome />
       ) : (
         <>
-          <Game/>
+          <UserDropDown/>
         </>
       )}
     </div>
