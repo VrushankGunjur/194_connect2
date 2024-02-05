@@ -3,7 +3,7 @@ import GoogleSignin from "../img/btn_google_signin_dark_pressed_web.png";
 import wordle from "../img/wordle.png";
 import { auth } from "../firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import Game from "../components/Game.js"
+import { Game } from "../components/Game.js"
 import UserDropdown from "../components/UserDropDown.js";
 
 const Welcome = () => {
@@ -27,7 +27,7 @@ const Welcome = () => {
       <button className="Dropdown">
         <img
           onClick={UserDropdown}
-          alt="Get Random User"
+          alt="Dropdown"
           type="button"
         />
       </button>

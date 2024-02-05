@@ -4,9 +4,9 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import ChatBox from "./components/ChatBox";
 import Welcome from "./components/Welcome";
-import Game from "./components/Game";
+// import Game from "./components/Game";
 import UserDropDown from "./components/UserDropDown";
-
+import UserForm from "./components/UserForm"
 function App() {
   const [user] = useAuthState(auth);
 
@@ -18,6 +18,7 @@ function App() {
       ) : (
         <>
           <UserDropDown/>
+          <UserForm/>
         </>
       )}
     </div>
