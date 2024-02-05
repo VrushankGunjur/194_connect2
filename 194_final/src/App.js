@@ -3,6 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import ChatBox from "./components/ChatBox";
+import Game from "./components/Game";
 import Welcome from "./components/Welcome";
 // import Game from "./components/Game";
 import UserDropDown from "./components/UserDropDown";
@@ -17,7 +18,8 @@ function App() {
         <Welcome />
       ) : (
         <>
-          <UserDropDown/>
+          {/* <UserDropDown/> */}
+          <Game/>
         </>
       )}
     </div>

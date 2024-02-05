@@ -23,32 +23,32 @@ function diff(trueState, guessState) {
     
 
     // let diffState = [[0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0]];
-    let colorCutoffs = {
-      age : 5,
-      email
-    }
-    let resState = {};
+    // let colorCutoffs = {
+    //   age : 5,
+    //   email
+    // }
+    // let resState = {};
 
-    for (const key in trueState) {
-      let val_diff = Math.abs(trueState[key] - guessState[key]);
-      let diff = {dir : 2, color : 2};
-      if (trueState[key] < guessState[key]) {
-        diff.dir = 0;
-      }
-      else if (trueState[key] > guessState[key]) {
-        diff.dir = 1
-      }
-      if (val_diff <= )
+    // for (const key in trueState) {
+    //   let val_diff = Math.abs(trueState[key] - guessState[key]);
+    //   let diff = {dir : 2, color : 2};
+    //   if (trueState[key] < guessState[key]) {
+    //     diff.dir = 0;
+    //   }
+    //   else if (trueState[key] > guessState[key]) {
+    //     diff.dir = 1
+    //   }
+    //   // if (val_diff <= )
 
-      resState[key] = diff;
-    }
+    //   resState[key] = diff;
+    // }
     
-    if (state1.age === state2.age) {
-        diffState[0] = 2;
-    }
-    if (state1.height === state2.height) {
+    // if (state1.age === state2.age) {
+    //     diffState[0] = 2;
+    // }
+    // if (state1.height === state2.height) {
         
-    }
+    // }
 }
 
 const DropdownForm = () => {
