@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase'; // Adjust this import according to your Firebase config file's location
-
 function Game() {
   const [randomUser, setRandomUser] = useState(null);
   const [guess, setGuess] = useState('');
