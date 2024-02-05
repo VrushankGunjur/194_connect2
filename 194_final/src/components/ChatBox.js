@@ -13,7 +13,7 @@ import SendMessage from "./SendMessage";
 const ChatBox = () => {
   const [messages, setMessages] = useState([]);
   const scroll = useRef();
-
+  
   useEffect(() => {
     const q = query(
       collection(db, "messages"),

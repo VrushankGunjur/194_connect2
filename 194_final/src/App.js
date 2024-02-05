@@ -4,6 +4,7 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import ChatBox from "./components/ChatBox";
 import Welcome from "./components/Welcome";
+import Game from "./components/Game";
 
 function App() {
   const [user] = useAuthState(auth);
@@ -15,7 +16,7 @@ function App() {
         <Welcome />
       ) : (
         <>
-          <ChatBox />
+          <Game/>
         </>
       )}
     </div>
