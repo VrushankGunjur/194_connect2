@@ -17,13 +17,13 @@ const Welcome = () => {
       <h2>Welcome to Wordle with Friends.</h2>
       <img src={wordle} alt="ReactJs logo" width={50} height={50} />
       <p>Sign in with Google to chat with with your fellow Worlde group members.</p>
-      <button className="Dropdown">
+      {/* <button className="Dropdown">
         <img
           onClick={UserDropdown}
           alt="User Dropdown"
           type="button"
         />
-      </button>
+      </button> */}
       <button className="sign-in">
         <img
           onClick={googleSignIn}
