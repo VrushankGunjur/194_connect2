@@ -26,12 +26,12 @@ function diff(trueState, guessState) {
 
     // let diffState = {age: {cur: 2, color: 1}, [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0]};
     let colorCutoffs = {
-      age: 5,
+      age: 1,
       ethnicity: '',
       favoriteColor: '',
       favoriteSport: '',
       gender: '',
-      height: 5,
+      height: 3,
       homeTown: '',
       major: ''
     }
@@ -46,7 +46,7 @@ function diff(trueState, guessState) {
       else if (trueState[key] > guessState[key]) {
         diff.dir = 1;
       }
-      else {continue;}
+      else {resState[key] = diff; continue;}
 
       if (colorCutoffs[key] !== '') {
         let val_diff = Math.abs(trueState[key] - guessState[key]);
