@@ -26,43 +26,57 @@ function diff(trueState, guessState) {
 
     // let diffState = {age: {cur: 2, color: 1}, [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0]};
     let colorCutoffs = {
-      age: 1,
-      ethnicity: '',
-      favoriteColor: '',
-      favoriteSport: '',
-      gender: '',
-      height: 3,
-      homeTown: '',
-      major: ''
+      FirstName: '',
+      LastName: '',
+      Gender: '',
+      Age: 1,
+      Ethnicity: '',
+      FavoriteColor: '',
+      FavoriteSport: '',
+      HomeState: '',
+      Major: '',
+      Height: 3
     }
     let resState = {};
 
+
     for (const key in trueState) {
       let diff = {dir : 2, color : 1};
-  
-      if (trueState[key] < guessState[key]) {
-        diff.dir = 0;
-      }
-      else if (trueState[key] > guessState[key]) {
-        diff.dir = 1;
-      }
-      else {resState[key] = diff; continue;}
 
-      if (colorCutoffs[key] !== '') {
-        let val_diff = Math.abs(trueState[key] - guessState[key]);
-        if (val_diff > colorCutoffs[key]) {
+      if (colorCutoffs[key] === '') {
+        if (trueState[key] !== guessState[key]) {
           diff.color = 0;
         }
         else {
-          diff.color = 0.5;
+          diff.color = 1;
         }
       }
       else {
-        diff.color = 0;
+        if (trueState[key] < guessState[key]) {
+          diff.dir = 0;
+          if (guessState[key] - trueState[key] > colorCutoffs[key]) {
+            diff.color = 0;
+          }
+          else {
+            diff.color = 0.5;
+          }
+        }
+        else if (trueState[key] > guessState[key]) {
+          diff.dir = 1;
+          if (trueState[key] - guessState[key] > colorCutoffs[key]) {
+            diff.color = 0;
+          }
+          else {
+            diff.color = 0.5;
+          }
+        }
       }
 
       resState[key] = diff;
     }
+
+    console.log(resState);
+    return resState;
 }
 
 
@@ -72,6 +86,9 @@ export function Game() {
   const [selectedUserId, setSelectedUserId] = useState('');
   const [feedback, setFeedback] = useState('');
   const [guessedUsers, setGuessedUsers] = useState([]);
+  const [dispUsers, setDispUsers] = useState([]);
+
+  let dispFeatures = ["FirstName", "LastName", "Gender", "Age", "Ethnicity", "FavoriteColor", "FavoriteSport", "HomeState", "Height"];
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -127,7 +144,17 @@ export function Game() {
         setFeedback('Incorrect guess. Try again!');
       }
       // Add the guessed user with all formatted traits to the guessedUsers array
+      
       setGuessedUsers([...guessedUsers, guessedUser]);
+      let resDiffs = diff(guessedUser, randomUser);
+      let dispUser = {};
+      for (const key of dispFeatures) {
+        dispUser[key] = {};
+        dispUser[key].data = guessedUser[key];
+        if (key === "Height") {dispUser[key].data = formatHeight(guessedUser[key]);}
+        dispUser[key].disp = resDiffs[key];
+      }
+      setDispUsers([...dispUsers, dispUser]);
     }
     setSelectedUserId(''); // Reset for next guess
   };
@@ -162,23 +189,23 @@ export function Game() {
                     <th>Favorite Color</th>
                     <th>Favorite Sport</th>
                     <th>Home State</th>
-                    <th>Major</th>
+                    {/*<th>Major</th>*/}
                     <th>Height</th> {/* Additional column for Height */}
                   </tr>
                 </thead>
                 <tbody>
-                  {guessedUsers.map((user, index) => (
+                  {dispUsers.map((dispUser, index) => (
                     <tr key={index}>
-                      <td>{user.FirstName}</td>
-                      <td>{user.LastName}</td>
-                      <td>{user.Gender}</td>
-                      <td>{user.Age}</td>
-                      <td>{user.Ethnicity}</td>
-                      <td>{user.FavoriteColor}</td>
-                      <td>{user.FavoriteSport}</td>
-                      <td>{user.HomeState}</td>
-                      <td>{user.Major}</td>
-                      <td>{user.formattedHeight}</td> {/* Display formatted Height */}
+                      <td><AttributeRectangles dispComponent={dispUser.FirstName} /></td>
+                      <td><AttributeRectangles dispComponent={dispUser.LastName} /></td>
+                      <td><AttributeRectangles dispComponent={dispUser.Gender} /></td>
+                      <td><AttributeRectangles dispComponent={dispUser.Age} /></td>
+                      <td><AttributeRectangles dispComponent={dispUser.Ethnicity} /></td>
+                      <td><AttributeRectangles dispComponent={dispUser.FavoriteColor} /></td>
+                      <td><AttributeRectangles dispComponent={dispUser.FavoriteSport} /></td>
+                      <td><AttributeRectangles dispComponent={dispUser.HomeState} /></td>
+                      {/*<td><AttributeRectangles dispComponent={dispUser.Major} /></td>*/}
+                      <td><AttributeRectangles dispComponent={dispUser.Height} /></td>
                     </tr>
                   ))}
                 </tbody>
@@ -194,9 +221,10 @@ export function Game() {
   );
 }
 
-// Component that renders rectangles based on values in a map
-export const AttributeRectangles = ({ categories }) => {
+// Component that renders single rectangle based on data to print and display data
+export const AttributeRectangles = ({ dispComponent }) => {
     // Function to determine the arrow based on the first number
+    console.log(dispComponent);
     const getArrow = (value) => {
       switch(value) {
         case 0: return '↑';
@@ -215,19 +243,18 @@ export const AttributeRectangles = ({ categories }) => {
   
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-        {Object.entries(categories).map(([category, {firstNum, secondNum}]) => (
-          <div key={category} style={{
-            backgroundColor: getColor(secondNum),
+        
+          <div key={dispComponent.data} style={{
+            backgroundColor: getColor(dispComponent.disp.color),
             padding: '10px',
-            width: '150px',
+            width: '125px',
             textAlign: 'center',
             color: 'black',
             fontWeight: 'bold',
             border: '1px solid #ccc'
           }}>
-            {category}: {getArrow(firstNum)}
+            {dispComponent.data} {getArrow(dispComponent.disp.dir)}
           </div>
-        ))}
       </div>
     );
   };
