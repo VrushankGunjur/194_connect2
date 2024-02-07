@@ -192,7 +192,7 @@ export function Game() {
         <>
           <h3>Guessed Users:</h3>
           {/* Replace the manually constructed table with the UserTable component */}
-          <ResultsTable users={guessedUsers} />
+          <ResultsTable users={guessedUsers} correctGuessId={randomUser.id} />
           {showChatBox && <ChatBox />}
         </>
       )}
@@ -205,40 +205,40 @@ export function Game() {
   );
 }
 
-// Component that renders single rectangle based on data to print and display data
-export const AttributeRectangles = ({ dispComponent }) => {
-    // Function to determine the arrow based on the first number
-    console.log(dispComponent);
-    const getArrow = (value) => {
-      switch(value) {
-        case 0: return '↑';
-        case 1: return '↓';
-        case 2: return ''; // No arrow
-        default: return ''; // Fallback, should not happen
-      }
-    };
+// // Component that renders single rectangle based on data to print and display data
+// export const AttributeRectangles = ({ dispComponent }) => {
+//     // Function to determine the arrow based on the first number
+//     console.log(dispComponent);
+//     const getArrow = (value) => {
+//       switch(value) {
+//         case 0: return '↑';
+//         case 1: return '↓';
+//         case 2: return ''; // No arrow
+//         default: return ''; // Fallback, should not happen
+//       }
+//     };
   
-    // Function to normalize the second number to a color
-    const getColor = (value) => {
-      if (value <= 0.33) return 'red';
-      if (value <= 0.66) return 'yellow';
-      return 'green';
-    };
+//     // Function to normalize the second number to a color
+//     const getColor = (value) => {
+//       if (value <= 0.33) return 'red';
+//       if (value <= 0.66) return 'yellow';
+//       return 'green';
+//     };
   
-    return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+//     return (
+//       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
         
-          <div key={dispComponent.data} style={{
-            backgroundColor: getColor(dispComponent.disp.color),
-            padding: '10px',
-            width: '125px',
-            textAlign: 'center',
-            color: 'black',
-            fontWeight: 'bold',
-            border: '1px solid #ccc'
-          }}>
-            {dispComponent.data} {getArrow(dispComponent.disp.dir)}
-          </div>
-      </div>
-    );
-  };
+//           <div key={dispComponent.data} style={{
+//             backgroundColor: getColor(dispComponent.disp.color),
+//             padding: '10px',
+//             width: '125px',
+//             textAlign: 'center',
+//             color: 'black',
+//             fontWeight: 'bold',
+//             border: '1px solid #ccc'
+//           }}>
+//             {dispComponent.data} {getArrow(dispComponent.disp.dir)}
+//           </div>
+//       </div>
+//     );
+//   };

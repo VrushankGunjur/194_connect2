@@ -1,7 +1,9 @@
 import React from 'react';
 import '../styles/ResultsTable.css' // Make sure to import the CSS file
 
-const ResultsTable = ({ users }) => {
+const ResultsTable = ({ users, correctGuessId }) => {
+  console.log(correctGuessId)
+  const defaultURL = "https://firebasestorage.googleapis.com/v0/b/cs194-e95a9.appspot.com/o/profilePictures%2Flogo.png?alt=media&token=8dd2a541-8857-4ea2-a6b8-66d53fd8caea";
   return (
     <table className="resultsTable">
       <thead>
@@ -21,8 +23,8 @@ const ResultsTable = ({ users }) => {
       </thead>
       <tbody>
         {users.map((user) => (
-          <tr key={user.id}>
-            <td><img src={user.ProfilePhotoURL ? user.ProfilePhotoURL : "https://firebasestorage.googleapis.com/v0/b/cs194-e95a9.appspot.com/o/profilePictures%2Flogo.png?alt=media&token=8dd2a541-8857-4ea2-a6b8-66d53fd8caea"} alt="Profile" className="profilePic"/></td>
+          <tr key={user.id} style={{ backgroundColor: user.id === correctGuessId ? '#90EE90' : '' }}>
+            <td><img src={user.ProfilePhotoURL ? user.ProfilePhotoURL : defaultURL} alt="Profile" className="profilePic"/></td>
             <td>{user.FirstName}</td>
             <td>{user.LastName}</td>
             <td>{user.Age}</td>
