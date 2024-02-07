@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import auth from '../firebase.js';
 import { db } from '../firebase';
+import UserForm from './UserForm';
 
 // state
 function diff(trueState, guessState) {
@@ -87,15 +90,21 @@ export function Game() {
   const [feedback, setFeedback] = useState('');
   const [guessedUsers, setGuessedUsers] = useState([]);
   const [dispUsers, setDispUsers] = useState([]);
+  const [firstLogin, setFirstLogin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   let dispFeatures = ["FirstName", "LastName", "Gender", "Age", "Ethnicity", "FavoriteColor", "FavoriteSport", "HomeState", "Height"];
+
+  const auth = getAuth();
+
+  // Your existing handler functions remain unchanged
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "users"));
         const usersData = querySnapshot.docs.map(doc => {
-          const userData = doc.data();
+          const { newUser, ...userData } = doc.data();
           return {
             id: doc.id,
             ...userData,
@@ -103,6 +112,7 @@ export function Game() {
             formattedHeight: formatHeight(userData.Height), // Convert Height to feet and inches
           };
         });
+        console.log(usersData)
         setUsers(usersData);
         if (usersData.length > 0) {
           const randomIndex = Math.floor(Math.random() * usersData.length);
@@ -258,6 +268,3 @@ export const AttributeRectangles = ({ dispComponent }) => {
       </div>
     );
   };
-  
-//   export default AttributeRectangles;
-//   export default Game;
