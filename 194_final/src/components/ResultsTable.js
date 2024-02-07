@@ -4,6 +4,14 @@ import '../styles/ResultsTable.css' // Make sure to import the CSS file
 const ResultsTable = ({ users, correctGuessId }) => {
   console.log(correctGuessId)
   const defaultURL = "https://firebasestorage.googleapis.com/v0/b/cs194-e95a9.appspot.com/o/profilePictures%2Flogo.png?alt=media&token=8dd2a541-8857-4ea2-a6b8-66d53fd8caea";
+  
+  // Function to convert inches to feet and inches
+  const inchesToFeetAndInches = (inches) => {
+    const feet = Math.floor(inches / 12);
+    const remainingInches = inches % 12;
+    return `${feet}'${remainingInches}"`;
+  }
+
   return (
     <table className="resultsTable">
       <thead>
@@ -32,7 +40,7 @@ const ResultsTable = ({ users, correctGuessId }) => {
             <td>{user.FavoriteColor}</td>
             <td>{user.FavoriteSport}</td>
             <td>{user.Gender}</td>
-            <td>{user.Height}</td>
+            <td>{inchesToFeetAndInches(user.Height)}</td> {/* Convert inches to feet and inches */}
             <td>{user.HomeState}</td>
             <td>{user.Major}</td>
           </tr>
