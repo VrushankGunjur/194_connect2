@@ -78,7 +78,17 @@ const handleSubmit = async (e) => {
       try {
           const photoURL = await uploadImage(formState.file);
           // Update profile photoURL in Firebase Authentication
-          await updateProfile(user, { photoURL });
+          const displayName = `${formState.FirstName} ${formState.LastName}`;
+          await updateProfile(user, {
+            displayName: displayName, photoURL: photoURL
+          }).then(() => {
+            console.log('Update successful');
+            user.currentUser.reload().then(() => {
+              console.log('Profile reloaded');
+            });
+          }).catch((error) => {
+            console.log('Update unsuccessful' + error);
+          });  
 
           // Now update Firestore document with new profile and possibly other fields
           const { file, ...restOfFormState } = formState; // Destructure to remove 'file'

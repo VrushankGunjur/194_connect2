@@ -192,7 +192,7 @@ export function Game() {
         <>
           <h3>Guessed Users:</h3>
           {/* Replace the manually constructed table with the UserTable component */}
-          <ResultsTable users={guessedUsers} correctGuessId={randomUser.id} />
+          <ResultsTable users={guessedUsers} correctGuessId={randomUser.id} dispUsers={dispUsers}/>
           {showChatBox && <ChatBox />}
         </>
       )}
