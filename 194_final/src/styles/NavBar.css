@@ -1,0 +1,45 @@
+/* NavBar.css */
+.nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em 2em;
+    background-color: #2C3E50; /* dark shade for the navbar background */
+    color: #fff;
+  }
+  
+  .nav-bar img {
+    height: 50px; /* Logo height, adjust as needed */
+    width: auto; /* Maintain aspect ratio */
+  }
+  
+  .nav-bar h1 {
+    margin-left: 0.5em;
+    font-size: 1.5rem; /* Adjust size as needed */
+    font-weight: normal; /* Adjust weight as needed */
+    color: #ECF0F1; /* light color for the text */
+  }
+  
+  button.sign-in,
+  button.sign-out {
+    background: none;
+    border: 2px solid #ECF0F1;
+    padding: 0.1em .1em;
+    border-radius: 15px; /* Rounded corners for buttons */
+    color: #ECF0F1;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  button.sign-in img {
+    width: auto; /* Maintain aspect ratio */
+    height: 35px; /* Match the Google sign-in button size */
+    border-radius: 15px; /* Rounded corners for the image */
+  }
+  
+  button.sign-in:hover,
+  button.sign-out:hover {
+    background-color: #ECF0F1;
+    color: #2C3E50;
+  }
+  

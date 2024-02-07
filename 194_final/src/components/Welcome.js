@@ -1,6 +1,7 @@
 import React from "react";
 import GoogleSignin from "../img/btn_google_signin_dark_pressed_web.png";
 import wordle from "../img/wordle.png";
+import connect2 from "../img/connect2.png";
 import { auth } from "../firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from '../firebase';
@@ -8,6 +9,7 @@ import { db } from '../firebase';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Game } from "../components/Game.js"
 import UserDropdown from "../components/UserDropDown.js";
+import "../styles/Welcome.css";
 
 const Welcome = ({ onSignInComplete }) => {
   // Assume `onSignInComplete` accepts two arguments: a flag indicating completion and a isNewUser flag.
@@ -53,26 +55,28 @@ const Welcome = ({ onSignInComplete }) => {
   };
 
 
+  const googleSignInButtonStyle = {
+    background: `url(${GoogleSignin}) center/cover no-repeat`,
+    width: '100px',
+    height: '25px',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'transform 0.2s ease'
+  };
+
   return (
     <main className="welcome">
-      <h2>Welcome to Wordle with Friends.</h2>
-      <img src={wordle} alt="ReactJs logo" width={50} height={50} />
-      <p>Sign in with Google to chat with with your fellow Wordle group members.</p>
-      {/* <button className="Dropdown">
-        <img
-          onClick={UserDropdown}
-          alt="User Dropdown"
-          type="button"
-        />
-      </button> */}
-      <button className="sign-in">
-        <img
-          onClick={googleSignIn}
-          src={GoogleSignin}
-          alt="sign in with google"
-          type="button"
-        />
+      <img src={connect2} alt="Connect2 logo" width="100" height="100" />
+      <h2>Welcome to Connect2</h2>
+      <p>Sign in with Google to guess and chat with your fellow group members.</p>
+      <button
+        style={googleSignInButtonStyle}
+        onClick={googleSignIn}
+        aria-label="Sign in with Google"
+      >
+        {/* For accessibility reasons, it's good practice to have textual content or an aria-label for interactive elements */}
       </button>
+      {/* If you have additional content, add here */}
     </main>
   );
 };

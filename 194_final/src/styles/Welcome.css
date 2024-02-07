@@ -1,0 +1,35 @@
+/* Welcome.css */
+.welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background: #1c2c4c; /* or any modern color gradient or image */
+    color: #333; /* high contrast for readability */
+    font-family: 'Roboto', sans-serif; /* a modern, clean font */
+  }
+  
+  .welcome h2 {
+    margin-bottom: 0.5em;
+    font-size: 2.5rem; /* a larger, more prominent size */
+    color: #f9f9f9; /* a soft color for elegance */
+  }
+  
+  .welcome p {
+    margin-bottom: 2em;
+    font-size: 1.2rem;
+    color: #f9f9f9; /* a softer shade for the descriptive text */
+  }
+  
+  .welcome img {
+    margin-bottom: 1em;
+    border-radius: 25%; /* circular shape if appropriate for the logo */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* subtle shadow for depth */
+  }
+  
+  .google-signin-button:hover {
+    transform: scale(1.05); /* a subtle animation on hover */
+  }
+  

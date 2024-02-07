@@ -1,4 +1,4 @@
-// Expanded DropdownForm.js
+// Expanded UserForm.js
 import React, { useState } from 'react';
 import { auth, storage} from '../firebase';
 import { updateProfile } from "firebase/auth";
@@ -6,13 +6,14 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 import { collection, updateDoc, doc, setDoc } from 'firebase/firestore'; // Import Firestore methods
 import { db } from '../firebase';
+import '../styles/UserForm.css'; 
 
 
 /*
     submit your information when first signing in
 */
 
-const DropdownForm = ( { onFormSubmit, setIsNewUser } ) => {
+const UserForm = ( { onFormSubmit, setIsNewUser } ) => {
   const [formState, setFormState] = useState({
     ProfilePhotoURL: '',
     FirstName: '',
@@ -113,7 +114,7 @@ const handleSubmit = async (e) => {
 
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="form-container" onSubmit={handleSubmit}>
       <input type="file" name="file" onChange={handleChange} />
       <input type="text" name="FirstName" placeholder="First Name" value={formState.FirstName} onChange={handleChange} />
       <input type="text" name="LastName" placeholder="Last Name" value={formState.LastName} onChange={handleChange} />
@@ -135,6 +136,6 @@ const handleSubmit = async (e) => {
   );
 };
 
-export default DropdownForm;
+export default UserForm;
 
 

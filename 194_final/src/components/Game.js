@@ -7,6 +7,7 @@ import UserForm from './UserForm';
 import GameDropDown from './GameDropDown.js';
 import ResultsTable from './ResultsTable.js';
 import ChatBox from './ChatBox'; // Adjust the path as necessary
+import "../styles/Game.css";
 
 
 // state
@@ -198,31 +199,28 @@ export function Game() {
   };
 
   return (
-    <div>
-  <h2>Guess the User's Name</h2>
-  {randomUser && users.length > 0 ? (
-    <>
-      <p>Can you guess the name of the user?</p>
-      <form onSubmit={handleGuessSubmit}>
-        {/* Replace the standard select with GameDropDown */}
-        <GameDropDown users={users} onChange={handleGuessChange} value={selectedUserId} />
-        <button type="submit">Guess</button>
-      </form>
-      {feedback && <p>{feedback}</p>}
-      {guessedUsers.length > 0 && (
+    <div className="gameContainer">
+      <h2 className="header">Guess the User's Name</h2>
+      {randomUser && users.length > 0 ? (
         <>
-          <h3>Guessed Users:</h3>
-          {/* Replace the manually constructed table with the UserTable component */}
-          <ResultsTable users={guessedUsers} correctGuessId={randomUser.id} dispUsers={dispUsers}/>
-          {showChatBox && <ChatBox />}
+          <p className="description">Can you guess the name of the user?</p>
+          <form onSubmit={handleGuessSubmit} className="formStyle">
+            <GameDropDown users={users} onChange={handleGuessChange} value={selectedUserId} />
+            <button type="submit" className="guessButton">Guess</button>
+          </form>
+          {feedback && <p className="feedback">{feedback}</p>}
+          {guessedUsers.length > 0 && (
+            <>
+              <h3 className="subheader">Guessed Users:</h3>
+              <ResultsTable users={guessedUsers} correctGuessId={randomUser.id} dispUsers={dispUsers}/>
+              {showChatBox && <ChatBox />}
+            </>
+          )}
         </>
+      ) : (
+        <p className="loadingText">Loading...</p>
       )}
-    </>
-  ) : (
-    <p>Loading...</p>
-  )}
-</div>
-
+    </div>
   );
 }
 

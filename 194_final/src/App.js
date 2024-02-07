@@ -44,7 +44,7 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar />
+      {user ? <NavBar /> : null}
       {!user ? (
         <Welcome onSignInComplete={setIsNewUser} />
       ) : isNewUser ? (
