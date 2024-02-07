@@ -50,7 +50,14 @@ function diff(trueState, guessState) {
     for (const key in trueState) {
       let diff = {dir : 2, color : 1};
 
-      if (colorCutoffs[key] === '') {
+      if (key == "ProfilePhotoURL") {
+        diff.ProfilePhotoURL = trueState.ProfilePhotoURL;
+        if (trueState.id === guessState.id) {
+          diff.color = 1;
+        } else {
+          diff.color = 0;
+        }
+      } else if (colorCutoffs[key] === '') {
         if (trueState[key] !== guessState[key]) {
           diff.color = 0;
         }
@@ -99,7 +106,21 @@ export function Game() {
   const [showChatBox, setShowChatBox] = useState(false);
 
 
-  let dispFeatures = ["FirstName", "LastName", "Gender", "Age", "Ethnicity", "FavoriteColor", "FavoriteSport", "HomeState", "Major", "Height"];
+  // <th>Photo</th>
+  //                   <th>First Name</th>
+  //                   <th>Last Name</th>
+  //                   <th>Age</th>
+  //                   <th>Ethnicity</th>
+  //                   <th>Favorite Color</th>
+  //                   <th>Favorite Sport</th>
+  //                   <th>Gender</th>
+  //                   <th>Height</th>
+  //                   <th>Home State</th>
+  //                   <th>Major</th>
+
+  let dispFeatures = ["ProfilePhotoURL", "FirstName", "LastName", "Age", "Ethnicity", "FavoriteColor", "FavoriteSport", "Gender", "Height", "HomeState", "Major"];
+
+  // let dispFeatures = ["FirstName", "LastName", "Gender", "Age", "Ethnicity", "FavoriteColor", "FavoriteSport", "HomeState", "Major", "Height"];
 
   const auth = getAuth();
 

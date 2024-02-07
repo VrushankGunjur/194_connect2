@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/ResultsTable.css'; // Make sure to import the CSS file
 
-const ResultsTable = ({ users, correctGuessId, dispUsers }) => {
+const ResultsTable = ({ guessedUsers, correctGuessId, dispUsers }) => {
     const defaultURL = "https://firebasestorage.googleapis.com/v0/b/cs194-e95a9.appspot.com/o/profilePictures%2Flogo.png?alt=media&token=8dd2a541-8857-4ea2-a6b8-66d53fd8caea";
 
     // Function to determine the arrow based on the directionality value
@@ -37,6 +37,8 @@ const ResultsTable = ({ users, correctGuessId, dispUsers }) => {
             } else {
                 return value;
             }
+        } else if (key == "ProfilePhotoURL") {
+            return <img src={value ? value : defaultURL}  alt="Profile" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />;
         }
         return value;
     };
@@ -49,15 +51,29 @@ const ResultsTable = ({ users, correctGuessId, dispUsers }) => {
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Age</th>
+                    <th>Ethnicity</th>
+                    <th>Favorite Color</th>
+                    <th>Favorite Sport</th>
+                    <th>Gender</th>
                     <th>Height</th>
-                    {/* Add other headers as necessary */}
+                    <th>Home State</th>
+                    <th>Major</th>
                 </tr>
             </thead>
             <tbody>
                 {dispUsers.map((user, index) => (
                     <tr key={index}>
+                        {/* Iterate over other keys for user data */}
                         {Object.keys(user).map((key) => {
-                            if (key !== "id") { // Exclude the id from rendering
+                            if (key == "ProfilePhotoURL") {
+                                const backgroundColor = getBackgroundColor(user[key].disp.color);
+                                return (
+                                    <td key={key} style={{ backgroundColor: backgroundColor, color: '#000' }}>
+                                        {formatTrait(key, user[key].data)}
+                                        
+                                    </td>
+                                );
+                            } else if (key !== "id") { // Exclude the id and ProfilePhotoURL from rendering as data cells
                                 const traitValue = formatTrait(key, user[key].data);
                                 const arrow = getArrow(user[key].disp.dir);
                                 const backgroundColor = getBackgroundColor(user[key].disp.color);
@@ -72,6 +88,7 @@ const ResultsTable = ({ users, correctGuessId, dispUsers }) => {
                     </tr>
                 ))}
             </tbody>
+
         </table>
     );
 };
