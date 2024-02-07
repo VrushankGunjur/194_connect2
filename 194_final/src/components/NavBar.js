@@ -21,7 +21,7 @@ const NavBar = () => {
   return (
     <nav className="nav-bar">
       <img src={connect2} alt="Google Signin" />
-      <h1>Connect2</h1>
+      <h1 class="titleHeader">Connect2</h1>
       {user ? (
         <button onClick={signOut} className="sign-out" type="button">
           Sign Out

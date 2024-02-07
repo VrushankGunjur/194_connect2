@@ -1,28 +1,32 @@
 /* DropdownForm.css */
 
 .form-container {
+    top:20px;
     max-width: 600px;
     margin: 0 auto;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
+    padding: 200px;
+    background-color: #84b2e158;
+    border-radius: 100px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    min-height: 100vh; 
+    min-height: 80vh; 
+    margin-top:60px;
 }
 
 .form-container form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
 input[type="text"],
 input[type="number"],
 select {
     padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ced4da;
+    border-radius: 10px;
+    border: 4px solid #ced4da;
     font-size: 1rem;
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
 button[type="submit"] {
@@ -37,10 +41,12 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #298f29;
 }
 
 input[type="file"] {
-    border: none;
-    font-size: 1rem;
+    border: 2px solid #6c5ce7;
+    border-radius: 0.9em;
+    background: linear-gradient(40deg, #ff6ec4, #7873f5);
+    transition: 1s;
 }

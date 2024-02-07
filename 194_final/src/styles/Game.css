@@ -12,12 +12,14 @@
   .header {
     color: #ffffff;
     font-size: 2rem;
+    font-family: 'Courier New', Courier, monospace;
   }
   
   .description {
     color: #ffffff;
     font-size: 1rem;
     margin-bottom: 20px;
+    font-family:'Courier New', Courier, monospace;
   }
   
   .formStyle {
@@ -42,12 +44,14 @@
   .feedback {
     color: #ffffff;
     font-size: 1rem;
+    font-family: 'Courier New', Courier, monospace;
   }
   
   .subheader {
     color: #ffffff;
     font-size: 1.5rem;
     margin-top: 30px;
+    font-family: 'Courier New', Courier, monospace;
   }
   
   .loadingText {

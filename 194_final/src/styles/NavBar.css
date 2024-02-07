@@ -42,4 +42,7 @@
     background-color: #ECF0F1;
     color: #2C3E50;
   }
-  
+ 
+  .titleHeader {
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  }

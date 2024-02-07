@@ -27,6 +27,9 @@ const GameDropDown = ({ users, onChange, value }) => {
   const selectedOption = options.find(option => option.value === value);
 
   return (
+    <div>
+        <br></br>
+        <br></br>
     <Select
       options={options}
       onChange={handleChange}
@@ -35,6 +38,7 @@ const GameDropDown = ({ users, onChange, value }) => {
       isClearable={true}
       isSearchable={true}
     />
+    </div>
   );
 };
 
