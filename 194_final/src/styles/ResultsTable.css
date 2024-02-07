@@ -1,0 +1,46 @@
+/* Enhanced table styles */
+.resultsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.resultsTable th,
+.resultsTable td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.resultsTable th {
+  background-color: #007BFF; /* A nice shade of blue */
+  color: white;
+  font-weight: normal;
+}
+
+.resultsTable tr {
+  background-color: #f8f9fa; /* A very light grey for even rows */
+}
+
+.resultsTable tr:hover {
+  background-color: #f1f3f5; /* A slightly darker grey for hover */
+}
+
+.resultsTable img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Adding a bit more flair to the table headers */
+.resultsTable th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.resultsTable th:last-child {
+  border-top-right-radius: 8px;
+}

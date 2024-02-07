@@ -1,8 +1,12 @@
 // Expanded DropdownForm.js
 import React, { useState } from 'react';
-import { auth } from '../firebase';
+import { auth, storage} from '../firebase';
+import { updateProfile } from "firebase/auth";
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+
 import { collection, updateDoc, doc, setDoc } from 'firebase/firestore'; // Import Firestore methods
 import { db } from '../firebase';
+
 
 /*
     submit your information when first signing in
@@ -10,6 +14,7 @@ import { db } from '../firebase';
 
 const DropdownForm = ( { onFormSubmit, setIsNewUser } ) => {
   const [formState, setFormState] = useState({
+    ProfilePhotoURL: '',
     FirstName: '',
     LastName: '',
     Age: '',
@@ -20,55 +25,86 @@ const DropdownForm = ( { onFormSubmit, setIsNewUser } ) => {
     Height: '',
     HomeState: '',
     Major: '',
-    NewUser: true
+    NewUser: true,
+    
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // Check if the field is either 'Age' or 'Height' and convert the value to a number
-    const isNumberField = name === 'Age' || name === 'Height';
-    setFormState(prevState => ({
-      ...prevState,
-      [name]: isNumberField ? Number(value) : value // Convert to number if it's a number field
-    }));
+    // Handle file input separately
+    if (name === 'file') {
+        setFormState(prevState => ({
+            ...prevState,
+            file: e.target.files[0]
+        }));
+    } else {
+        const isNumberField = name === 'Age' || name === 'Height';
+        setFormState(prevState => ({
+            ...prevState,
+            [name]: isNumberField ? Number(value) : value
+        }));
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  
-    // You have correctly prepared updatedFormState to set NewUser based on FirstName
-    const updatedFormState = {
-      ...formState,
-      NewUser: formState.FirstName.length === 0 // NewUser is false if FirstName has length > 0
-    };
+  const uploadImage = async (file) => {
+    if (!file) return;
+    const storageRef = ref(storage, `profilePictures/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
 
-    if (formState.FirstName.length == 0) {
-      setIsNewUser(true)
-    } else {
-      setIsNewUser(false)
-    }
-  
-    const userDocId = auth.currentUser?.uid;
-  
-    // Use updatedFormState for the update operation to reflect the change in NewUser
-    if (userDocId) {
-      const userRef = doc(db, "users", userDocId);
-      setDoc(userRef, updatedFormState, { merge: true }) // Changed from formState to updatedFormState
-        .then(() => {
-          // alert("Data updated successfully!");
+    return new Promise((resolve, reject) => {
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                // Handle progress
+            },
+            (error) => {
+                // Handle unsuccessful uploads
+                reject(error);
+            },
+            () => {
+                // Handle successful uploads on complete
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    resolve(downloadURL);
+                });
+            }
+        );
+    });
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const user = auth.currentUser;
+  if (user && formState.file) {
+      try {
+          const photoURL = await uploadImage(formState.file);
+          // Update profile photoURL in Firebase Authentication
+          await updateProfile(user, { photoURL });
+
+          // Now update Firestore document with new profile and possibly other fields
+          const { file, ...restOfFormState } = formState; // Destructure to remove 'file'
+          const updatedFormState = {
+              ...restOfFormState,
+              ProfilePhotoURL: photoURL,
+              NewUser: formState.FirstName.length === 0
+          };
+
+          const userRef = doc(db, "users", user.uid);
+          await setDoc(userRef, updatedFormState, { merge: true });
+
           onFormSubmit(true); // Assuming this callback is meant to update the parent component's state
-        })
-        .catch((error) => {
-          alert("Failed to update data: " + error.message);
-        });
-    } else {
-      alert("No user document ID found.");
-    }
-  };
+          setIsNewUser(formState.FirstName.length === 0 ? true : false);
+      } catch (error) {
+          alert(`Failed to upload image and update profile: ${error.message}`);
+      }
+  } else {
+      alert("No file selected or user not logged in.");
+  }
+};
 
 
   return (
     <form onSubmit={handleSubmit}>
+      <input type="file" name="file" onChange={handleChange} />
       <input type="text" name="FirstName" placeholder="First Name" value={formState.FirstName} onChange={handleChange} />
       <input type="text" name="LastName" placeholder="Last Name" value={formState.LastName} onChange={handleChange} />
       <input type="number" name="Age" placeholder="Age" value={formState.Age} onChange={handleChange} />

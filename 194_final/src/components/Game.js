@@ -4,6 +4,10 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import auth from '../firebase.js';
 import { db } from '../firebase';
 import UserForm from './UserForm';
+import GameDropDown from './GameDropDown.js';
+import ResultsTable from './ResultsTable.js';
+import ChatBox from './ChatBox'; // Adjust the path as necessary
+
 
 // state
 function diff(trueState, guessState) {
@@ -92,8 +96,10 @@ export function Game() {
   const [dispUsers, setDispUsers] = useState([]);
   const [firstLogin, setFirstLogin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showChatBox, setShowChatBox] = useState(false);
 
-  let dispFeatures = ["FirstName", "LastName", "Gender", "Age", "Ethnicity", "FavoriteColor", "FavoriteSport", "HomeState", "Height"];
+
+  let dispFeatures = ["FirstName", "LastName", "Gender", "Age", "Ethnicity", "FavoriteColor", "FavoriteSport", "HomeState", "Major", "Height"];
 
   const auth = getAuth();
 
@@ -103,16 +109,16 @@ export function Game() {
     const fetchUsers = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "users"));
-        const usersData = querySnapshot.docs.map(doc => {
-          const { newUser, ...userData } = doc.data();
-          return {
-            id: doc.id,
-            ...userData,
-            fullName: `${userData.FirstName} ${userData.LastName}`, // Concatenate for display
-            formattedHeight: formatHeight(userData.Height), // Convert Height to feet and inches
-          };
-        });
-        console.log(usersData)
+        const usersData = querySnapshot.docs
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+          fullName: `${doc.data().FirstName} ${doc.data().LastName}`, // Concatenate for display
+          formattedHeight: formatHeight(doc.data().Height), // Convert Height to feet and inches
+        }))
+        .filter(user => user.NewUser === false); // Client-side filter for newUser === false
+
+      console.log(usersData);
         setUsers(usersData);
         if (usersData.length > 0) {
           const randomIndex = Math.floor(Math.random() * usersData.length);
@@ -134,8 +140,8 @@ export function Game() {
     return `${feet}'${remainingInches}"`; // Format as X'Y"
   };
 
-  const handleGuessChange = (event) => {
-    setSelectedUserId(event.target.value);
+  const handleGuessChange = (selectedOption) => {
+    setSelectedUserId(selectedOption ? selectedOption.value : '');
   };
 
   const handleGuessSubmit = (event) => {
@@ -149,6 +155,7 @@ export function Game() {
     if (guessedUser) {
       if (randomUser && selectedUserId === randomUser.id) {
         setFeedback('Correct! You guessed the right user.');
+        setShowChatBox(true);
       } else {
         setUsers(users.filter(user => user.id !== selectedUserId));
         setFeedback('Incorrect guess. Try again!');
@@ -171,63 +178,30 @@ export function Game() {
 
   return (
     <div>
-      <h2>Guess the User's Name</h2>
-      {randomUser && users.length > 0 ? (
+  <h2>Guess the User's Name</h2>
+  {randomUser && users.length > 0 ? (
+    <>
+      <p>Can you guess the name of the user?</p>
+      <form onSubmit={handleGuessSubmit}>
+        {/* Replace the standard select with GameDropDown */}
+        <GameDropDown users={users} onChange={handleGuessChange} value={selectedUserId} />
+        <button type="submit">Guess</button>
+      </form>
+      {feedback && <p>{feedback}</p>}
+      {guessedUsers.length > 0 && (
         <>
-          <p>Can you guess the name of the user?</p>
-          <form onSubmit={handleGuessSubmit}>
-            <select value={selectedUserId} onChange={handleGuessChange}>
-              <option value="">Select a user</option>
-              {users.map((user) => (
-                <option key={user.id} value={user.id}>{user.fullName}</option>
-              ))}
-            </select>
-            <button type="submit">Guess</button>
-          </form>
-          {feedback && <p>{feedback}</p>}
-          {guessedUsers.length > 0 && (
-            <>
-              <h3>Guessed Users:</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Gender</th>
-                    <th>Age</th>
-                    <th>Ethnicity</th>
-                    <th>Favorite Color</th>
-                    <th>Favorite Sport</th>
-                    <th>Home State</th>
-                    {/*<th>Major</th>*/}
-                    <th>Height</th> {/* Additional column for Height */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {dispUsers.map((dispUser, index) => (
-                    <tr key={index}>
-                      <td><AttributeRectangles dispComponent={dispUser.FirstName} /></td>
-                      <td><AttributeRectangles dispComponent={dispUser.LastName} /></td>
-                      <td><AttributeRectangles dispComponent={dispUser.Gender} /></td>
-                      <td><AttributeRectangles dispComponent={dispUser.Age} /></td>
-                      <td><AttributeRectangles dispComponent={dispUser.Ethnicity} /></td>
-                      <td><AttributeRectangles dispComponent={dispUser.FavoriteColor} /></td>
-                      <td><AttributeRectangles dispComponent={dispUser.FavoriteSport} /></td>
-                      <td><AttributeRectangles dispComponent={dispUser.HomeState} /></td>
-                      {/*<td><AttributeRectangles dispComponent={dispUser.Major} /></td>*/}
-                      <td><AttributeRectangles dispComponent={dispUser.Height} /></td>
-                    </tr>
-                  ))}
-                </tbody>
-
-              </table>
-            </>
-          )}
+          <h3>Guessed Users:</h3>
+          {/* Replace the manually constructed table with the UserTable component */}
+          <ResultsTable users={guessedUsers} />
+          {showChatBox && <ChatBox />}
         </>
-      ) : (
-        <p>Loading...</p>
       )}
-    </div>
+    </>
+  ) : (
+    <p>Loading...</p>
+  )}
+</div>
+
   );
 }
 

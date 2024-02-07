@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { auth, db } from "./firebase"; // Ensure db is imported
 import { useAuthState } from "react-firebase-hooks/auth";
 import { doc, getDoc } from 'firebase/firestore'; // Import getDoc for reading documents
-import "./App.css";
+import "./styles/App.css";
 import NavBar from "./components/NavBar";
 import { Game } from "./components/Game";
 import Welcome from "./components/Welcome";
