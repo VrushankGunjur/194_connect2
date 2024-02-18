@@ -1,37 +1,42 @@
 import React, { useEffect, useRef, useState } from "react";
-import { query, collection, orderBy, onSnapshot, limit } from "firebase/firestore";
 import { db } from "../firebase";
+import { query, collection, orderBy, onSnapshot, limit } from "firebase/firestore";
 import Message from "./Message";
 import SendMessage from "./SendMessage";
-import '../styles/ChatBox.css'; // Make sure this path is correct
+import '../styles/ChatBox.css'; // Ensure this path is correct
 
-const ChatBox = () => {
+const ChatBox = ({ userId, otherUserId }) => {
   const [messages, setMessages] = useState([]);
   const [isMinimized, setIsMinimized] = useState(false);
   const scrollRef = useRef();
 
   useEffect(() => {
-    const q = query(collection(db, "messages"), orderBy("createdAt", "desc"), limit(50));
+    let q = query(collection(db, "messages"), orderBy("createdAt", "desc"), limit(50));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const fetchedMessages = querySnapshot.docs.map(doc => ({
+      let fetchedMessages = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
-      })).sort((a, b) => a.createdAt - b.createdAt); // Ensure messages are sorted by createdAt
+      })).sort((a, b) => a.createdAt - b.createdAt);
+
+      if (userId && otherUserId) {
+        // Client-side filtering for messages between userId and otherUserId
+        fetchedMessages = fetchedMessages.filter(message => 
+          (message.senderId === userId && message.receiverId === otherUserId) ||
+          (message.senderId === otherUserId && message.receiverId === userId));
+      }
+
       setMessages(fetchedMessages);
     });
 
-    return unsubscribe; // Cleanup subscription on unmount
-  }, []);
-
-  // Scroll to the latest message when the messages array updates
-  useEffect(() => {
-    if(scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messages]);
+    return () => unsubscribe();
+  }, [userId, otherUserId]);
 
   const toggleMinimize = () => setIsMinimized(!isMinimized);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   return (
     <main className={`chat-box ${isMinimized ? 'minimized' : ''}`}>
@@ -39,17 +44,15 @@ const ChatBox = () => {
         {isMinimized ? 'Expand' : 'Minimize'}
       </div>
       {!isMinimized && (
-        <>
-          <div className="messages-wrapper">
-            {messages.map(message => (
-              <Message key={message.id} message={message} />
-            ))}
-            {/* This empty span is used as a target to scroll into view */}
-            <span ref={scrollRef}></span>
-          </div>
-          <SendMessage scroll={scrollRef} />
-        </>
+        <div className="messages-wrapper">
+          {messages.map(message => (
+            // Pass an additional prop to Message to indicate if it's from the current user
+            <Message key={message.id} message={message} isCurrentUser={message.senderId === userId} />
+          ))}
+          <span ref={scrollRef}></span>
+        </div>
       )}
+      <SendMessage scroll={scrollRef} userId={userId} otherUserId={otherUserId} />
     </main>
   );
 };

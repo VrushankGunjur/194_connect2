@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import auth from '../firebase.js';
+import { auth } from '../firebase';
 import { db } from '../firebase';
 import UserForm from './UserForm';
 import GameDropDown from './GameDropDown.js';
@@ -105,42 +105,45 @@ export function Game() {
   const [firstLogin, setFirstLogin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showChatBox, setShowChatBox] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState(null);
 
 
-  // <th>Photo</th>
-  //                   <th>First Name</th>
-  //                   <th>Last Name</th>
-  //                   <th>Age</th>
-  //                   <th>Ethnicity</th>
-  //                   <th>Favorite Color</th>
-  //                   <th>Favorite Sport</th>
-  //                   <th>Gender</th>
-  //                   <th>Height</th>
-  //                   <th>Home State</th>
-  //                   <th>Major</th>
+
 
   let dispFeatures = ["ProfilePhotoURL", "FirstName", "LastName", "Age", "Ethnicity", "FavoriteColor", "FavoriteSport", "Gender", "Height", "HomeState", "Major"];
-
-  // let dispFeatures = ["FirstName", "LastName", "Gender", "Age", "Ethnicity", "FavoriteColor", "FavoriteSport", "HomeState", "Major", "Height"];
-
-  const auth = getAuth();
 
   // Your existing handler functions remain unchanged
 
   useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUserId(user.uid); // Use 'uid' instead of 'id'
+      } else {
+        // User is signed out
+        setCurrentUserId(null);
+      }
+    });
+  
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    // This ensures fetchUsers only runs after currentUserId is set (i.e., not null)
+    if (currentUserId === null) return;
+  
     const fetchUsers = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "users"));
-        const usersData = querySnapshot.docs
-        .map(doc => ({
+        const usersData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
           fullName: `${doc.data().FirstName} ${doc.data().LastName}`, // Concatenate for display
           formattedHeight: formatHeight(doc.data().Height), // Convert Height to feet and inches
         }))
-        .filter(user => user.NewUser === false); // Client-side filter for newUser === false
-
-      console.log(usersData);
+        .filter(user => user.NewUser === false && user.id !== currentUserId);
+  
+        console.log("current user id is " + currentUserId);
+        console.log(usersData);
         setUsers(usersData);
         if (usersData.length > 0) {
           const randomIndex = Math.floor(Math.random() * usersData.length);
@@ -151,9 +154,10 @@ export function Game() {
         setFeedback('Failed to load users.');
       }
     };
-
+  
     fetchUsers();
-  }, []);
+  }, [currentUserId]); // Re-run when currentUserId changes
+  
 
   // Helper function to convert height from inches to feet and inches format
   const formatHeight = (inches) => {
@@ -213,7 +217,7 @@ export function Game() {
             <>
               <h3 className="subheader">Guessed Users:</h3>
               <ResultsTable users={guessedUsers} correctGuessId={randomUser.id} dispUsers={dispUsers}/>
-              {showChatBox && <ChatBox />}
+              {showChatBox && <ChatBox userId = {currentUserId} otherUserId={randomUser.id}/>}
             </>
           )}
         </>
@@ -223,41 +227,3 @@ export function Game() {
     </div>
   );
 }
-
-// // Component that renders single rectangle based on data to print and display data
-// export const AttributeRectangles = ({ dispComponent }) => {
-//     // Function to determine the arrow based on the first number
-//     console.log(dispComponent);
-//     const getArrow = (value) => {
-//       switch(value) {
-//         case 0: return '↑';
-//         case 1: return '↓';
-//         case 2: return ''; // No arrow
-//         default: return ''; // Fallback, should not happen
-//       }
-//     };
-  
-//     // Function to normalize the second number to a color
-//     const getColor = (value) => {
-//       if (value <= 0.33) return 'red';
-//       if (value <= 0.66) return 'yellow';
-//       return 'green';
-//     };
-  
-//     return (
-//       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-        
-//           <div key={dispComponent.data} style={{
-//             backgroundColor: getColor(dispComponent.disp.color),
-//             padding: '10px',
-//             width: '125px',
-//             textAlign: 'center',
-//             color: 'black',
-//             fontWeight: 'bold',
-//             border: '1px solid #ccc'
-//           }}>
-//             {dispComponent.data} {getArrow(dispComponent.disp.dir)}
-//           </div>
-//       </div>
-//     );
-//   };
