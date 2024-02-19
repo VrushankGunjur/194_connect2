@@ -2,13 +2,13 @@ import React from "react";
 import GoogleSignin from "../img/btn_google_signin_dark_pressed_web.png";
 import wordle from "../img/wordle.png";
 import connect2 from "../img/connect2.png";
-import { auth } from "../firebase";
+import { auth } from "../firebase.js";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { db } from '../firebase';
+import { db } from '../firebase.js';
 
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { Game } from "../components/Game.js"
-import UserDropdown from "../components/UserDropDown.js";
+import { Game } from "./Game.js"
+import UserDropdown from "./UserDropDown.js";
 import "../styles/Welcome.css";
 
 const Welcome = ({ onSignInComplete }) => {

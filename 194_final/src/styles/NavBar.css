@@ -1,46 +1,48 @@
-/* Style for the navigation bar with dark theme */
+/* NavBar.css */
 .nav-bar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: #1a1a1a; /* Dark theme background */
-    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* Lighter shadow for depth on dark bg */
+    justify-content: space-between;
+    padding: 1em 2em;
+    background-color: #2C3E50; /* dark shade for the navbar background */
+    color: #fff;
   }
   
   .nav-bar img {
-    width: 50px; /* Logo size */
-    height: auto;
+    height: 50px; /* Logo height, adjust as needed */
+    width: auto; /* Maintain aspect ratio */
   }
   
-  .titleHeader {
-    color: #e0e0e0; /* Light grey text for readability */
-    font-size: 24px; /* Suitable for titles */
+  .nav-bar h1 {
+    margin-left: 0.5em;
+    font-size: 1.5rem; /* Adjust size as needed */
+    font-weight: normal; /* Adjust weight as needed */
+    color: #ECF0F1; /* light color for the text */
   }
   
-  .sign-out, .sign-in {
-    background-color: #307AFF; /* Adjusted to a bright blue for better visibility */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-size: 16px;
+  button.sign-in,
+  button.sign-out {
+    background: none;
+    border: 2px solid #ECF0F1;
+    padding: 0.1em .1em;
+    border-radius: 15px; /* Rounded corners for buttons */
+    color: #ECF0F1;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+    transition: background-color 0.3s, color 0.3s;
   }
   
-  .sign-out:hover, .sign-in:hover {
-    background-color: #5591FF; /* Lighter blue on hover */
-    transform: translateY(-2px); /* Slight lift effect for interactivity */
+  button.sign-in img {
+    width: auto; /* Maintain aspect ratio */
+    height: 35px; /* Match the Google sign-in button size */
+    border-radius: 15px; /* Rounded corners for the image */
   }
   
-  .sign-in img {
-    width: 24px; /* Adjusting the Google sign-in icon size */
-    height: auto;
+  button.sign-in:hover,
+  button.sign-out:hover {
+    background-color: #ECF0F1;
+    color: #2C3E50;
   }
-  
-  /* Adjusting margins for title and buttons */
-  .titleHeader, .sign-out, .sign-in {
-    margin: 0 10px;
+ 
+  .titleHeader {
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   }
-  

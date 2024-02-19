@@ -1,102 +1,150 @@
-/* Main application container with dark theme */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+button,
+input {
+  cursor: pointer;
+}
+
 .App {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: start;
-    min-height: 100vh;
-    background-color: #232222; /* Dark background */
-    font-family: 'Arial', sans-serif;
-    color: #e0e0e0; /* Light text color for contrast */
-  }
-  
-  /* General loading state styling with dark theme */
-  .loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    font-size: 20px;
-    color: #aaa; /* Lighter grey for readable contrast */
-  }
-  
-  /* NavBar specific styles with dark theme */
-  .nav-bar {
-    width: 100%;
-    background-color: #1a1a1a; /* Darker shade for navbar */
-    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* Subtle shadow for depth */
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  /* Welcome component styles already updated for dark theme */
-  
-  /* UserForm component styles with dark theme */
-  .user-form {
-    padding: 20px;
-    margin-top: 20px;
-    background-color: #1a1a1a; /* Dark background */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Subtle shadow for depth */
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    color: #e0e0e0; /* Light text color for readability */
-  }
-  
-  /* Game component styles with dark theme */
-  .game {
-    padding: 20px;
-    margin-top: 20px;
-    background-color: #1a1a1a;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Button styling used across the application with dark theme adjustments */
-  .button {
-    background-color: #307AFF; /* Bright blue for better visibility */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .button:hover {
-    background-color: #5591FF; /* Lighter blue on hover */
-    transform: translateY(-2px); /* Slight lift effect */
-  }
-  
-  /* Input styling used in forms with dark theme */
-  .input {
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #282828; /* Darker background for inputs */
-    color: #e0e0e0; /* Light text color */
-    border: 1px solid #444; /* Subtle border */
-    border-radius: 5px;
-  }
-  
-  /* Helper text with dark theme */
-  .helper-text {
-    font-size: 12px;
-    color: #aaa; /* Light grey for better visibility */
-  }
-  
-  /* Responsive design adjustments */
-  @media (max-width: 768px) {
-    .welcome, .user-form, .game {
-      padding: 20px;
-      width: 90%;
-      box-shadow: 0 2px 4px rgba(255, 255, 255, 0.359);
-    }
-  }
-  
+  width: 100%;
+  min-height: 0vh;
+  background-color: #1c2c4c;
+  color: #4c768d;
+  padding-top: 1px;
+}
+
+/* navbar */
+.nav-bar {
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #4c768d;
+  color: #242443;
+  height: 60px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+.sign-in {
+  border: none;
+  background-color: transparent;
+}
+.sign-in > img {
+  height: 30px;
+  width: auto;
+}
+.sign-out {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #88dded;
+  border: 1px solid #1c2c4c;
+  background-color: #1c2c4c;
+  font-weight: 600;
+}
+
+/* welcome page */
+.welcome {
+  padding: 30px;
+  text-align: center;
+  margin-top: 40px;
+  color: #7cc5d9;
+}
+.welcome :is(h2, p, img) {
+  margin-bottom: 20px;
+}
+
+/* chat component */
+.messages-wrapper {
+  padding: 30px;
+  margin-bottom: 60px;
+}
+.chat-bubble {
+  border-radius: 20px 20px 20px 0;
+  padding: 15px;
+  background-color: #7cc5d9;
+  color: #1c2c4c;
+  width: max-content;
+  max-width: calc(100% - 50px);
+  box-shadow: -2px 2px 1px 1px #4c768d;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.chat-bubble.right {
+  margin-left: auto;
+  border-radius: 20px 20px 0 20px;
+  background-color: #fff;
+  box-shadow: -2px 2px 1px 1px #88dded;
+}
+.chat-bubble__left {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.user-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #1c2c4c;
+}
+.user-message {
+  word-break: break-all;
+}
+.message-time {
+  display: block;
+  text-align: right;
+}
+
+/* send message */
+.send-message {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  padding: 20px 30px;
+  background-color: #4c768d;
+  display: flex;
+}
+.send-message > input {
+  height: 40px;
+  padding: 10px 10px;
+  border-radius: 5px 0 0 5px;
+  border: none;
+  flex-grow: 1;
+  background-color: white;
+  color: #1c2c4c;
+  font-size: 1rem;
+}
+.send-message > input:placeholder {
+  color: #ddd;
+}
+.send-message > :is(input, button):focus {
+  outline: none;
+  border-bottom: 1px solid #7cc5d9;
+}
+.send-message > button {
+  width: 70px;
+  height: 40px;
+  padding: 5px 10px;
+  border-radius: 0 5px 5px 0;
+  color: #242443;
+  border: 1px solid #7cc5d9;
+  background-color: #7cc5d9;
+  font-weight: 600;
+}

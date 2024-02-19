@@ -1,52 +1,65 @@
-/* DropdownForm.css */
-
+/* Form Container with dark theme adjustments */
 .form-container {
-    top:20px;
-    max-width: 600px;
+    transform: translateY(70px);
+    max-width: 400px;
     margin: 0 auto;
-    padding: 200px;
-    background-color: #84b2e158;
-    border-radius: 100px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    min-height: 80vh; 
-    margin-top:60px;
-}
-
-.form-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-input[type="text"],
-input[type="number"],
-select {
-    padding: 10px;
+    padding: 20px;
+    background-color: #333; /* Dark background */
     border-radius: 10px;
-    border: 4px solid #ced4da;
-    font-size: 1rem;
-    margin-top:10px;
-    margin-bottom:10px;
-}
-
-button[type="submit"] {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Subtle light shadow */
+    color: #e0e0e0; /* Light text color */
+  }
+  
+  /* Adjusted styles for uniform width and appearance */
+  .form-container input[type="text"],
+  .form-container input[type="number"],
+  .form-container input[type="file"],
+  .form-container select,
+  .form-container textarea { /* Added for textarea fields */
+    width: calc(100% - 20px); /* Adjust width to account for padding */
+    margin-bottom: 15px;
+    padding: 10px;
     border: none;
-    border-radius: 5px;
+    background-color: #424242; /* Darker shade for inputs */
+    border-radius: 6px;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1); /* Lighter shadow for depth */
+    color: #e0e0e0; /* Light text color */
+    font-size: 16px; /* Ensure text is easily readable */
+  }
+  
+  /* File Input remains hidden */
+  
+  /* Submit Button with dark theme adjustments */
+  .form-container button[type="submit"] {
+    width: 100%;
+    background-color: #307AFF; /* Bright blue */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.2s ease-in-out;
-}
-
-button[type="submit"]:hover {
-    background-color: #298f29;
-}
-
-input[type="file"] {
-    border: 2px solid #6c5ce7;
-    border-radius: 0.9em;
-    background: linear-gradient(40deg, #ff6ec4, #7873f5);
-    transition: 1s;
-}
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .form-container button[type="submit"]:hover {
+    background-color: #5591FF; /* Lighter blue on hover */
+    transform: translateY(-2px); /* Lift effect */
+  }
+  
+  /* Consistent styling for titles, labels, and focus states */
+  .form-title, .form-label {
+    color: #e0e0e0; /* Light text color */
+  }
+  
+  .form-input:focus, .form-select:focus, 
+  .form-container input[type="text"]:focus,
+  .form-container input[type="number"]:focus,
+  .form-container input[type="email"]:focus,
+  .form-container input[type="password"]:focus,
+  .form-container select:focus,
+  .form-container textarea:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Focus shadow */
+  }
+  

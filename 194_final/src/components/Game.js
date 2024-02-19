@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../firebase';
-import { db } from '../firebase';
-import UserForm from './UserForm';
+import { auth } from '../firebase.js';
+import { db } from '../firebase.js';
+import { useAuthState } from "react-firebase-hooks/auth";
+import UserForm from './UserForm.js';
 import GameDropDown from './GameDropDown.js';
 import ResultsTable from './ResultsTable.js';
-import ChatBox from './ChatBox'; // Adjust the path as necessary
+import ChatBox from './ChatBox.js'; // Adjust the path as necessary
 import "../styles/Game.css";
 
 
@@ -126,6 +127,7 @@ export function Game() {
 
     return () => unsubscribe();
   }, []);
+  
 
   useEffect(() => {
     // This ensures fetchUsers only runs after currentUserId is set (i.e., not null)
@@ -134,14 +136,31 @@ export function Game() {
     const fetchUsers = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "users"));
+
+        const currUserData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+          fullName: `${doc.data().FirstName} ${doc.data().LastName}`, // Concatenate for display
+          formattedHeight: formatHeight(doc.data().Height), // Convert Height to feet and inches
+        }))
+        .filter(user => user.id === currentUserId);
+
+        console.log(currUserData)
+        
+        const currUserGroup = currUserData[0].Group;
+        console.log("curr group is " + currUserGroup)
+
+
         const usersData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
           fullName: `${doc.data().FirstName} ${doc.data().LastName}`, // Concatenate for display
           formattedHeight: formatHeight(doc.data().Height), // Convert Height to feet and inches
         }))
-          .filter(user => user.NewUser === false && user.id !== currentUserId);
+        .filter(user => user.NewUser === false && user.id !== currentUserId && user.Group === currUserGroup);
 
+        
+  
         console.log("current user id is " + currentUserId);
         console.log(usersData);
         setUsers(usersData);
