@@ -1,35 +1,70 @@
-/* Welcome.css */
+/* Dark and sleek theme for the main welcome container */
 .welcome {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    text-align: center;
-    background: #1c2c4c; /* or any modern color gradient or image */
-    color: #333; /* high contrast for readability */
-    font-family: 'Roboto', sans-serif; /* a modern, clean font */
-  }
-  
-  .welcome h2 {
-    margin-bottom: 0.5em;
-    font-size: 2.5rem; /* a larger, more prominent size */
-    color: #f9f9f9; /* a soft color for elegance */
-  }
-  
-  .welcome p {
-    margin-bottom: 2em;
-    font-size: 1.2rem;
-    color: #f9f9f9; /* a softer shade for the descriptive text */
+    padding: 60px;
+    background-color: #1212125d; /* Dark background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Subtle white shadow for depth */
+    transition: all 0.3s ease-in-out;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 400px;
+    width: 100%;
+    color: #e0e0e0; /* Light gray text for contrast */
   }
   
   .welcome img {
-    margin-bottom: 1em;
-    border-radius: 25%; /* circular shape if appropriate for the logo */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* subtle shadow for depth */
+    margin-bottom: 30px;
+    width: 100px;
+    height: auto;
   }
   
-  .google-signin-button:hover {
-    transform: scale(1.05); /* a subtle animation on hover */
+  .welcome h2, .welcome p {
+    animation: fadeInText 1.5s ease-out forwards;
+  }
+  
+  .welcome h2 {
+    color: #ffffff; /* Bright white for headings */
+  }
+  
+  .welcome p {
+    color: #b0b0b0; /* Softer gray for paragraph text */
+  }
+  
+  .welcome button {
+    background-color: #1e88e5; /* Slightly different blue to stand out in dark theme */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 60px;
+    font-size: 18px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  
+  .welcome button:hover {
+    background-color: #1565c0; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight increase in size */
+  }
+  
+  .welcome button:focus {
+    outline: 3px solid #82b1ff; /* Light blue outline for focus, visible against the dark bg */
+    outline-offset: 3px;
+  }
+  
+  @keyframes fadeInText {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   
