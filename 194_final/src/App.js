@@ -7,17 +7,17 @@ import NavBar from "./components/NavBar";
 import { Game } from "./components/Game";
 import Welcome from "./components/Welcome";
 import UserForm from "./components/UserForm";
+import LoadingPage from "./components/LoadingPage";
 
 function App() {
-  const [user] = useAuthState(auth);
+  const [user, loadingAuth] = useAuthState(auth); // useAuthState might also indicate loading
   const [isNewUser, setIsNewUser] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [loading, setLoading] = useState(true); // Added loading state
+  const [loadingUserCheck, setLoadingUserCheck] = useState(true); // Separate loading state for user check
 
   useEffect(() => {
     const checkUserStatus = async () => {
-      setLoading(true); // Start loading
-      if (user) {
+      if (!loadingAuth && user) { // Ensure auth state is not loading and user exists
         console.log('updating newuser status')
         const userRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userRef);
@@ -27,19 +27,22 @@ function App() {
         } else {
           setIsNewUser(true);
         }
-      } else {
-        console.log('user hasnt been initiated')
-        setIsNewUser(true);
-        setFormSubmitted(false);
+      } else if (!loadingAuth) {
+        console.log('user hasn\'t been initiated or not logged in')
+        setIsNewUser(false); // Assuming a non-logged-in user is not a new user for initial state
       }
-      setLoading(false); // Done loading
+      setLoadingUserCheck(false); // Done loading user check
     };
 
-    checkUserStatus();
-  }, [user]);
+    if (loadingAuth) {
+      setLoadingUserCheck(true); // Keep user check loading if auth state is still loading
+    } else {
+      checkUserStatus();
+    }
+  }, [user, loadingAuth]);
 
-  if (loading) {
-    return <div>Loading...</div>; // Show a loading state while checking the user status
+  if (loadingAuth || loadingUserCheck) {
+    return <LoadingPage />; // Show a loading state while checking both auth and user status
   }
 
   return (
