@@ -36,28 +36,17 @@ button[type="submit"] {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .form-container button[type="submit"]:hover {
-    background-color: #5591FF; /* Lighter blue on hover */
-    transform: translateY(-2px); /* Lift effect */
-  }
-  
-  /* Consistent styling for titles, labels, and focus states */
-  .form-title, .form-label {
-    color: #e0e0e0; /* Light text color */
-  }
-  
-  .form-input:focus, .form-select:focus, 
-  .form-container input[type="text"]:focus,
-  .form-container input[type="number"]:focus,
-  .form-container input[type="email"]:focus,
-  .form-container input[type="password"]:focus,
-  .form-container select:focus,
-  .form-container textarea:focus {
-    outline: none;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Focus shadow */
-  }
-  
+    font-size: 1rem;
+    transition: background-color 0.2s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background-color: #298f29;
+}
+
+input[type="file"] {
+    border: 2px solid #6c5ce7;
+    border-radius: 0.9em;
+    background: linear-gradient(40deg, #ff6ec4, #7873f5);
+    transition: 1s;
+}
