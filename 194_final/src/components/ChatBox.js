@@ -50,9 +50,9 @@ const ChatBox = ({ userId, otherUserId }) => {
             <Message key={message.id} message={message} isCurrentUser={message.senderId === userId} />
           ))}
           <span ref={scrollRef}></span>
+          <SendMessage scroll={scrollRef} userId={userId} otherUserId={otherUserId} />
         </div>
       )}
-      <SendMessage scroll={scrollRef} userId={userId} otherUserId={otherUserId} />
     </main>
   );
 };
