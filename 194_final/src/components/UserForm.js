@@ -26,8 +26,8 @@ const UserForm = ( { onFormSubmit, setIsNewUser } ) => {
     Height: '',
     HomeState: '',
     Major: '',
+    Group: [],
     NewUser: true,
-    
   });
 
   const handleChange = (e) => {
