@@ -130,10 +130,11 @@ const handleSubmit = async (e) => {
         <input type="number" name="Height" placeholder="Height (in inches)" value={formState.Height} onChange={handleChange} />
         <input type="text" name="HomeState" placeholder="Home State" value={formState.HomeState} onChange={handleChange} />
         <input type="text" name="Major" placeholder="Major" value={formState.Major} onChange={handleChange} />
+        <input type="text" name="Group" placeholder="Group" value={formState.Group} onChange={handleChange} />
         <p class="custom-file-upload">
             Add a Profile Picture:
         </p>
-        <input id='files' type="file" onChange={handleChange}/>
+        <input type="file" name="file" onChange={handleChange}/>
         <button type="submit">Submit</button>
     </form>
   );
