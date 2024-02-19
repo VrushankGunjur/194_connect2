@@ -57,8 +57,8 @@ const Welcome = ({ onSignInComplete }) => {
 
   const googleSignInButtonStyle = {
     background: `url(${GoogleSignin}) center/cover no-repeat`,
-    width: '100px',
-    height: '25px',
+    width: '200px',
+    height: '35px',
     border: 'none',
     cursor: 'pointer',
     transition: 'transform 0.2s ease'
@@ -72,6 +72,7 @@ const Welcome = ({ onSignInComplete }) => {
       <button
         style={googleSignInButtonStyle}
         onClick={googleSignIn}
+        size="lg"
         aria-label="Sign in with Google"
       >
         {/* For accessibility reasons, it's good practice to have textual content or an aria-label for interactive elements */}

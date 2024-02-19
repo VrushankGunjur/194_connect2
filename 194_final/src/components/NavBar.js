@@ -82,16 +82,13 @@ const NavBar = () => {
       <img src={connect2} alt="Connect2 Logo" className="logo" />
       <h1 className="titleHeader">Connect2</h1>
       {user ? (
-        <>
-          <button onClick={handleSignOut} className="sign-out" type="button">
-            Sign Out
-          </button>
+        <div className="nav-right">
           <div className="user-groups">
             <button onClick={toggleDropdown} className="user-groups-btn">
               User Groups
             </button>
             {showDropdown && (
-              <div className="user-groups-dropdown">
+              <div className="dropdown-content">
                 {userGroups.length > 0 ? (
                   userGroups.map((group, index) => (
                     <div key={index} className="dropdown-item">
@@ -107,14 +104,13 @@ const NavBar = () => {
               </div>
             )}
           </div>
-        </>
+          <button onClick={handleSignOut} className="sign-out" type="button">
+            Sign Out
+          </button>
+        </div>
       ) : (
-        <button className="sign-in" type="button">
-          <img
-            onClick={googleSignIn}
-            src={GoogleSignin}
-            alt="Sign in with Google"
-          />
+        <button className="sign-in" type="button" onClick={googleSignIn}>
+          <img src={GoogleSignin} alt="Sign in with Google" />
         </button>
       )}
     </nav>
