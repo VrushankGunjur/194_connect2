@@ -26,8 +26,8 @@ const UserForm = ( { onFormSubmit, setIsNewUser } ) => {
     Height: '',
     HomeState: '',
     Major: '',
-    Group: [],
     NewUser: true,
+    
   });
 
   const handleChange = (e) => {
@@ -115,6 +115,7 @@ const handleSubmit = async (e) => {
 
   return (
     <form className="form-container" onSubmit={handleSubmit}>
+      <input type="file" name="file" onChange={handleChange} />
       <input type="text" name="FirstName" placeholder="First Name" value={formState.FirstName} onChange={handleChange} />
       <input type="text" name="LastName" placeholder="Last Name" value={formState.LastName} onChange={handleChange} />
       <input type="number" name="Age" placeholder="Age" value={formState.Age} onChange={handleChange} />
@@ -131,8 +132,6 @@ const handleSubmit = async (e) => {
       <input type="text" name="HomeState" placeholder="Home State" value={formState.HomeState} onChange={handleChange} />
       <input type="text" name="Major" placeholder="Major" value={formState.Major} onChange={handleChange} />
       <input type="text" name="Group" placeholder="Group" value={formState.Group} onChange={handleChange} />
-      <p class="form-label">Add a Profile Picture:</p>
-      <input type="file" name="file" onChange={handleChange} />
       <button type="submit">Submit</button>
     </form>
   );

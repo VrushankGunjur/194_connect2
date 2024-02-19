@@ -3,7 +3,6 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
 import { db } from '../firebase';
-import { useAuthState } from "react-firebase-hooks/auth";
 import UserForm from './UserForm';
 import GameDropDown from './GameDropDown.js';
 import ResultsTable from './ResultsTable.js';
@@ -127,7 +126,6 @@ export function Game() {
 
     return () => unsubscribe();
   }, []);
-  
 
   useEffect(() => {
     // This ensures fetchUsers only runs after currentUserId is set (i.e., not null)
@@ -136,31 +134,14 @@ export function Game() {
     const fetchUsers = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "users"));
-
-        const currUserData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-          fullName: `${doc.data().FirstName} ${doc.data().LastName}`, // Concatenate for display
-          formattedHeight: formatHeight(doc.data().Height), // Convert Height to feet and inches
-        }))
-        .filter(user => user.id === currentUserId);
-
-        console.log(currUserData)
-        
-        const currUserGroup = currUserData[0].Group;
-        console.log("curr group is " + currUserGroup)
-
-
         const usersData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
           fullName: `${doc.data().FirstName} ${doc.data().LastName}`, // Concatenate for display
           formattedHeight: formatHeight(doc.data().Height), // Convert Height to feet and inches
         }))
-        .filter(user => user.NewUser === false && user.id !== currentUserId && user.Group === currUserGroup);
+          .filter(user => user.NewUser === false && user.id !== currentUserId);
 
-        
-  
         console.log("current user id is " + currentUserId);
         console.log(usersData);
         setUsers(usersData);
