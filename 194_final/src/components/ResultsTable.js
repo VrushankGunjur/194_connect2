@@ -16,6 +16,10 @@ const ResultsTable = ({ guessedUsers, correctGuessId, dispUsers }) => {
 
     // Function to normalize the color value for background color
     const getBackgroundColor = (value) => {
+        if (value === 0) return 'red';
+        if (value === 1) return 'green';
+        if (value === 0.5) return 'yellow';
+        return "rgb(" + ((value) * 255) + ",0,0)";
         if (value <= 0.33) return 'red';
         if (value <= 0.66) return 'yellow';
         return 'green';

@@ -30,6 +30,8 @@ const UserForm = ( { onFormSubmit, setIsNewUser } ) => {
     NewUser: true,
   });
 
+  let majorOptions = ['Aerospace Engineering', 'African Studies', 'African and African American Studies', 'American Studies', 'Anthropology', 'Applied and Engineering Physics', 'Art History', 'Art Practice', 'Asian American Studies', 'Atmospheric / Energy', 'Bioengineering', 'Biology', 'Biomechanical Engineering', 'Biomedical Computation', 'Chemical Engineering', 'Chemistry', 'Chicana/o - Latina/o Studies', 'Chinese Studies', 'Classics', 'Communication', 'Community Health and Prevention Research', 'Comparative Literature', 'Comparative Studies in Race and Ethnicity', 'Computer Science', 'Dance (TAPS Minor)', 'Data Science', 'Democracy, Development, and the Rule of Law', 'Digital Humanities', 'Earth Systems', 'East Asian Studies', 'Education', 'Electrical Engineering', 'Energy Resources Engineering', 'Engineering Physics', 'English', 'Environmental Systems Engineering', 'Ethics in Society', 'Film and Media Studies', 'French', 'Gender, and Sexuality Studies', 'German Studies', 'Global Studies', 'History', 'Honors in the Arts', 'Human Biology', 'Human Rights', 'Iberian and Latin American Cultures', 'International Policy Studies', 'International Relations', 'International Security Studies', 'Iranian Studies', 'Islamic Studies', 'Italian', 'Japanese', 'Jewish Studies', 'Korean', 'Laboratory Animal Science', 'Latin American Studies', 'Linguistics', 'Management Science and Engineering', 'Materials Science and Engineering', 'Mathematics', 'Mechanical Engineering', 'Medieval Studies', 'Middle Eastern Language, Literature and Culture', 'Modern Languages', 'Modern Thought and Literature', 'Music', 'Music, Science, and Technology', 'Native American Studies', 'Philosophy', 'Philosophy and Religious Studies', 'Physics', 'Political Science', 'Portuguese', 'Product Design', 'Psychology', 'Public Policy', 'Religious Studies', 'Russian Studies', 'Science, Technology, and Society', 'Slavic Languages and Literatures', 'Sociology', 'South Asian Studies', 'Spanish', 'Statistics', 'Sustainability', 'Symbolic Systems', 'Theater and Performance Studies', 'Translation Studies', 'Turkish Studies', 'Urban Studies', "Women's Studies"];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     // Handle file input separately
@@ -129,7 +131,14 @@ const handleSubmit = async (e) => {
       </select>
       <input type="number" name="Height" placeholder="Height (in inches)" value={formState.Height} onChange={handleChange} />
       <input type="text" name="HomeState" placeholder="Home State" value={formState.HomeState} onChange={handleChange} />
-      <input type="text" name="Major" placeholder="Major" value={formState.Major} onChange={handleChange} />
+      <select name="Major" value={formState.Major} onChange={handleChange}>
+        <option value="">Select Major</option>
+        {majorOptions.map((major) => (
+          <option key={major} value={major}>
+            {major}
+          </option>
+        ))}
+      </select>
       <input type="text" name="Group" placeholder="Group" value={formState.Group} onChange={handleChange} />
       <p class="form-label">Add a Profile Picture:</p>
       <input type="file" name="file" onChange={handleChange} />
