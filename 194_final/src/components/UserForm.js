@@ -121,7 +121,22 @@ const handleSubmit = async (e) => {
       <input type="text" name="LastName" placeholder="Last Name" value={formState.LastName} onChange={handleChange} />
       <input type="number" name="Age" placeholder="Age" value={formState.Age} onChange={handleChange} />
       <input type="text" name="Ethnicity" placeholder="Ethnicity" value={formState.Ethnicity} onChange={handleChange} />
-      <input type="text" name="FavoriteColor" placeholder="Favorite Color" value={formState.FavoriteColor} onChange={handleChange} />
+
+      <select name="FavoriteColor" value={formState.FavoriteColor} onChange={handleChange}>
+        <option value="">Select Favorite Color</option>
+        <option value="Red">Red</option>
+        <option value="Orange">Orange</option>
+        <option value="Yellow">Yellow</option>
+        <option value="Green">Green</option>
+        <option value="Blue">Blue</option>
+        <option value="Purple">Purple</option>
+        <option value="Pink">Pink</option>
+        <option value="Brown">Brown</option>
+        <option value="White">White</option>
+        <option value="Black">Black</option>
+        <option value="Gray">Gray</option>
+      </select>
+
       <input type="text" name="FavoriteSport" placeholder="Favorite Sport" value={formState.FavoriteSport} onChange={handleChange} />
       <select name="Gender" value={formState.Gender} onChange={handleChange}>
         <option value="">Select Gender</option>

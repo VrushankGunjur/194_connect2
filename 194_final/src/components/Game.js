@@ -38,15 +38,35 @@ function diff(trueState, guessState) {
     Age: 1,
     Height: 3
   }
+
+  // normalization factors for numerical attributes -- should be the max difference possible in each attribute.
+  let normals = {
+    Age: 30,
+    Height: 36
+  }
+
   let colorCutoffsWord = {
     FirstName: 0,
     LastName: 0,
     Gender: 5,
     Ethnicity: 10,
-    FavoriteColor: 20,
+    //FavoriteColor: 20,
     FavoriteSport: 20,
     HomeState: 10,
     Major: 10
+  }
+  let colorVals = {
+    "Red": [255, 0, 0],
+    "Orange": [255, 87, 51],
+    "Yellow": [255, 255, 0],
+    "Green": [0, 255, 0],
+    "Blue": [0, 0, 255],
+    "Purple": [160, 32, 240],
+    "Pink": [255, 192, 203],
+    "Brown": [150, 75, 0],
+    "White": [255, 255, 255],
+    "Black": [0, 0, 0],
+    "Gray": [128, 128, 128]
   }
   let majorVals = {
     "Education":0.010752688172043012,
@@ -146,22 +166,36 @@ function diff(trueState, guessState) {
 
 
   for (const key in trueState) {
-    let diff = { dir: 2, color: 1 };
+    let diff = { dir: 2, color: 1, r: 2, g: 2, b: 2 };
     if (key === "Major") {
-      let d = majorVals[trueState[key]] - majorVals[guessState[key]];
-      if (d < 0) {d *= (-1);}
+      let d = Math.abs(majorVals[trueState[key]] - majorVals[guessState[key]]);
       diff.color = 1 - d;
       console.log(trueState[key]);
       console.log(guessState[key]);
       console.log("PPP");
       console.log(diff.color)
-    } else if (key == "ProfilePhotoURL") {
+    } else if (key === "ProfilePhotoURL") {
       diff.ProfilePhotoURL = trueState.ProfilePhotoURL;
       if (trueState.id === guessState.id) {
         diff.color = 1;
       } else {
         diff.color = 0;
       }
+    } else if (key === "FavoriteColor") {
+        let trueColor = trueState.FavoriteColor;
+        let guessColor = guessState.FavoriteColor;
+        let trueColorRGB = colorVals[trueColor];
+        let guessColorRGB = colorVals[guessColor];
+        let diffColor = Math.sqrt(Math.pow(trueColorRGB[0] - guessColorRGB[0], 2) + Math.pow(trueColorRGB[1] - guessColorRGB[1], 2) + Math.pow(trueColorRGB[2] - guessColorRGB[2], 2));
+        diff.color = 1 - (diffColor / 441.6729559300637);   // magic number is the max denominator, srqt(255^2 + 255^2 + 255^2)
+
+        // set r, g, and b arrows
+        diff.r = trueColorRGB[0] < guessColorRGB[0] ? 0 : 1;
+        diff.g = trueColorRGB[1] < guessColorRGB[1] ? 0 : 1;
+        diff.b = trueColorRGB[2] < guessColorRGB[2] ? 0 : 1;
+        diff.r = trueColorRGB[0] === guessColorRGB[0] ? 3 : diff.r;
+        diff.g = trueColorRGB[1] === guessColorRGB[1] ? 3 : diff.g;
+        diff.b = trueColorRGB[2] === guessColorRGB[2] ? 3 : diff.b;
     } else if (key in colorCutoffsWord) {
       if (trueState[key] !== guessState[key]) {
         diff.color = 0;
@@ -170,24 +204,17 @@ function diff(trueState, guessState) {
         diff.color = 1;
       }
     } else if (key in colorCutoffsNum){
-      if (trueState[key] < guessState[key]) {
-        diff.dir = 0;
-        if (guessState[key] - trueState[key] > colorCutoffsNum[key]) {
-          diff.color = 0;
+
+        // set direction
+        if (trueState[key] < guessState[key]) {
+            diff.dir = 0;
+        } else if (trueState[key] > guessState[key]) {
+            diff.dir = 1;
+        } else {
+            diff.dir = 3;
         }
-        else {
-          diff.color = 0.5;
-        }
-      }
-      else if (trueState[key] > guessState[key]) {
-        diff.dir = 1;
-        if (trueState[key] - guessState[key] > colorCutoffsNum[key]) {
-          diff.color = 0;
-        }
-        else {
-          diff.color = 0.5;
-        }
-      }
+
+        diff.color = 1 - (Math.abs(guessState[key] - trueState[key])) / normals[key];
     }
 
     resState[key] = diff;
@@ -318,7 +345,7 @@ export function Game() {
         if (key === "Height") { dispUser[key].data = formatHeight(guessedUser[key]); }
         dispUser[key].disp = resDiffs[key];
       }
-      setDispUsers([...dispUsers, dispUser]);
+      setDispUsers([...dispUsers, dispUser]);   // append the new user to the list of guessed users
     }
     setSelectedUserId(''); // Reset for next guess
   };

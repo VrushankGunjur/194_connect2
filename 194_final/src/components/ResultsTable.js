@@ -9,20 +9,19 @@ const ResultsTable = ({ guessedUsers, correctGuessId, dispUsers }) => {
         switch (value) {
             case 0: return '↑';
             case 1: return '↓';
-            case 2: return ''; // No arrow
+            case 2: return '';  // No arrow, default
+            case 3: return '✓'; // match
             default: return ''; // Fallback, should not happen
         }
     };
 
     // Function to normalize the color value for background color
     const getBackgroundColor = (value) => {
-        if (value === 0) return 'red';
-        if (value === 1) return 'green';
-        if (value === 0.5) return 'yellow';
-        return "rgb(" + ((value) * 255) + ",0,0)";
-        if (value <= 0.33) return 'red';
-        if (value <= 0.66) return 'yellow';
-        return 'green';
+        // value from 0 to 1, 0 is red, 1 is green. Return RGB of gradient.
+        // linearly scale the red and green values.
+        let r = 255 * (1 - value);
+        let g = 255 * (value);
+        return `rgb(${r}, ${g}, 0)`;
     };
 
     // Function to convert inches to feet and inches, if necessary
@@ -56,7 +55,7 @@ const ResultsTable = ({ guessedUsers, correctGuessId, dispUsers }) => {
                     <th>Last Name</th>
                     <th>Age</th>
                     <th>Ethnicity</th>
-                    <th>Favorite Color</th>
+                    <th>Favorite Color + (R,G,B) hints</th>
                     <th>Favorite Sport</th>
                     <th>Gender</th>
                     <th>Height</th>
@@ -69,7 +68,7 @@ const ResultsTable = ({ guessedUsers, correctGuessId, dispUsers }) => {
                     <tr key={index}>
                         {/* Iterate over other keys for user data */}
                         {Object.keys(user).map((key) => {
-                            if (key == "ProfilePhotoURL") {
+                            if (key === "ProfilePhotoURL") {
                                 const backgroundColor = getBackgroundColor(user[key].disp.color);
                                 return (
                                     <td key={key} style={{ backgroundColor: backgroundColor, color: '#000' }}>
@@ -77,7 +76,18 @@ const ResultsTable = ({ guessedUsers, correctGuessId, dispUsers }) => {
                                         
                                     </td>
                                 );
-                            } else if (key !== "id") { // Exclude the id and ProfilePhotoURL from rendering as data cells
+                            } else if (key === "FavoriteColor") {
+                                const traitValue = formatTrait(key, user[key].data);
+                                const r_arrow = getArrow(user[key].disp.r);
+                                const g_arrow = getArrow(user[key].disp.g);
+                                const b_arrow = getArrow(user[key].disp.b);
+                                const backgroundColor = getBackgroundColor(user[key].disp.color);
+                                return (
+                                    <td key={key} style={{ backgroundColor: backgroundColor, color: '#000' }}> {/* Ensure text color is readable on all backgrounds */}
+                                        {traitValue} {r_arrow} {g_arrow} {b_arrow}
+                                    </td>
+                                );
+                            }else if (key !== "id") { // Exclude the id and ProfilePhotoURL from rendering as data cells
                                 const traitValue = formatTrait(key, user[key].data);
                                 const arrow = getArrow(user[key].disp.dir);
                                 const backgroundColor = getBackgroundColor(user[key].disp.color);
