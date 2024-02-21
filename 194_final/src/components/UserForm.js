@@ -26,7 +26,7 @@ const UserForm = ( { onFormSubmit, setIsNewUser } ) => {
     Height: '',
     HomeState: '',
     Major: '',
-    Group: ['Global'],
+    Group: ["Global"],
     NewUser: true,
   });
 
@@ -154,7 +154,7 @@ const handleSubmit = async (e) => {
           </option>
         ))}
       </select>
-      <input type="text" name="Group" placeholder="Group" value={formState.Group} onChange={handleChange} />
+      {/* <input type="text" name="Group" placeholder="Group" value={formState.Group} onChange={handleChange} /> */}
       <p class="form-label">Add a Profile Picture:</p>
       <input type="file" name="file" onChange={handleChange} />
       <button type="submit">Submit</button>

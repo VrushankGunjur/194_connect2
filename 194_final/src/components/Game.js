@@ -373,6 +373,7 @@ export function Game({ currUserGroup }) {
                 <p className="description">Can you guess the name of the user?</p>
                 <form onSubmit={handleGuessSubmit} className="formStyle">
                   <GameDropDown users={users} onChange={handleGuessChange} value={selectedUserId} />
+                  <br />
                   <button type="submit" className="guessButton">Guess</button>
                 </form>
               </>

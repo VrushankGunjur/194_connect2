@@ -60,7 +60,7 @@ function App() {
   return (
     <div className="App">
       { console.log("before game is rendered, currusergroup is " + currUserGroup) }
-      {user ? <NavBar currUserGroup={currUserGroup} setCurrUserGroup={handleUserGroupChange} /> : null}
+      {user ? <NavBar currUserGroup={currUserGroup} setCurrUserGroup={handleUserGroupChange} isNewUser={isNewUser} /> : null}
       {!user ? (
         <Welcome onSignInComplete={setIsNewUser} />
       ) : isNewUser ? (

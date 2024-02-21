@@ -1,27 +1,131 @@
 /* ChatBox.css */
+/* Ensure box-sizing is border-box for all elements for consistency */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
 .chat-box {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 300px; /* Adjust the width as needed */
-    height: 400px; /* Adjust the height as needed */
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 10px 10px 0 0;
-    box-shadow: -2px -2px 5px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 300px; /* Adjust the width as needed */
+  height: 400px; /* Adjust the height as needed */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 10px 10px 0 0;
+  box-shadow: -2px -2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
   
-  .messages-wrapper {
-    overflow-y: auto;
-    padding: 10px;
-    flex-grow: 1;
-  }
+.messages-wrapper {
+  overflow-y: auto;
+  padding: 10px;
+  flex-grow: 1;
+}
+
+.chat-box.minimized {
+  height: 40px; /* Adjust based on your design */
+  overflow: hidden;
+}
+
+.toggle-chat {
+  border-radius: 10px 10px 0 0;
+  background-color: #1c2c4c; /* Example background color */
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  /* Ensure you have the rest of your styles here */
+}
+
   
-  .chat-box.minimized {
-    height: 40px; /* Adjust based on your design */
-    overflow: hidden;
-  }
-  
+
+
+/* Message Styling */
+.message {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+
+.message:last-child {
+  margin-bottom: 0;
+}
+
+.chat-bubble {
+  max-width: 75%;
+  padding: 10px 15px;
+  border-radius: 20px;
+  position: relative;
+  color: #333; /* Darker text for better readability */
+}
+
+.isCurrentUser .chat-bubble {
+  background-color: #307AFF; /* Bright color for the current user */
+  color: white;
+  align-self: flex-end; /* Align current user's messages to the right */
+}
+
+.notCurrentUser .chat-bubble {
+  background-color: #e0e0e0; /* Lighter color for others */
+}
+
+/* For better identification of messages */
+.isCurrentUser .chat-bubble::after {
+  content: '';
+  position: absolute;
+  right: -5px; /* Adjust based on the bubble's border-radius */
+  bottom: 0;
+  border-width: 10px 0 10px 10px;
+  border-style: solid;
+  border-color: transparent transparent transparent #307AFF; /* Match the bubble background */
+}
+
+.notCurrentUser .chat-bubble::after {
+  content: '';
+  position: absolute;
+  left: -5px; /* Adjust based on the bubble's border-radius */
+  bottom: 0;
+  border-width: 10px 10px 10px 0;
+  border-style: solid;
+  border-color: transparent #e0e0e0 transparent transparent; /* Match the bubble background */
+}
+
+
+/* SendMessage Component */
+.send-message {
+  margin-left: -11px;
+  width: 300px;
+  display: flex;
+  padding: 10px;
+  background-color: #1c2c4c; /* Contrast background for input area */
+  border-top: 1px solid #e0e0e0; /* Subtle separation from messages */
+}
+
+.send-message input {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 10px;
+  border: 1px solid #cccccc; /* Subtle border */
+  border-radius: 20px; /* Rounded corners for the input field */
+  outline: none; /* Remove focus outline */
+}
+
+.send-message button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px; /* Consistent rounded corners */
+  background-color: #307AFF; /* Bright color for action */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease; /* Smooth transition for hover effect */
+}
+
+.send-message button:hover {
+  background-color: #5591FF; /* Lighter shade on hover */
+}

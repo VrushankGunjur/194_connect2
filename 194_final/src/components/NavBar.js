@@ -8,7 +8,7 @@ import GoogleSignin from '../img/btn_google_signin_dark_pressed_web.png';
 import '../styles/NavBar.css';
 import { collection, getDocs, doc, updateDoc, arrayUnion } from 'firebase/firestore'; // Import arrayUnion
 
-const NavBar = ({setCurrUserGroup}) => {
+const NavBar = ({currUserGroup, setCurrUserGroup, isNewUser}) => {
   const [user] = useAuthState(auth);
   const [showDropdown, setShowDropdown] = useState(false);
   const [userGroups, setUserGroups] = useState([]); // State to hold user groups
@@ -37,7 +37,7 @@ const NavBar = ({setCurrUserGroup}) => {
   }, []);
 
   useEffect(() => {
-    if (currentUserId === null) return;
+    if (currentUserId === null || isNewUser) return;
 
     const fetchUsers = async () => {
       try {
@@ -69,7 +69,7 @@ const NavBar = ({setCurrUserGroup}) => {
     };
 
     fetchUsers();
-  }, [currentUserId]); // Dependency array includes user to re-fetch groups when user state changes
+  }, [currentUserId, isNewUser]); // Dependency array includes user to re-fetch groups when user state changes
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
