@@ -335,7 +335,7 @@ export function Game({ currUserGroup }) {
     const guessedUser = users.find(user => user.id === selectedUserId);
     if (guessedUser) {
       if (randomUser && selectedUserId === randomUser.id) {
-        setFeedback('Correct! You guessed the right user.');
+        setFeedback('You matched with ' + randomUser.fullName + '! Feel free to chat!');
         setShowChatBox(true);
         setGameFinished(true);
         setGuessedUsers([]);
@@ -370,7 +370,19 @@ export function Game({ currUserGroup }) {
             !gameFinished && (
               <>
                 <h2 className="header">Guess the User's Name</h2>
-                <p className="description">Can you guess the name of the user?</p>
+                <p className="description">Can you guess who you matched with?</p>
+              </>
+            )
+          }
+          {guessedUsers.length > 0 && (
+            <>
+              <ResultsTable users={guessedUsers} correctGuessId={randomUser.id} dispUsers={dispUsers} />
+              {gameFinished && <ChatBox userId={currentUserId} otherUserId={randomUser.id} />}
+            </>
+          )}
+          {
+            !gameFinished && (
+              <>
                 <form onSubmit={handleGuessSubmit} className="formStyle">
                   <GameDropDown users={users} onChange={handleGuessChange} value={selectedUserId} />
                   <br />
@@ -379,14 +391,8 @@ export function Game({ currUserGroup }) {
               </>
             )
           }
+          <br />
           {feedback && <p className="header">{feedback}</p>}
-          {guessedUsers.length > 0 && (
-            <>
-              <h3 className="subheader">Guessed Users:</h3>
-              <ResultsTable users={guessedUsers} correctGuessId={randomUser.id} dispUsers={dispUsers} />
-              {gameFinished && <ChatBox userId={currentUserId} otherUserId={randomUser.id} />}
-            </>
-          )}
         </>
       ) : (
         // Show an error page 
