@@ -1,5 +1,6 @@
+
 /* Enhanced table styles */
-.resultsTable {
+/*.resultsTable {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
@@ -12,22 +13,71 @@
 .resultsTable th,
 .resultsTable td {
   padding: 12px 15px;
-  text-align: left;
+  text-align: center;
   font-size: 14px;
 }
 
 .resultsTable th {
-  background-color: #c5d7eb; /* A nice shade of blue */
+  background-color: #c5d7eb; 
   color: white;
   font-weight: normal;
 }
 
 .resultsTable tr {
-  background-color: #f8f9fa; /* A very light grey for even rows */
+  background-color: #f8f9fa; 
 }
 
 .resultsTable tr:hover {
-  background-color: #f1f3f5; /* A slightly darker grey for hover */
+  background-color: #f1f3f5; 
+}
+
+.resultsTable img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+.resultsTable th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.resultsTable th:last-child {
+  border-top-right-radius: 8px;
+}*/
+
+/* Enhanced table styles */
+.resultsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f4f4f4; /* Light grey background */
+}
+
+.resultsTable th,
+.resultsTable td {
+  padding: 15px;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid #ddd; /* Add border for better separation */
+}
+
+.resultsTable th {
+  background-color: #3498db; /* A nice shade of blue */
+  color: white;
+  font-weight: bold;
+}
+
+.resultsTable tr {
+  background-color: #fff; /* White background for rows */
+}
+
+.resultsTable tr:hover {
+  background-color: #f0f0f0; /* A slightly darker grey for hover */
 }
 
 .resultsTable img {
@@ -44,4 +94,35 @@
 
 .resultsTable th:last-child {
   border-top-right-radius: 8px;
+}
+
+/* Centering text in the first row */
+.resultsTable th,
+.resultsTable td:first-child {
+  text-align: center;
+}
+
+.flipping-cell {
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.flipping-cell.flipped {
+  transform: scaleX(-1);
+}
+
+@keyframes flip {
+  0% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    background: rgb(102, 102, 102);
+    transform: scaleY(0);
+  }
+
+  100% {
+    transform: scaleY(1);
+    background: green;
+  }
 }
