@@ -69,99 +69,100 @@ function diff(trueState, guessState) {
     "Gray": [128, 128, 128]
   }
   let majorVals = {
-    "Education":0.010752688172043012,
-    "Dance (TAPS Minor)":0.021505376344086023,
-    "Comparative Literature":0.03225806451612903,
-    "Anthropology":0.043010752688172046,
-    "Sociology":0.053763440860215055,
-    "Community Health and Prevention Research":0.06451612903225806,
-    "English":0.07526881720430108,
-    "Art History":0.08602150537634409,
-    "Art Practice":0.0967741935483871,
-    "Communication":0.10752688172043011,
-    "Gender, and Sexuality Studies":0.11827956989247312,
-    "Chicana/o - Latina/o Studies":0.12903225806451613,
-    "French":0.13978494623655913,
-    "Women's Studies":0.15053763440860216,
-    "Global Studies":0.16129032258064516,
-    "History":0.17204301075268819,
-    "Psychology":0.1827956989247312,
-    "Theater and Performance Studies":0.1935483870967742,
-    "Religious Studies":0.20430107526881722,
-    "Philosophy":0.21505376344086022,
-    "Linguistics":0.22580645161290322,
-    "Spanish":0.23655913978494625,
-    "Classics":0.24731182795698925,
-    "Comparative Studies in Race and Ethnicity":0.25806451612903225,
-    "Environmental Systems Engineering":0.26881720430107525,
-    "Political Science":0.27956989247311825,
-    "International Relations":0.2903225806451613,
-    "American Studies":0.3010752688172043,
-    "Film and Media Studies":0.3118279569892473,
-    "Digital Humanities":0.3225806451612903,
-    "German Studies":0.3333333333333333,
-    "Italian":0.34408602150537637,
-    "Jewish Studies":0.3548387096774194,
-    "Asian American Studies":0.3655913978494624,
-    "East Asian Studies":0.3763440860215054,
-    "Middle Eastern Language, Literature and Culture":0.3870967741935484,
-    "Iranian Studies":0.3978494623655914,
-    "Islamic Studies":0.40860215053763443,
-    "Korean":0.41935483870967744,
-    "Japanese":0.43010752688172044,
-    "Latin American Studies":0.44086021505376344,
-    "Iberian and Latin American Cultures":0.45161290322580644,
-    "International Policy Studies":0.46236559139784944,
-    "International Security Studies":0.4731182795698925,
-    "Chinese Studies":0.4838709677419355,
-    "Russian Studies":0.4946236559139785,
-    "Slavic Languages and Literatures":0.5053763440860215,
-    "Portuguese":0.5161290322580645,
-    "African Studies":0.5268817204301075,
-    "African and African American Studies":0.5376344086021505,
-    "Urban Studies":0.5483870967741935,
-    "Atmospheric / Energy":0.5591397849462365,
-    "Earth Systems":0.5698924731182796,
-    "Sustainability":0.5806451612903226,
-    "Bioengineering":0.5913978494623656,
-    "Biology":0.6021505376344086,
-    "Biomechanical Engineering":0.6129032258064516,
-    "Biomedical Computation":0.6236559139784946,
-    "Chemistry":0.6344086021505376,
-    "Chemical Engineering":0.6451612903225806,
-    "Materials Science and Engineering":0.6559139784946236,
-    "Mechanical Engineering":0.6666666666666666,
-    "Data Science":0.6774193548387096,
-    "Aerospace Engineering":0.6881720430107527,
-    "Applied and Engineering Physics":0.6989247311827957,
-    "Physics":0.7096774193548387,
-    "Computer Science":0.7204301075268817,
-    "Electrical Engineering":0.7311827956989247,
-    "Management Science and Engineering":0.7419354838709677,
-    "Mathematics":0.7526881720430108,
-    "Statistics":0.7634408602150538,
-    "Engineering Physics":0.7741935483870968,
-    "Product Design":0.7849462365591398,
-    "Ethics in Society":0.7956989247311828,
-    "Democracy, Development, and the Rule of Law":0.8064516129032258,
-    "Energy Resources Engineering":0.8172043010752689,
-    "Honors in the Arts":0.8279569892473119,
-    "Music, Science, and Technology":0.8387096774193549,
-    "Philosophy and Religious Studies":0.8494623655913979,
-    "Public Policy":0.8602150537634409,
-    "Science, Technology, and Society":0.8709677419354839,
-    "Translation Studies":0.8817204301075269,
-    "Laboratory Animal Science":0.8924731182795699,
-    "Medieval Studies":0.9032258064516129,
-    "Native American Studies":0.9139784946236559,
-    "Symbolic Systems":0.9247311827956989,
-    "South Asian Studies":0.9354838709677419,
-    "Modern Languages":0.946236559139785,
-    "Human Rights":0.956989247311828,
-    "Modern Thought and Literature":0.967741935483871,
-    "Music":0.978494623655914,
-    "Turkish Studies":0.989247311827957,
-    "Human Biology":1.0,};
+    "Education": 0.010752688172043012,
+    "Dance (TAPS Minor)": 0.021505376344086023,
+    "Comparative Literature": 0.03225806451612903,
+    "Anthropology": 0.043010752688172046,
+    "Sociology": 0.053763440860215055,
+    "Community Health and Prevention Research": 0.06451612903225806,
+    "English": 0.07526881720430108,
+    "Art History": 0.08602150537634409,
+    "Art Practice": 0.0967741935483871,
+    "Communication": 0.10752688172043011,
+    "Gender, and Sexuality Studies": 0.11827956989247312,
+    "Chicana/o - Latina/o Studies": 0.12903225806451613,
+    "French": 0.13978494623655913,
+    "Women's Studies": 0.15053763440860216,
+    "Global Studies": 0.16129032258064516,
+    "History": 0.17204301075268819,
+    "Psychology": 0.1827956989247312,
+    "Theater and Performance Studies": 0.1935483870967742,
+    "Religious Studies": 0.20430107526881722,
+    "Philosophy": 0.21505376344086022,
+    "Linguistics": 0.22580645161290322,
+    "Spanish": 0.23655913978494625,
+    "Classics": 0.24731182795698925,
+    "Comparative Studies in Race and Ethnicity": 0.25806451612903225,
+    "Environmental Systems Engineering": 0.26881720430107525,
+    "Political Science": 0.27956989247311825,
+    "International Relations": 0.2903225806451613,
+    "American Studies": 0.3010752688172043,
+    "Film and Media Studies": 0.3118279569892473,
+    "Digital Humanities": 0.3225806451612903,
+    "German Studies": 0.3333333333333333,
+    "Italian": 0.34408602150537637,
+    "Jewish Studies": 0.3548387096774194,
+    "Asian American Studies": 0.3655913978494624,
+    "East Asian Studies": 0.3763440860215054,
+    "Middle Eastern Language, Literature and Culture": 0.3870967741935484,
+    "Iranian Studies": 0.3978494623655914,
+    "Islamic Studies": 0.40860215053763443,
+    "Korean": 0.41935483870967744,
+    "Japanese": 0.43010752688172044,
+    "Latin American Studies": 0.44086021505376344,
+    "Iberian and Latin American Cultures": 0.45161290322580644,
+    "International Policy Studies": 0.46236559139784944,
+    "International Security Studies": 0.4731182795698925,
+    "Chinese Studies": 0.4838709677419355,
+    "Russian Studies": 0.4946236559139785,
+    "Slavic Languages and Literatures": 0.5053763440860215,
+    "Portuguese": 0.5161290322580645,
+    "African Studies": 0.5268817204301075,
+    "African and African American Studies": 0.5376344086021505,
+    "Urban Studies": 0.5483870967741935,
+    "Atmospheric / Energy": 0.5591397849462365,
+    "Earth Systems": 0.5698924731182796,
+    "Sustainability": 0.5806451612903226,
+    "Bioengineering": 0.5913978494623656,
+    "Biology": 0.6021505376344086,
+    "Biomechanical Engineering": 0.6129032258064516,
+    "Biomedical Computation": 0.6236559139784946,
+    "Chemistry": 0.6344086021505376,
+    "Chemical Engineering": 0.6451612903225806,
+    "Materials Science and Engineering": 0.6559139784946236,
+    "Mechanical Engineering": 0.6666666666666666,
+    "Data Science": 0.6774193548387096,
+    "Aerospace Engineering": 0.6881720430107527,
+    "Applied and Engineering Physics": 0.6989247311827957,
+    "Physics": 0.7096774193548387,
+    "Computer Science": 0.7204301075268817,
+    "Electrical Engineering": 0.7311827956989247,
+    "Management Science and Engineering": 0.7419354838709677,
+    "Mathematics": 0.7526881720430108,
+    "Statistics": 0.7634408602150538,
+    "Engineering Physics": 0.7741935483870968,
+    "Product Design": 0.7849462365591398,
+    "Ethics in Society": 0.7956989247311828,
+    "Democracy, Development, and the Rule of Law": 0.8064516129032258,
+    "Energy Resources Engineering": 0.8172043010752689,
+    "Honors in the Arts": 0.8279569892473119,
+    "Music, Science, and Technology": 0.8387096774193549,
+    "Philosophy and Religious Studies": 0.8494623655913979,
+    "Public Policy": 0.8602150537634409,
+    "Science, Technology, and Society": 0.8709677419354839,
+    "Translation Studies": 0.8817204301075269,
+    "Laboratory Animal Science": 0.8924731182795699,
+    "Medieval Studies": 0.9032258064516129,
+    "Native American Studies": 0.9139784946236559,
+    "Symbolic Systems": 0.9247311827956989,
+    "South Asian Studies": 0.9354838709677419,
+    "Modern Languages": 0.946236559139785,
+    "Human Rights": 0.956989247311828,
+    "Modern Thought and Literature": 0.967741935483871,
+    "Music": 0.978494623655914,
+    "Turkish Studies": 0.989247311827957,
+    "Human Biology": 1.0,
+  };
   let resState = {};
 
 
@@ -182,20 +183,20 @@ function diff(trueState, guessState) {
         diff.color = 0;
       }
     } else if (key === "FavoriteColor") {
-        let trueColor = trueState.FavoriteColor;
-        let guessColor = guessState.FavoriteColor;
-        let trueColorRGB = colorVals[trueColor];
-        let guessColorRGB = colorVals[guessColor];
-        let diffColor = Math.sqrt(Math.pow(trueColorRGB[0] - guessColorRGB[0], 2) + Math.pow(trueColorRGB[1] - guessColorRGB[1], 2) + Math.pow(trueColorRGB[2] - guessColorRGB[2], 2));
-        diff.color = 1 - (diffColor / 441.6729559300637);   // magic number is the max denominator, srqt(255^2 + 255^2 + 255^2)
+      let trueColor = trueState.FavoriteColor;
+      let guessColor = guessState.FavoriteColor;
+      let trueColorRGB = colorVals[trueColor];
+      let guessColorRGB = colorVals[guessColor];
+      let diffColor = Math.sqrt(Math.pow(trueColorRGB[0] - guessColorRGB[0], 2) + Math.pow(trueColorRGB[1] - guessColorRGB[1], 2) + Math.pow(trueColorRGB[2] - guessColorRGB[2], 2));
+      diff.color = 1 - (diffColor / 441.6729559300637);   // magic number is the max denominator, srqt(255^2 + 255^2 + 255^2)
 
-        // set r, g, and b arrows
-        diff.r = trueColorRGB[0] < guessColorRGB[0] ? 0 : 1;
-        diff.g = trueColorRGB[1] < guessColorRGB[1] ? 0 : 1;
-        diff.b = trueColorRGB[2] < guessColorRGB[2] ? 0 : 1;
-        diff.r = trueColorRGB[0] === guessColorRGB[0] ? 3 : diff.r;
-        diff.g = trueColorRGB[1] === guessColorRGB[1] ? 3 : diff.g;
-        diff.b = trueColorRGB[2] === guessColorRGB[2] ? 3 : diff.b;
+      // set r, g, and b arrows
+      diff.r = trueColorRGB[0] < guessColorRGB[0] ? 0 : 1;
+      diff.g = trueColorRGB[1] < guessColorRGB[1] ? 0 : 1;
+      diff.b = trueColorRGB[2] < guessColorRGB[2] ? 0 : 1;
+      diff.r = trueColorRGB[0] === guessColorRGB[0] ? 3 : diff.r;
+      diff.g = trueColorRGB[1] === guessColorRGB[1] ? 3 : diff.g;
+      diff.b = trueColorRGB[2] === guessColorRGB[2] ? 3 : diff.b;
     } else if (key in colorCutoffsWord) {
       if (trueState[key] !== guessState[key]) {
         diff.color = 0;
@@ -203,18 +204,18 @@ function diff(trueState, guessState) {
       else {
         diff.color = 1;
       }
-    } else if (key in colorCutoffsNum){
+    } else if (key in colorCutoffsNum) {
 
-        // set direction
-        if (trueState[key] < guessState[key]) {
-            diff.dir = 0;
-        } else if (trueState[key] > guessState[key]) {
-            diff.dir = 1;
-        } else {
-            diff.dir = 3;
-        }
+      // set direction
+      if (trueState[key] < guessState[key]) {
+        diff.dir = 0;
+      } else if (trueState[key] > guessState[key]) {
+        diff.dir = 1;
+      } else {
+        diff.dir = 3;
+      }
 
-        diff.color = 1 - (Math.abs(guessState[key] - trueState[key])) / normals[key];
+      diff.color = 1 - (Math.abs(guessState[key] - trueState[key])) / normals[key];
     }
 
     resState[key] = diff;
@@ -225,7 +226,7 @@ function diff(trueState, guessState) {
 }
 
 
-export function Game() {
+export function Game({ currUserGroup }) {
   const [randomUser, setRandomUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState('');
@@ -236,8 +237,9 @@ export function Game() {
   const [loading, setLoading] = useState(true);
   const [showChatBox, setShowChatBox] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [gameFinished, setGameFinished] = useState(false);
 
-
+  console.log("current user group in game is " + currUserGroup);
 
 
   let dispFeatures = ["ProfilePhotoURL", "FirstName", "LastName", "Age", "Ethnicity", "FavoriteColor", "FavoriteSport", "Gender", "Height", "HomeState", "Major"];
@@ -256,11 +258,18 @@ export function Game() {
 
     return () => unsubscribe();
   }, []);
-  
+
 
   useEffect(() => {
     // This ensures fetchUsers only runs after currentUserId is set (i.e., not null)
     if (currentUserId === null) return;
+
+    setFeedback(null);
+    setShowChatBox(false);
+    setGameFinished(false);
+    setGuessedUsers([]);
+    setDispUsers([]);
+
 
     const fetchUsers = async () => {
       try {
@@ -272,13 +281,9 @@ export function Game() {
           fullName: `${doc.data().FirstName} ${doc.data().LastName}`, // Concatenate for display
           formattedHeight: formatHeight(doc.data().Height), // Convert Height to feet and inches
         }))
-        .filter(user => user.id === currentUserId);
+          .filter(user => user.id === currentUserId);
 
-        console.log(currUserData)
-        
-        const currUserGroup = currUserData[0].Group;
-        console.log("curr group is " + currUserGroup)
-
+        console.log("curr user group is " + currUserGroup);
 
         const usersData = querySnapshot.docs.map(doc => ({
           id: doc.id,
@@ -286,10 +291,9 @@ export function Game() {
           fullName: `${doc.data().FirstName} ${doc.data().LastName}`, // Concatenate for display
           formattedHeight: formatHeight(doc.data().Height), // Convert Height to feet and inches
         }))
-        .filter(user => user.NewUser === false && user.id !== currentUserId && user.Group === currUserGroup);
+          .filter(user => user.NewUser === false && user.id !== currentUserId && user.Group.includes(currUserGroup));
+        console.log(usersData)
 
-        
-  
         console.log("current user id is " + currentUserId);
         console.log(usersData);
         setUsers(usersData);
@@ -304,7 +308,10 @@ export function Game() {
     };
 
     fetchUsers();
-  }, [currentUserId]); // Re-run when currentUserId changes
+    console.log("number of players in this group is " + users.length);
+    console.log(users)
+    console.log("refetching users");
+  }, [currentUserId, currUserGroup]); // Re-run when currentUserId changes
 
 
   // Helper function to convert height from inches to feet and inches format
@@ -330,6 +337,8 @@ export function Game() {
       if (randomUser && selectedUserId === randomUser.id) {
         setFeedback('Correct! You guessed the right user.');
         setShowChatBox(true);
+        setGameFinished(true);
+        setGuessedUsers([]);
       } else {
         setUsers(users.filter(user => user.id !== selectedUserId));
         setFeedback('Incorrect guess. Try again!');
@@ -351,25 +360,36 @@ export function Game() {
   };
   return (
     <div className="gameContainer">
-      
-      {randomUser && users.length > 0 && !showChatBox && (
+      {currUserGroup && users.length == 0 && !gameFinished ? (
         <>
-          <h2 className="header">Guess the User's Name</h2>
-          <p className="description">Can you guess the name of the user?</p>
-          <form onSubmit={handleGuessSubmit} className="formStyle">
-            <GameDropDown users={users} onChange={handleGuessChange} value={selectedUserId} />
-            <button type="submit" className="guessButton">Guess</button>
-          </form>
-          {feedback && <p className="feedback">{feedback}</p>}
+          <h2 className="header">No users in group {currUserGroup}! Invite others to join.</h2>
         </>
-      )}
-      {guessedUsers.length > 0 && (
+      ) : randomUser ? (
         <>
-          {showChatBox && <h2 className="header">{feedback}</h2>}
-          <h3 className="subheader">Guessed Users:</h3>
-          <ResultsTable users={guessedUsers} correctGuessId={randomUser.id} dispUsers={dispUsers} />
-          {showChatBox && <ChatBox userId={currentUserId} otherUserId={randomUser.id} />}
+          {
+            !gameFinished && (
+              <>
+                <h2 className="header">Guess the User's Name</h2>
+                <p className="description">Can you guess the name of the user?</p>
+                <form onSubmit={handleGuessSubmit} className="formStyle">
+                  <GameDropDown users={users} onChange={handleGuessChange} value={selectedUserId} />
+                  <button type="submit" className="guessButton">Guess</button>
+                </form>
+              </>
+            )
+          }
+          {feedback && <p className="header">{feedback}</p>}
+          {guessedUsers.length > 0 && (
+            <>
+              <h3 className="subheader">Guessed Users:</h3>
+              <ResultsTable users={guessedUsers} correctGuessId={randomUser.id} dispUsers={dispUsers} />
+              {gameFinished && <ChatBox userId={currentUserId} otherUserId={randomUser.id} />}
+            </>
+          )}
         </>
+      ) : (
+        // Show an error page 
+        <h2 className="header">There is an error, please reload the page!</h2>
       )}
     </div>
   );

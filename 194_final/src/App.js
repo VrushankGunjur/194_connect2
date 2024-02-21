@@ -14,6 +14,14 @@ function App() {
   const [isNewUser, setIsNewUser] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [loadingUserCheck, setLoadingUserCheck] = useState(true); // Separate loading state for user check
+  const [currUserGroup, setCurrUserGroup] = useState('Global');
+
+  console.log("current user group in app is ", currUserGroup);
+  console.log(currUserGroup)
+
+  const handleUserGroupChange = (newUserGroup) => {
+    setCurrUserGroup(newUserGroup);
+  };
 
   useEffect(() => {
     const checkUserStatus = async () => {
@@ -21,6 +29,7 @@ function App() {
         console.log('updating newuser status')
         const userRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userRef);
+        console.log('userDoc:', userDoc.data());
         if (userDoc.exists()) {
           const userData = userDoc.data();
           setIsNewUser(userData.NewUser);
@@ -31,7 +40,8 @@ function App() {
         console.log('user hasn\'t been initiated or not logged in')
         setIsNewUser(false); // Assuming a non-logged-in user is not a new user for initial state
       }
-      setLoadingUserCheck(false); // Done loading user check
+
+      setLoadingUserCheck(false);
     };
 
     if (loadingAuth) {
@@ -39,6 +49,8 @@ function App() {
     } else {
       checkUserStatus();
     }
+
+    
   }, [user, loadingAuth]);
 
   if (loadingAuth || loadingUserCheck) {
@@ -47,13 +59,14 @@ function App() {
 
   return (
     <div className="App">
-      {user ? <NavBar /> : null}
+      { console.log("before game is rendered, currusergroup is " + currUserGroup) }
+      {user ? <NavBar setCurrUserGroup={handleUserGroupChange} /> : null}
       {!user ? (
         <Welcome onSignInComplete={setIsNewUser} />
       ) : isNewUser ? (
         <UserForm onFormSubmit={setFormSubmitted} setIsNewUser={setIsNewUser} />
       ) : (
-        <Game />
+        <Game currUserGroup={currUserGroup} setCurrUserGroup={handleUserGroupChange} />
       )}
     </div>
   );
