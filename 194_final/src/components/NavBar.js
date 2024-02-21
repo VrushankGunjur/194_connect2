@@ -19,6 +19,10 @@ const NavBar = ({setCurrUserGroup}) => {
     setCurrUserGroup(newGroup); // Assuming setCurrUserGroup is received via props from App
   };
 
+  // useEffect(() => {
+  //   console.log(userGroups); // To check if userGroups updates as expected
+  // }, [userGroups]);
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -52,7 +56,11 @@ const NavBar = ({setCurrUserGroup}) => {
 
           console.log("Current user's group:", currUserGroup);
           // Add the current user's group to the userGroups state
-          setUserGroups((prevGroups) => [...prevGroups, currUserGroup]);
+          console.log("prev groups are", userGroups)
+          setUserGroups((prevGroups) => [...prevGroups, ...currUserGroup]);
+          console.log("user groups are, in useeffect, " + userGroups)
+
+          console.log("user groups are, in useeffect, " + userGroups)
         }
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -80,8 +88,13 @@ const NavBar = ({setCurrUserGroup}) => {
       return;
     }
     const groupName = prompt('Enter the name of your new group:');
+    
     if (groupName) {
       try {
+        if (userGroups.includes(groupName)) {
+          alert(`You're already in group ${groupName}.`);
+          throw new Error(`${groupName} is already in your groups.`);
+        }
         // Update the user document in Firestore to add the group
         const userDocRef = doc(db, 'users', user.uid);
         await updateDoc(userDocRef, {
@@ -90,6 +103,8 @@ const NavBar = ({setCurrUserGroup}) => {
         setCurrUserGroup(groupName); // Set the current user's group (if needed in the parent component
         // Update userGroups state with the new group
         setUserGroups((prevGroups) => [...prevGroups, groupName]);
+        console.log("user groups are" + userGroups)
+        console.log("ADDING NEW GROUP IS DONE")
       } catch (error) {
         console.error('Error adding new group:', error);
       }
@@ -106,10 +121,10 @@ const NavBar = ({setCurrUserGroup}) => {
             <button onClick={toggleDropdown} className="user-groups-btn">
               User Groups
             </button>
-            {showDropdown && (
+            {showDropdown && userGroups && (
               <div className="dropdown-content"> 
                 {userGroups.length > 0 ? (
-                  userGroups[0].map((group, index) => (
+                  userGroups.map((group, index) => (
                     <div key={index} className="dropdown-item" onClick={() => updateGroup(group)}>
                       {group}
                     </div>

@@ -16,8 +16,8 @@ function App() {
   const [loadingUserCheck, setLoadingUserCheck] = useState(true); // Separate loading state for user check
   const [currUserGroup, setCurrUserGroup] = useState('Global');
 
-  console.log("current user group in app is ", currUserGroup);
-  console.log(currUserGroup)
+  // console.log("current user group in app is ", currUserGroup);
+  // console.log(currUserGroup)
 
   const handleUserGroupChange = (newUserGroup) => {
     setCurrUserGroup(newUserGroup);
@@ -60,7 +60,7 @@ function App() {
   return (
     <div className="App">
       { console.log("before game is rendered, currusergroup is " + currUserGroup) }
-      {user ? <NavBar setCurrUserGroup={handleUserGroupChange} /> : null}
+      {user ? <NavBar currUserGroup={currUserGroup} setCurrUserGroup={handleUserGroupChange} /> : null}
       {!user ? (
         <Welcome onSignInComplete={setIsNewUser} />
       ) : isNewUser ? (

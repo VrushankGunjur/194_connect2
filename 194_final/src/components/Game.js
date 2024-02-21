@@ -283,7 +283,7 @@ export function Game({ currUserGroup }) {
         }))
           .filter(user => user.id === currentUserId);
 
-        console.log("curr user group is " + currUserGroup);
+        // console.log("curr user group is " + currUserGroup);
 
         const usersData = querySnapshot.docs.map(doc => ({
           id: doc.id,
@@ -294,7 +294,7 @@ export function Game({ currUserGroup }) {
           .filter(user => user.NewUser === false && user.id !== currentUserId && user.Group.includes(currUserGroup));
         console.log(usersData)
 
-        console.log("current user id is " + currentUserId);
+        // console.log("current user id is " + currentUserId);
         console.log(usersData);
         setUsers(usersData);
         if (usersData.length > 0) {
