@@ -51,8 +51,8 @@ const NavBar = ({currUserGroup, setCurrUserGroup, isNewUser}) => {
           }))
           .filter((user) => user.id === currentUserId);
 
-        if (currUserData.length > 0) {
-          const currUserGroup = currUserData[0].Group;
+        if (currUserData.length > 0 && !isNewUser) {
+          // const currUserGroup = currUserData[0].Group;
 
           console.log("Current user's group:", currUserGroup);
           // Add the current user's group to the userGroups state
