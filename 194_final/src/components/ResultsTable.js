@@ -1,5 +1,38 @@
-import React from 'react';
+import React, {useState, useEffect } from 'react' ;
 import '../styles/ResultsTable.css'; // Make sure to import the CSS file
+import { useSpring, animated } from 'react-spring';
+
+function sleep(s) {
+    return new Promise(resolve => setTimeout(resolve, 1000 * s));
+}
+
+const defaultBackgroundColor = 'gray';
+const animationTimeSeconds = 0.25;
+
+const Tile = ({ backgroundColor, text, duration, delayTime, flip }) => {
+    if (!flip) {duration = 0; delayTime = 0;}
+    const [flipped, setFlipped] = useState(false);
+
+    useEffect(() => {
+        const applyFlip = async () => {
+        await sleep(delayTime);
+        setFlipped(true);
+        };
+
+        applyFlip();
+    }, [delayTime]);
+
+    return (
+        <td className={`tile ${flipped ? 'flipped' : ''}`} style={{ transition: `background-color ${duration}s ease`, backgroundColor: flipped ? backgroundColor : defaultBackgroundColor }}>
+            <div className="black-box"> {/* Initial black box */}
+            {/* Content revealed after flipping */}
+            <div style={{ width: '100%', height: '100%', textAlign: 'center', color: 'black'}}>
+                {flipped && <span className="text">{text}</span>}
+            </div>
+            </div>
+        </td>
+    );
+};
 
 const ResultsTable = ({ guessedUsers, correctGuessId, dispUsers }) => {
     const defaultURL = "https://firebasestorage.googleapis.com/v0/b/cs194-e95a9.appspot.com/o/profilePictures%2Flogo.png?alt=media&token=8dd2a541-8857-4ea2-a6b8-66d53fd8caea";
@@ -21,6 +54,7 @@ const ResultsTable = ({ guessedUsers, correctGuessId, dispUsers }) => {
         // linearly scale the red and green values.
         let r = 255 * (1 - value);
         let g = 255 * (value);
+        if (value > 0 && value < 1) r = 200;
         return `rgb(${r}, ${g}, 0)`;
     };
 
@@ -67,37 +101,35 @@ const ResultsTable = ({ guessedUsers, correctGuessId, dispUsers }) => {
                 {dispUsers.map((user, index) => (
                     <tr key={index}>
                         {/* Iterate over other keys for user data */}
-                        {Object.keys(user).map((key) => {
+                        {Object.keys(user).map((key, keyIndex) => {
+                            let backgroundColor = 'gray';
+                            let print_value = '';
                             if (key === "ProfilePhotoURL") {
-                                const backgroundColor = getBackgroundColor(user[key].disp.color);
-                                return (
-                                    <td key={key} style={{ backgroundColor: backgroundColor, color: '#000' }}>
-                                        {formatTrait(key, user[key].data)}
-                                        
-                                    </td>
-                                );
+                                backgroundColor = getBackgroundColor(user[key].disp.color);
+                                print_value = formatTrait(key, user[key].data);
                             } else if (key === "FavoriteColor") {
                                 const traitValue = formatTrait(key, user[key].data);
                                 const r_arrow = getArrow(user[key].disp.r);
                                 const g_arrow = getArrow(user[key].disp.g);
                                 const b_arrow = getArrow(user[key].disp.b);
-                                const backgroundColor = getBackgroundColor(user[key].disp.color);
-                                return (
-                                    <td key={key} style={{ backgroundColor: backgroundColor, color: '#000' }}> {/* Ensure text color is readable on all backgrounds */}
-                                        {traitValue} {r_arrow} {g_arrow} {b_arrow}
-                                    </td>
-                                );
+                                backgroundColor = getBackgroundColor(user[key].disp.color);
+                                print_value = traitValue + " " + r_arrow + " " + g_arrow + " " + b_arrow;
                             }else if (key !== "id") { // Exclude the id and ProfilePhotoURL from rendering as data cells
                                 const traitValue = formatTrait(key, user[key].data);
                                 const arrow = getArrow(user[key].disp.dir);
-                                const backgroundColor = getBackgroundColor(user[key].disp.color);
-                                return (
-                                    <td key={key} style={{ backgroundColor: backgroundColor, color: '#000' }}> {/* Ensure text color is readable on all backgrounds */}
-                                        {traitValue} {arrow}
-                                    </td>
-                                );
+                                backgroundColor = getBackgroundColor(user[key].disp.color);
+                                print_value = traitValue + " " + arrow;
                             }
-                            return null;
+                            else {return null;}
+                            return (
+                                <Tile
+                                    backgroundColor={backgroundColor}
+                                    text={print_value}
+                                    duration={animationTimeSeconds}
+                                    delayTime={keyIndex * animationTimeSeconds} 
+                                    flip={index === dispUsers.length - 1}
+                                />
+                            );
                         })}
                     </tr>
                 ))}
