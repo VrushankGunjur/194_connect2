@@ -99,7 +99,9 @@
 
 /* SendMessage Component */
 .send-message {
-  margin-left: -11px;
+  position: absolute;
+    bottom: 0;
+  margin-left: -30px;
   width: 300px;
   display: flex;
   padding: 10px;

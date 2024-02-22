@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../firebase.js';
-import { db } from '../firebase.js';
-import { useAuthState } from "react-firebase-hooks/auth";
-import UserForm from './UserForm.js';
-import GameDropDown from './GameDropDown.js';
-import ResultsTable from './ResultsTable.js';
-import ChatBox from './ChatBox.js'; // Adjust the path as necessary
+import { onAuthStateChanged } from "firebase/auth";
+import { collection, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { auth, db } from "../firebase.js";
 import "../styles/Game.css";
-
+import ChatBox from "./ChatBox.js"; // Adjust the path as necessary
+import GameDropDown from "./GameDropDown.js";
+import ResultsTable from "./ResultsTable.js";
 
 // state
 function diff(trueState, guessState) {
@@ -23,27 +19,26 @@ function diff(trueState, guessState) {
 
       Value 2- Color Gradient  (MAGNITUDE) 0=Red, .5 = Yellow, 1 == Green  (approx)
       Age = 1 year is .5
-      Height: 3 in is .5 
+      Height: 3 in is .5
       Ethnicity: cos sim
       Favorite Color: cos sim
-      Gender: 0-Red 1- Green 
+      Gender: 0-Red 1- Green
       Hometown- cos sim
-      Major- cos sim 
+      Major- cos sim
 
   */
-
 
   // let diffState = {age: {cur: 2, color: 1}, [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0]};
   let colorCutoffsNum = {
     Age: 1,
-    Height: 3
-  }
+    Height: 3,
+  };
 
   // normalization factors for numerical attributes -- should be the max difference possible in each attribute.
   let normals = {
     Age: 30,
-    Height: 36
-  }
+    Height: 36,
+  };
 
   let colorCutoffsWord = {
     FirstName: 0,
@@ -53,45 +48,45 @@ function diff(trueState, guessState) {
     //FavoriteColor: 20,
     FavoriteSport: 20,
     HomeState: 10,
-    Major: 10
-  }
+    Major: 10,
+  };
   let colorVals = {
-    "Red": [255, 0, 0],
-    "Orange": [255, 87, 51],
-    "Yellow": [255, 255, 0],
-    "Green": [0, 255, 0],
-    "Blue": [0, 0, 255],
-    "Purple": [160, 32, 240],
-    "Pink": [255, 192, 203],
-    "Brown": [150, 75, 0],
-    "White": [255, 255, 255],
-    "Black": [0, 0, 0],
-    "Gray": [128, 128, 128]
-  }
+    Red: [255, 0, 0],
+    Orange: [255, 87, 51],
+    Yellow: [255, 255, 0],
+    Green: [0, 255, 0],
+    Blue: [0, 0, 255],
+    Purple: [160, 32, 240],
+    Pink: [255, 192, 203],
+    Brown: [150, 75, 0],
+    White: [255, 255, 255],
+    Black: [0, 0, 0],
+    Gray: [128, 128, 128],
+  };
   let majorVals = {
-    "Education": 0.010752688172043012,
+    Education: 0.010752688172043012,
     "Dance (TAPS Minor)": 0.021505376344086023,
     "Comparative Literature": 0.03225806451612903,
-    "Anthropology": 0.043010752688172046,
-    "Sociology": 0.053763440860215055,
+    Anthropology: 0.043010752688172046,
+    Sociology: 0.053763440860215055,
     "Community Health and Prevention Research": 0.06451612903225806,
-    "English": 0.07526881720430108,
+    English: 0.07526881720430108,
     "Art History": 0.08602150537634409,
     "Art Practice": 0.0967741935483871,
-    "Communication": 0.10752688172043011,
+    Communication: 0.10752688172043011,
     "Gender, and Sexuality Studies": 0.11827956989247312,
     "Chicana/o - Latina/o Studies": 0.12903225806451613,
-    "French": 0.13978494623655913,
+    French: 0.13978494623655913,
     "Women's Studies": 0.15053763440860216,
     "Global Studies": 0.16129032258064516,
-    "History": 0.17204301075268819,
-    "Psychology": 0.1827956989247312,
+    History: 0.17204301075268819,
+    Psychology: 0.1827956989247312,
     "Theater and Performance Studies": 0.1935483870967742,
     "Religious Studies": 0.20430107526881722,
-    "Philosophy": 0.21505376344086022,
-    "Linguistics": 0.22580645161290322,
-    "Spanish": 0.23655913978494625,
-    "Classics": 0.24731182795698925,
+    Philosophy: 0.21505376344086022,
+    Linguistics: 0.22580645161290322,
+    Spanish: 0.23655913978494625,
+    Classics: 0.24731182795698925,
     "Comparative Studies in Race and Ethnicity": 0.25806451612903225,
     "Environmental Systems Engineering": 0.26881720430107525,
     "Political Science": 0.27956989247311825,
@@ -100,15 +95,15 @@ function diff(trueState, guessState) {
     "Film and Media Studies": 0.3118279569892473,
     "Digital Humanities": 0.3225806451612903,
     "German Studies": 0.3333333333333333,
-    "Italian": 0.34408602150537637,
+    Italian: 0.34408602150537637,
     "Jewish Studies": 0.3548387096774194,
     "Asian American Studies": 0.3655913978494624,
     "East Asian Studies": 0.3763440860215054,
     "Middle Eastern Language, Literature and Culture": 0.3870967741935484,
     "Iranian Studies": 0.3978494623655914,
     "Islamic Studies": 0.40860215053763443,
-    "Korean": 0.41935483870967744,
-    "Japanese": 0.43010752688172044,
+    Korean: 0.41935483870967744,
+    Japanese: 0.43010752688172044,
     "Latin American Studies": 0.44086021505376344,
     "Iberian and Latin American Cultures": 0.45161290322580644,
     "International Policy Studies": 0.46236559139784944,
@@ -116,30 +111,30 @@ function diff(trueState, guessState) {
     "Chinese Studies": 0.4838709677419355,
     "Russian Studies": 0.4946236559139785,
     "Slavic Languages and Literatures": 0.5053763440860215,
-    "Portuguese": 0.5161290322580645,
+    Portuguese: 0.5161290322580645,
     "African Studies": 0.5268817204301075,
     "African and African American Studies": 0.5376344086021505,
     "Urban Studies": 0.5483870967741935,
     "Atmospheric / Energy": 0.5591397849462365,
     "Earth Systems": 0.5698924731182796,
-    "Sustainability": 0.5806451612903226,
-    "Bioengineering": 0.5913978494623656,
-    "Biology": 0.6021505376344086,
+    Sustainability: 0.5806451612903226,
+    Bioengineering: 0.5913978494623656,
+    Biology: 0.6021505376344086,
     "Biomechanical Engineering": 0.6129032258064516,
     "Biomedical Computation": 0.6236559139784946,
-    "Chemistry": 0.6344086021505376,
+    Chemistry: 0.6344086021505376,
     "Chemical Engineering": 0.6451612903225806,
     "Materials Science and Engineering": 0.6559139784946236,
     "Mechanical Engineering": 0.6666666666666666,
     "Data Science": 0.6774193548387096,
     "Aerospace Engineering": 0.6881720430107527,
     "Applied and Engineering Physics": 0.6989247311827957,
-    "Physics": 0.7096774193548387,
+    Physics: 0.7096774193548387,
     "Computer Science": 0.7204301075268817,
     "Electrical Engineering": 0.7311827956989247,
     "Management Science and Engineering": 0.7419354838709677,
-    "Mathematics": 0.7526881720430108,
-    "Statistics": 0.7634408602150538,
+    Mathematics: 0.7526881720430108,
+    Statistics: 0.7634408602150538,
     "Engineering Physics": 0.7741935483870968,
     "Product Design": 0.7849462365591398,
     "Ethics in Society": 0.7956989247311828,
@@ -159,12 +154,11 @@ function diff(trueState, guessState) {
     "Modern Languages": 0.946236559139785,
     "Human Rights": 0.956989247311828,
     "Modern Thought and Literature": 0.967741935483871,
-    "Music": 0.978494623655914,
+    Music: 0.978494623655914,
     "Turkish Studies": 0.989247311827957,
     "Human Biology": 1.0,
   };
   let resState = {};
-
 
   for (const key in trueState) {
     let diff = { dir: 2, color: 1, r: 2, g: 2, b: 2 };
@@ -174,7 +168,7 @@ function diff(trueState, guessState) {
       console.log(trueState[key]);
       console.log(guessState[key]);
       console.log("PPP");
-      console.log(diff.color)
+      console.log(diff.color);
     } else if (key === "ProfilePhotoURL") {
       diff.ProfilePhotoURL = trueState.ProfilePhotoURL;
       if (trueState.id === guessState.id) {
@@ -187,8 +181,12 @@ function diff(trueState, guessState) {
       let guessColor = guessState.FavoriteColor;
       let trueColorRGB = colorVals[trueColor];
       let guessColorRGB = colorVals[guessColor];
-      let diffColor = Math.sqrt(Math.pow(trueColorRGB[0] - guessColorRGB[0], 2) + Math.pow(trueColorRGB[1] - guessColorRGB[1], 2) + Math.pow(trueColorRGB[2] - guessColorRGB[2], 2));
-      diff.color = 1 - (diffColor / 441.6729559300637);   // magic number is the max denominator, srqt(255^2 + 255^2 + 255^2)
+      let diffColor = Math.sqrt(
+        Math.pow(trueColorRGB[0] - guessColorRGB[0], 2) +
+          Math.pow(trueColorRGB[1] - guessColorRGB[1], 2) +
+          Math.pow(trueColorRGB[2] - guessColorRGB[2], 2),
+      );
+      diff.color = 1 - diffColor / 441.6729559300637; // magic number is the max denominator, srqt(255^2 + 255^2 + 255^2)
 
       // set r, g, and b arrows
       diff.r = trueColorRGB[0] < guessColorRGB[0] ? 0 : 1;
@@ -200,12 +198,10 @@ function diff(trueState, guessState) {
     } else if (key in colorCutoffsWord) {
       if (trueState[key] !== guessState[key]) {
         diff.color = 0;
-      }
-      else {
+      } else {
         diff.color = 1;
       }
     } else if (key in colorCutoffsNum) {
-
       // set direction
       if (trueState[key] < guessState[key]) {
         diff.dir = 0;
@@ -215,7 +211,8 @@ function diff(trueState, guessState) {
         diff.dir = 3;
       }
 
-      diff.color = 1 - (Math.abs(guessState[key] - trueState[key])) / normals[key];
+      diff.color =
+        1 - Math.abs(guessState[key] - trueState[key]) / normals[key];
     }
 
     resState[key] = diff;
@@ -225,24 +222,31 @@ function diff(trueState, guessState) {
   return resState;
 }
 
-
 export function Game({ currUserGroup }) {
   const [randomUser, setRandomUser] = useState(null);
   const [users, setUsers] = useState([]);
-  const [selectedUserId, setSelectedUserId] = useState('');
-  const [feedback, setFeedback] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const [feedback, setFeedback] = useState("");
   const [guessedUsers, setGuessedUsers] = useState([]);
   const [dispUsers, setDispUsers] = useState([]);
-  const [firstLogin, setFirstLogin] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [showChatBox, setShowChatBox] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [gameFinished, setGameFinished] = useState(false);
 
   console.log("current user group in game is " + currUserGroup);
 
-
-  let dispFeatures = ["ProfilePhotoURL", "FirstName", "LastName", "Age", "Ethnicity", "FavoriteColor", "FavoriteSport", "Gender", "Height", "HomeState", "Major"];
+  let dispFeatures = [
+    "ProfilePhotoURL",
+    "FirstName",
+    "LastName",
+    "Age",
+    "Ethnicity",
+    "FavoriteColor",
+    "FavoriteSport",
+    "Gender",
+    "Height",
+    "HomeState",
+    "Major",
+  ];
 
   // Your existing handler functions remain unchanged
 
@@ -259,40 +263,35 @@ export function Game({ currUserGroup }) {
     return () => unsubscribe();
   }, []);
 
-
   useEffect(() => {
     // This ensures fetchUsers only runs after currentUserId is set (i.e., not null)
     if (currentUserId === null) return;
 
     setFeedback(null);
-    setShowChatBox(false);
     setGameFinished(false);
     setGuessedUsers([]);
     setDispUsers([]);
-
 
     const fetchUsers = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "users"));
 
-        const currUserData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-          fullName: `${doc.data().FirstName} ${doc.data().LastName}`, // Concatenate for display
-          formattedHeight: formatHeight(doc.data().Height), // Convert Height to feet and inches
-        }))
-          .filter(user => user.id === currentUserId);
-
         // console.log("curr user group is " + currUserGroup);
 
-        const usersData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-          fullName: `${doc.data().FirstName} ${doc.data().LastName}`, // Concatenate for display
-          formattedHeight: formatHeight(doc.data().Height), // Convert Height to feet and inches
-        }))
-          .filter(user => user.NewUser === false && user.id !== currentUserId && user.Group.includes(currUserGroup));
-        console.log(usersData)
+        const usersData = querySnapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            fullName: `${doc.data().FirstName} ${doc.data().LastName}`, // Concatenate for display
+            formattedHeight: formatHeight(doc.data().Height), // Convert Height to feet and inches
+          }))
+          .filter(
+            (user) =>
+              user.NewUser === false &&
+              user.id !== currentUserId &&
+              user.Group.includes(currUserGroup),
+          );
+        console.log(usersData);
 
         // console.log("current user id is " + currentUserId);
         console.log(usersData);
@@ -303,16 +302,15 @@ export function Game({ currUserGroup }) {
         }
       } catch (error) {
         console.error("Error fetching users:", error);
-        setFeedback('Failed to load users.');
+        setFeedback("Failed to load users.");
       }
     };
 
     fetchUsers();
     console.log("number of players in this group is " + users.length);
-    console.log(users)
+    console.log(users);
     console.log("refetching users");
   }, [currentUserId, currUserGroup]); // Re-run when currentUserId changes
-
 
   // Helper function to convert height from inches to feet and inches format
   const formatHeight = (inches) => {
@@ -322,7 +320,7 @@ export function Game({ currUserGroup }) {
   };
 
   const handleGuessChange = (selectedOption) => {
-    setSelectedUserId(selectedOption ? selectedOption.value : '');
+    setSelectedUserId(selectedOption ? selectedOption.value : "");
   };
 
   const handleGuessSubmit = (event) => {
@@ -332,16 +330,17 @@ export function Game({ currUserGroup }) {
     // call AttributeRectangles on output of diff
     // return the output of AttributeRectangles in the HTML component
 
-    const guessedUser = users.find(user => user.id === selectedUserId);
+    const guessedUser = users.find((user) => user.id === selectedUserId);
     if (guessedUser) {
       if (randomUser && selectedUserId === randomUser.id) {
-        setFeedback('You matched with ' + randomUser.fullName + '! Feel free to chat!');
-        setShowChatBox(true);
+        setFeedback(
+          "You matched with " + randomUser.fullName + "! Feel free to chat!",
+        );
         setGameFinished(true);
         setGuessedUsers([]);
       } else {
-        setUsers(users.filter(user => user.id !== selectedUserId));
-        setFeedback('Incorrect guess. Try again!');
+        setUsers(users.filter((user) => user.id !== selectedUserId));
+        setFeedback("Incorrect guess. Try again!");
       }
       // Add the guessed user with all formatted traits to the guessedUsers array
 
@@ -351,51 +350,63 @@ export function Game({ currUserGroup }) {
       for (const key of dispFeatures) {
         dispUser[key] = {};
         dispUser[key].data = guessedUser[key];
-        if (key === "Height") { dispUser[key].data = formatHeight(guessedUser[key]); }
+        if (key === "Height") {
+          dispUser[key].data = formatHeight(guessedUser[key]);
+        }
         dispUser[key].disp = resDiffs[key];
       }
-      setDispUsers([...dispUsers, dispUser]);   // append the new user to the list of guessed users
+      setDispUsers([...dispUsers, dispUser]); // append the new user to the list of guessed users
     }
-    setSelectedUserId(''); // Reset for next guess
+    setSelectedUserId(""); // Reset for next guess
   };
   return (
     <div className="gameContainer">
-      {currUserGroup && users.length == 0 && !gameFinished ? (
+      {currUserGroup && users.length === 0 && !gameFinished ? (
         <>
-          <h2 className="header">No users in group {currUserGroup}! Invite others to join.</h2>
+          <h2 className="header">
+            No users in group {currUserGroup}! Invite others to join.
+          </h2>
         </>
       ) : randomUser ? (
         <>
-          {
-            !gameFinished && (
-              <>
-                <h2 className="header">Guess the User's Name</h2>
-                <p className="description">Can you guess who you matched with?</p>
-              </>
-            )
-          }
-          {guessedUsers.length > 0 && (
+          {!gameFinished && (
             <>
-              <ResultsTable users={guessedUsers} correctGuessId={randomUser.id} dispUsers={dispUsers} />
-              {gameFinished && <ChatBox userId={currentUserId} otherUserId={randomUser.id} />}
+              <h2 className="header">Guess Your Match!</h2>
+              <p className="description">Can you guess who you matched with?</p>
             </>
           )}
-          {
-            !gameFinished && (
-              <>
-                <form onSubmit={handleGuessSubmit} className="formStyle">
-                  <GameDropDown users={users} onChange={handleGuessChange} value={selectedUserId} />
-                  <br />
-                  <button type="submit" className="guessButton">Guess</button>
-                </form>
-              </>
-            )
-          }
+          {guessedUsers.length > 0 && (
+            <>
+              <ResultsTable
+                users={guessedUsers}
+                correctGuessId={randomUser.id}
+                dispUsers={dispUsers}
+              />
+              {gameFinished && (
+                <ChatBox userId={currentUserId} otherUserId={randomUser.id} />
+              )}
+            </>
+          )}
+          {!gameFinished && (
+            <>
+              <form onSubmit={handleGuessSubmit} className="formStyle">
+                <GameDropDown
+                  users={users}
+                  onChange={handleGuessChange}
+                  value={selectedUserId}
+                />
+                <br />
+                <button type="submit" className="guessButton">
+                  Guess
+                </button>
+              </form>
+            </>
+          )}
           <br />
           {feedback && <p className="header">{feedback}</p>}
         </>
       ) : (
-        // Show an error page 
+        // Show an error page
         <h2 className="header">There is an error, please reload the page!</h2>
       )}
     </div>
