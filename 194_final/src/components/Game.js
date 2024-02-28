@@ -64,29 +64,29 @@ function diff(trueState, guessState) {
     Gray: [128, 128, 128],
   };
   let majorVals = {
-    Education: 0.010752688172043012,
+    "Education": 0.010752688172043012,
     "Dance (TAPS Minor)": 0.021505376344086023,
     "Comparative Literature": 0.03225806451612903,
-    Anthropology: 0.043010752688172046,
-    Sociology: 0.053763440860215055,
+    "Anthropology": 0.043010752688172046,
+    "Sociology": 0.053763440860215055,
     "Community Health and Prevention Research": 0.06451612903225806,
-    English: 0.07526881720430108,
+    "English": 0.07526881720430108,
     "Art History": 0.08602150537634409,
     "Art Practice": 0.0967741935483871,
-    Communication: 0.10752688172043011,
+    "Communication": 0.10752688172043011,
     "Gender, and Sexuality Studies": 0.11827956989247312,
     "Chicana/o - Latina/o Studies": 0.12903225806451613,
-    French: 0.13978494623655913,
+    "French": 0.13978494623655913,
     "Women's Studies": 0.15053763440860216,
     "Global Studies": 0.16129032258064516,
-    History: 0.17204301075268819,
-    Psychology: 0.1827956989247312,
+    "History": 0.17204301075268819,
+    "Psychology": 0.1827956989247312,
     "Theater and Performance Studies": 0.1935483870967742,
     "Religious Studies": 0.20430107526881722,
-    Philosophy: 0.21505376344086022,
-    Linguistics: 0.22580645161290322,
-    Spanish: 0.23655913978494625,
-    Classics: 0.24731182795698925,
+    "Philosophy": 0.21505376344086022,
+    "Linguistics": 0.22580645161290322,
+    "Spanish": 0.23655913978494625,
+    "Classics": 0.24731182795698925,
     "Comparative Studies in Race and Ethnicity": 0.25806451612903225,
     "Environmental Systems Engineering": 0.26881720430107525,
     "Political Science": 0.27956989247311825,
@@ -95,15 +95,15 @@ function diff(trueState, guessState) {
     "Film and Media Studies": 0.3118279569892473,
     "Digital Humanities": 0.3225806451612903,
     "German Studies": 0.3333333333333333,
-    Italian: 0.34408602150537637,
+    "Italian": 0.34408602150537637,
     "Jewish Studies": 0.3548387096774194,
     "Asian American Studies": 0.3655913978494624,
     "East Asian Studies": 0.3763440860215054,
     "Middle Eastern Language, Literature and Culture": 0.3870967741935484,
     "Iranian Studies": 0.3978494623655914,
     "Islamic Studies": 0.40860215053763443,
-    Korean: 0.41935483870967744,
-    Japanese: 0.43010752688172044,
+    "Korean": 0.41935483870967744,
+    "Japanese": 0.43010752688172044,
     "Latin American Studies": 0.44086021505376344,
     "Iberian and Latin American Cultures": 0.45161290322580644,
     "International Policy Studies": 0.46236559139784944,
@@ -111,30 +111,30 @@ function diff(trueState, guessState) {
     "Chinese Studies": 0.4838709677419355,
     "Russian Studies": 0.4946236559139785,
     "Slavic Languages and Literatures": 0.5053763440860215,
-    Portuguese: 0.5161290322580645,
+    "Portuguese": 0.5161290322580645,
     "African Studies": 0.5268817204301075,
     "African and African American Studies": 0.5376344086021505,
     "Urban Studies": 0.5483870967741935,
     "Atmospheric / Energy": 0.5591397849462365,
     "Earth Systems": 0.5698924731182796,
-    Sustainability: 0.5806451612903226,
-    Bioengineering: 0.5913978494623656,
-    Biology: 0.6021505376344086,
+    "Sustainability": 0.5806451612903226,
+    "Bioengineering": 0.5913978494623656,
+    "Biology": 0.6021505376344086,
     "Biomechanical Engineering": 0.6129032258064516,
     "Biomedical Computation": 0.6236559139784946,
-    Chemistry: 0.6344086021505376,
+    "Chemistry": 0.6344086021505376,
     "Chemical Engineering": 0.6451612903225806,
     "Materials Science and Engineering": 0.6559139784946236,
     "Mechanical Engineering": 0.6666666666666666,
     "Data Science": 0.6774193548387096,
     "Aerospace Engineering": 0.6881720430107527,
     "Applied and Engineering Physics": 0.6989247311827957,
-    Physics: 0.7096774193548387,
+    "Physics": 0.7096774193548387,
     "Computer Science": 0.7204301075268817,
     "Electrical Engineering": 0.7311827956989247,
     "Management Science and Engineering": 0.7419354838709677,
-    Mathematics: 0.7526881720430108,
-    Statistics: 0.7634408602150538,
+    "Mathematics": 0.7526881720430108,
+    "Statistics": 0.7634408602150538,
     "Engineering Physics": 0.7741935483870968,
     "Product Design": 0.7849462365591398,
     "Ethics in Society": 0.7956989247311828,
@@ -154,7 +154,7 @@ function diff(trueState, guessState) {
     "Modern Languages": 0.946236559139785,
     "Human Rights": 0.956989247311828,
     "Modern Thought and Literature": 0.967741935483871,
-    Music: 0.978494623655914,
+    "Music": 0.978494623655914,
     "Turkish Studies": 0.989247311827957,
     "Human Biology": 1.0,
   };
@@ -165,10 +165,6 @@ function diff(trueState, guessState) {
     if (key === "Major") {
       let d = Math.abs(majorVals[trueState[key]] - majorVals[guessState[key]]);
       diff.color = 1 - d;
-      console.log(trueState[key]);
-      console.log(guessState[key]);
-      console.log("PPP");
-      console.log(diff.color);
     } else if (key === "ProfilePhotoURL") {
       diff.ProfilePhotoURL = trueState.ProfilePhotoURL;
       if (trueState.id === guessState.id) {
@@ -218,7 +214,6 @@ function diff(trueState, guessState) {
     resState[key] = diff;
   }
 
-  console.log(resState);
   return resState;
 }
 
@@ -231,8 +226,9 @@ export function Game({ currUserGroup }) {
   const [dispUsers, setDispUsers] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [gameFinished, setGameFinished] = useState(false);
-
-  console.log("current user group in game is " + currUserGroup);
+  const [remainingGuesses, setRemainingGuesses] = useState(20);
+  const [allowedGuesses, setAllowedGuesses] = useState(20);
+  const [propRemainingGuesses, setPropRemainingGuesses] = useState(100);
 
   let dispFeatures = [
     "ProfilePhotoURL",
@@ -276,8 +272,6 @@ export function Game({ currUserGroup }) {
       try {
         const querySnapshot = await getDocs(collection(db, "users"));
 
-        // console.log("curr user group is " + currUserGroup);
-
         const usersData = querySnapshot.docs
           .map((doc) => ({
             id: doc.id,
@@ -291,11 +285,12 @@ export function Game({ currUserGroup }) {
               user.id !== currentUserId &&
               user.Group.includes(currUserGroup),
           );
-        console.log(usersData);
 
-        // console.log("current user id is " + currentUserId);
-        console.log(usersData);
         setUsers(usersData);
+        if (usersData.length < 40) {
+          setAllowedGuesses(Math.ceil(usersData.length/2));
+          setRemainingGuesses(Math.ceil(usersData.length/2));
+        }
         if (usersData.length > 0) {
           const randomIndex = Math.floor(Math.random() * usersData.length);
           setRandomUser(usersData[randomIndex]);
@@ -307,9 +302,6 @@ export function Game({ currUserGroup }) {
     };
 
     fetchUsers();
-    console.log("number of players in this group is " + users.length);
-    console.log(users);
-    console.log("refetching users");
   }, [currentUserId, currUserGroup]); // Re-run when currentUserId changes
 
   // Helper function to convert height from inches to feet and inches format
@@ -338,7 +330,15 @@ export function Game({ currUserGroup }) {
         );
         setGameFinished(true);
         setGuessedUsers([]);
+      } else if (randomUser && remainingGuesses === 1) {
+        setRemainingGuesses(remainingGuesses - 1);
+        setPropRemainingGuesses(100 * ((remainingGuesses - 1)/allowedGuesses));
+        setFeedback('Incorrect guess. You have run out of guesses!');
+        setGameFinished(true);
+        setGuessedUsers([]);
       } else {
+        setRemainingGuesses(remainingGuesses - 1);
+        setPropRemainingGuesses(100 * ((remainingGuesses - 1)/allowedGuesses));
         setUsers(users.filter((user) => user.id !== selectedUserId));
         setFeedback("Incorrect guess. Try again!");
       }
@@ -372,7 +372,6 @@ export function Game({ currUserGroup }) {
           {!gameFinished && (
             <>
               <h2 className="header">Guess Your Match!</h2>
-              <p className="description">Can you guess who you matched with?</p>
             </>
           )}
           {guessedUsers.length > 0 && (
@@ -404,6 +403,11 @@ export function Game({ currUserGroup }) {
           )}
           <br />
           {feedback && <p className="header">{feedback}</p>}
+          <p className="header">Guesses Remaining: {remainingGuesses}</p>
+          <div className="progress-bar-container">
+            <div className="progress-bar" style={{ width: `${100 - propRemainingGuesses}%` }} />
+          </div> 
+          <h2 className="Extra Spacing" style={{ margin: '20px 0', color: 'rgba(0, 0, 0, 0)' }}>Connect2</h2>
         </>
       ) : (
         // Show an error page
