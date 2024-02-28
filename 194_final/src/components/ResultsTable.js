@@ -9,47 +9,46 @@ const defaultBackgroundColor = "gray";
 const animationTimeSeconds = 0.25;
 
 const Tile = ({ backgroundColor, text, duration, delayTime, flip }) => {
-  if (!flip) {
-    duration = 0;
-    delayTime = 0;
-  }
-  const [flipped, setFlipped] = useState(false);
+    if (!flip) {duration = 0; delayTime = 0;}
+    const [flipped, setFlipped] = useState(false);
 
-  useEffect(() => {
-    const applyFlip = async () => {
-      await sleep(delayTime);
-      setFlipped(true);
-    };
+    useEffect(() => {
+        const applyFlip = async () => {
+        await sleep(delayTime);
+        setFlipped(true);
+        };
 
-    applyFlip();
-  }, [delayTime]);
+        applyFlip();
+    }, [delayTime]);
 
-  return (
-    <td
-      className={`tile ${flipped ? "flipped" : ""}`}
-      style={{
-        transition: `background-color ${duration}s ease`,
-        backgroundColor: flipped ? backgroundColor : defaultBackgroundColor,
-      }}
-    >
-      <div className="black-box">
-        {" "}
-        {/* Initial black box */}
-        {/* Content revealed after flipping */}
-        <div
+    return (
+        <td
+          className={`tile ${flipped ? 'flipped' : ''}`}
           style={{
-            width: "100%",
-            height: "100%",
-            textAlign: "center",
-            color: "black",
+            transition: `transform ${duration}s ease`,
+            transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+            backgroundColor: flipped ? backgroundColor : defaultBackgroundColor,
           }}
         >
-          {flipped && <span className="text">{text}</span>}
-        </div>
-      </div>
-    </td>
-  );
+          <div className="black-box">
+            {/* Initial black box */}
+            {/* Content revealed after flipping */}
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+                textAlign: 'center',
+                color: 'black',
+                transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+              }}
+            >
+              {flipped && <span className="text">{text}</span>}
+            </div>
+          </div>
+        </td>
+      );
 };
+
 
 const ResultsTable = ({ dispUsers }) => {
   const defaultURL =
@@ -108,6 +107,11 @@ const ResultsTable = ({ dispUsers }) => {
     }
     return value;
   };
+
+  useEffect(() => {
+    // Scroll to the bottom of the page after each guess
+    window.scrollTo({ top: document.body.scrollHeight + 100, behavior: 'smooth' });
+  }, [dispUsers]);
 
   return (
     <table className="resultsTable">
