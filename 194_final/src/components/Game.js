@@ -272,8 +272,6 @@ export function Game({ currUserGroup }) {
       try {
         const querySnapshot = await getDocs(collection(db, "users"));
 
-        // console.log("curr user group is " + currUserGroup);
-
         const usersData = querySnapshot.docs
           .map((doc) => ({
             id: doc.id,
