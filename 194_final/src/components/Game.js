@@ -372,7 +372,6 @@ export function Game({ currUserGroup }) {
           {!gameFinished && (
             <>
               <h2 className="header">Guess Your Match!</h2>
-              <p className="description">Can you guess who you matched with?</p>
             </>
           )}
           {guessedUsers.length > 0 && (
