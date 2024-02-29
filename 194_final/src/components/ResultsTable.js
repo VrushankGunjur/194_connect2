@@ -96,7 +96,9 @@ const ResultsTable = ({ dispUsers }) => {
       } else {
         return value;
       }
-    } else if (key === "ProfilePhotoURL") {
+    } else if (key === "HomeState") {
+        return value.split(",")[0] + ', ' + value.split(",")[1];
+    }else if (key === "ProfilePhotoURL") {
       return (
         <img
           src={value ? value : defaultURL}
@@ -148,6 +150,10 @@ const ResultsTable = ({ dispUsers }) => {
                 backgroundColor = getBackgroundColor(user[key].disp.color);
                 print_value =
                   traitValue + " " + r_arrow + " " + g_arrow + " " + b_arrow;
+              } else if (key === "HomeState") {
+                const traitValue = formatTrait(key, user[key].data);
+                backgroundColor = getBackgroundColor(user[key].disp.color);
+                print_value = traitValue + ", " + user[key].disp.dist + "mi " + user[key].disp.compassDir;
               } else if (key !== "id") {
                 // Exclude the id and ProfilePhotoURL from rendering as data cells
                 const traitValue = formatTrait(key, user[key].data);

@@ -7,6 +7,40 @@ import ChatBox from "./ChatBox.js"; // Adjust the path as necessary
 import GameDropDown from "./GameDropDown.js";
 import ResultsTable from "./ResultsTable.js";
 
+function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+}
+
+//https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
+function getDistanceLatLong(lat1, lon1, lat2, lon2) {
+    // uses Haversine formula for great-circle distances, returns distance in miles
+
+    const R = 3958.8; // radius of the Earth in miles
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function getCompassDir(lat1, long1, lat2, long2, headX) {
+    
+    var dLat = lat2-lat1;
+    var dLon = long2-long1;
+
+    var radians = Math.atan2(dLon, dLat); 
+    var compassReading = radians * (180 / Math.PI);
+    var coordNames = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"];
+    var coordIndex = Math.round(compassReading / 45);
+    if (coordIndex < 0) {
+        coordIndex = coordIndex + 8
+    };
+
+    return coordNames[coordIndex];
+}
+
 // state
 function diff(trueState, guessState) {
   /*
@@ -38,6 +72,7 @@ function diff(trueState, guessState) {
   let normals = {
     Age: 30,
     Height: 36,
+    Dist: 12432,
   };
 
   let colorCutoffsWord = {
@@ -47,9 +82,10 @@ function diff(trueState, guessState) {
     Ethnicity: 10,
     //FavoriteColor: 20,
     FavoriteSport: 20,
-    HomeState: 10,
+    //HomeState: 10,
     Major: 10,
   };
+
   let colorVals = {
     Red: [255, 0, 0],
     Orange: [255, 87, 51],
@@ -63,6 +99,7 @@ function diff(trueState, guessState) {
     Black: [0, 0, 0],
     Gray: [128, 128, 128],
   };
+
   let majorVals = {
     "Education": 0.010752688172043012,
     "Dance (TAPS Minor)": 0.021505376344086023,
@@ -158,10 +195,12 @@ function diff(trueState, guessState) {
     "Turkish Studies": 0.989247311827957,
     "Human Biology": 1.0,
   };
+
   let resState = {};
 
   for (const key in trueState) {
-    let diff = { dir: 2, color: 1, r: 2, g: 2, b: 2 };
+    // rename diff to 'hints'
+    let diff = { dir: 2, color: 1, r: 2, g: 2, b: 2 , dist: 0, compassDir: ''};
     if (key === "Major") {
       let d = Math.abs(majorVals[trueState[key]] - majorVals[guessState[key]]);
       diff.color = 1 - d;
@@ -191,6 +230,22 @@ function diff(trueState, guessState) {
       diff.r = trueColorRGB[0] === guessColorRGB[0] ? 3 : diff.r;
       diff.g = trueColorRGB[1] === guessColorRGB[1] ? 3 : diff.g;
       diff.b = trueColorRGB[2] === guessColorRGB[2] ? 3 : diff.b;
+    } else if (key === "HomeState") {
+        // guessState is actually the randomly chosen match (?)
+        const trueLat = Number(trueState.HomeState.split(',')[2]);
+        const trueLong = Number(trueState.HomeState.split(',')[3]);
+        const guessLat = Number(guessState.HomeState.split(',')[2]);
+        const guessLong = Number(guessState.HomeState.split(',')[3]);
+        
+        // can't just take vec dist since earth is spherical and wraps around
+        const dist = getDistanceLatLong(trueLat, trueLong, guessLat, guessLong);
+        diff.color = 1 - dist / normals.Dist;
+        diff.dist = dist.toFixed(2);
+
+        // set diff.compassDir
+        diff.compassDir = getCompassDir(trueLat, trueLong, guessLat, guessLong);
+        //console.log(diff.compassDir);
+        console.log(guessState.HomeState);
     } else if (key in colorCutoffsWord) {
       if (trueState[key] !== guessState[key]) {
         diff.color = 0;
@@ -352,6 +407,9 @@ export function Game({ currUserGroup }) {
         dispUser[key].data = guessedUser[key];
         if (key === "Height") {
           dispUser[key].data = formatHeight(guessedUser[key]);
+        } else if (key === "HomeState") {
+            const state = guessedUser[key].split(',');
+            dispUser[key].data = state[0] + ', ' + state[1];
         }
         dispUser[key].disp = resDiffs[key];
       }

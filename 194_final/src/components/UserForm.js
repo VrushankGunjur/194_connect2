@@ -5,7 +5,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useState } from "react";
 import { auth, db, storage } from "../firebase";
 import "../styles/UserForm.css";
-
+import cities from '../data/city-pop-200k.json'
 /*
     submit your information when first signing in
 */
@@ -125,6 +125,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(value);
     // Handle file input separately
     if (name === "file") {
       setFormState((prevState) => ({
@@ -190,6 +191,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
 
         // Now update Firestore document with new profile and possibly other fields
         const { file, ...restOfFormState } = formState; // Destructure to remove 'file'
+        console.log(formState.HomeState);
         const updatedFormState = {
           ...restOfFormState,
           ProfilePhotoURL: photoURL,
@@ -218,6 +220,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
         value={formState.FirstName}
         onChange={handleChange}
       />
+
       <input
         type="text"
         name="LastName"
@@ -225,6 +228,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
         value={formState.LastName}
         onChange={handleChange}
       />
+
       <input
         type="number"
         name="Age"
@@ -232,6 +236,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
         value={formState.Age}
         onChange={handleChange}
       />
+
       <input
         type="text"
         name="Ethnicity"
@@ -243,9 +248,8 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
       <select
         name="FavoriteColor"
         value={formState.FavoriteColor}
-        onChange={handleChange}
-      >
-        <option value="">Select Favorite Color</option>
+        onChange={handleChange}>
+        <option value="">Favorite Color</option>
         <option value="Red">Red</option>
         <option value="Orange">Orange</option>
         <option value="Yellow">Yellow</option>
@@ -266,12 +270,14 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
         value={formState.FavoriteSport}
         onChange={handleChange}
       />
+
       <select name="Gender" value={formState.Gender} onChange={handleChange}>
-        <option value="">Select Gender</option>
+        <option value="">Gender</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
         <option value="Other">Other</option>
       </select>
+
       <input
         type="number"
         name="Height"
@@ -279,21 +285,27 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
         value={formState.Height}
         onChange={handleChange}
       />
-      <input
-        type="text"
-        name="HomeState"
-        placeholder="Home State"
-        value={formState.HomeState}
-        onChange={handleChange}
-      />
+
+      {/* <input type="text" name="HomeState" placeholder="Home State" value={formState.HomeState} onChange={handleChange} /> */}
+      <select name="HomeState" value={formState.HomeState} onChange={handleChange}>
+            <option value="">Nearest Major City</option>
+            {cities.map((city, index) => {
+                return  <option key={index} value={city.name + ',' + city.cou_name_en + ',' + city.coordinates.lat + ',' + city.coordinates.lon}>
+                            {city.name}, {city.cou_name_en}
+                        </option>
+            })}
+      </select>
+
+
       <select name="Major" value={formState.Major} onChange={handleChange}>
-        <option value="">Select Major</option>
+        <option value="">Major</option>
         {majorOptions.map((major) => (
           <option key={major} value={major}>
             {major}
           </option>
         ))}
       </select>
+
       {/* <input type="text" name="Group" placeholder="Group" value={formState.Group} onChange={handleChange} /> */}
       <p class="form-label">Add a Profile Picture:</p>
       <input type="file" name="file" onChange={handleChange} />
