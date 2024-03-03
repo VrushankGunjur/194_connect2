@@ -465,7 +465,12 @@ export function Game({ currUserGroup }) {
           <div className="progress-bar-container">
             <div className="progress-bar" style={{ width: `${100 - propRemainingGuesses}%` }} />
           </div> 
-          <h2 className="Extra Spacing" style={{ margin: '20px 0', color: 'rgba(0, 0, 0, 0)' }}>Connect2</h2>
+          <h2 className="Extra Spacing" style={{ margin: '20px 0', color: 'rgba(0, 0, 0, 0)' }}>⠀</h2>
+          {remainingGuesses === 0 && randomUser && (
+            <h2 className="bottom-header" style={{ fontSize: '40px', color: 'white' }}>
+              Your Match Was: {randomUser.fullName}
+            </h2>
+          )}
         </>
       ) : (
         // Show an error page
