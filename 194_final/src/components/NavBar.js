@@ -146,6 +146,7 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser }) => {
               <li><strong>Colors</strong> beyond red and green show how close your match is to your guess.</li>
             </ul>
             <p>Matches where both users are successful will appear on the leaderboard!</p>
+            <p>Out of guesses? You won't get your match's responses, but will get their contact!</p>
             <button onClick={togglePopup}>GO!</button>
           </div>
         </div>
