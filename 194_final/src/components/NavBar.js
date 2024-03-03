@@ -12,6 +12,7 @@ import { auth, db } from "../firebase";
 import GoogleSignin from "../img/btn_google_signin_dark_pressed_web.png";
 import connect2 from "../img/connect2.png";
 import "../styles/NavBar.css";
+import  infoIcon  from "../img/info_icon.png"; // Import the info icon
 
 const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser }) => {
   const [user] = useAuthState(auth);
@@ -87,6 +88,9 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser }) => {
     signOut(auth).catch((error) => console.error("Error signing out:", error));
   };
 
+  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
+  const togglePopup = () => setShowPopup(!showPopup);
+
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
   const addNewGroup = async () => {
@@ -122,6 +126,30 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser }) => {
     <nav className="nav-bar">
       <img src={connect2} alt="Connect2 Logo" className="logo" />
       <h1 className="titleHeader">Connect2</h1>
+      <button onClick={togglePopup} className="info-btn">
+        <img src={infoIcon} alt="Info Icon" className="info-icon" />
+      </button>
+      {showPopup && (
+        <div className="fullscreen-popup">
+          <div className="popup-content">
+            <h1>Welcome to Connect2!</h1>
+            <p>🎉 Connect2 is designed to help you connect and learn more about others!</p>
+            <ul>
+              <li>Each day, you'll be matched with another user from your group.</li>
+              <li><strong>Your mission:</strong> Guess your match within your allotted guesses.</li>
+            </ul>
+            <h2>Guessing Game Rules</h2>
+            <ul>
+              <li>Each guess will be a person in your current group</li>
+              <li>After each guess, see how your guess compares to your match.</li>
+              <li>🔍 <strong>Arrows</strong> indicate the direction your match is compared to your guess.</li>
+              <li><strong>Colors</strong> beyond red and green show how close your match is to your guess.</li>
+            </ul>
+            <p>Matches where both users are successful will appear on the leaderboard!</p>
+            <button onClick={togglePopup}>GO!</button>
+          </div>
+        </div>
+      )}
       {user ? (
         <div className="nav-right">
           <div className="user-groups">
