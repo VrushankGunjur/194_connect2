@@ -327,7 +327,7 @@ export function Game({ currUserGroup }) {
       try {
         const querySnapshot = await getDocs(collection(db, "users"));
 
-        const usersData = querySnapshot.docs
+        let usersData = querySnapshot.docs
           .map((doc) => ({
             id: doc.id,
             ...doc.data(),
@@ -340,7 +340,14 @@ export function Game({ currUserGroup }) {
               user.id !== currentUserId &&
               user.Group.includes(currUserGroup),
           );
+        
+        //usersData = shuffleArray(usersData);
+        // maybe we want to shuffle, but then we need to figure out how to maintain consistency.
 
+          // Take the first 10 elements from the shuffled array if there are more than 10 users
+        if (usersData.length > 8) {
+            usersData = usersData.slice(0, 8);
+        }
         setUsers(usersData);
         if (usersData.length < 40) {
           setAllowedGuesses(Math.ceil(usersData.length/2));
@@ -359,6 +366,13 @@ export function Game({ currUserGroup }) {
     fetchUsers();
   }, [currentUserId, currUserGroup]); // Re-run when currentUserId changes
 
+  // function shuffleArray(array) {
+  //   for (let i = array.length - 1; i > 0; i--) {
+  //     const j = Math.floor(Math.random() * (i + 1));
+  //     [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+  //   }
+  //   return array;
+  // }
   // Helper function to convert height from inches to feet and inches format
   const formatHeight = (inches) => {
     const feet = Math.floor(inches / 12);
@@ -417,7 +431,7 @@ export function Game({ currUserGroup }) {
     }
     setSelectedUserId(""); // Reset for next guess
   };
-  return (
+  return (    
     <div className="gameContainer">
       {currUserGroup && users.length === 0 && !gameFinished ? (
         <>
