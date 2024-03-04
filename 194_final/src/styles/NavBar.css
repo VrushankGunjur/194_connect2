@@ -74,6 +74,21 @@
     color: #2C3E50;
   }
 
+  .edit-profile-btn {
+    background: none;
+    border: 2px solid #ECF0F1;
+    padding: 0.5em 1em;
+    border-radius: 15px;
+    color: #ECF0F1;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin-right: 10px; /* Adds space between this button and other elements */
+  }
+  
+  .edit-profile-btn:hover {
+    background-color: #ECF0F1;
+    color: #2C3E50;
+  }
   /* Add these styles to your existing CSS file or create a new one */
 
   .fullscreen-popup {

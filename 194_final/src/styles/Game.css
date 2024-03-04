@@ -30,6 +30,21 @@
     margin-bottom: 20px;
   }
   
+  .update-profile {
+    background: none;
+    border: 2px solid #ECF0F1;
+    padding: 0.5em 1em;
+    border-radius: 15px;
+    color: #ECF0F1;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin-left: 1em; /* Adds space between the update profile and the sign-out buttons */
+  }
+  
+  .update-profile:hover {
+    background-color: #ECF0F1;
+    color: #2C3E50;
+  }
   .guessButton {
     background-color: #007bff;
     color: white;

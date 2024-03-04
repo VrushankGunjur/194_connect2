@@ -87,11 +87,16 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser }) => {
   const handleSignOut = () => {
     signOut(auth).catch((error) => console.error("Error signing out:", error));
   };
+  const handleUpdateProfile = () => {
+    // Logic to open profile update modal or navigate to profile update component
+  };
 
   const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
   const togglePopup = () => setShowPopup(!showPopup);
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
+
+  
 
   const addNewGroup = async () => {
     if (!user) {
@@ -173,11 +178,14 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser }) => {
                   <div className="dropdown-item">No groups found</div>
                 )}
                 <div className="dropdown-item" onClick={addNewGroup}>
-                  + Add New Group
+                  + Add New Group 
                 </div>
               </div>
             )}
           </div>
+          <button onClick={handleUpdateProfile} className="update-profile" type="button">
+            Update Profile
+          </button>
           <button onClick={handleSignOut} className="sign-out" type="button">
             Sign Out
           </button>
