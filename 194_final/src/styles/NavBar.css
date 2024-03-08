@@ -42,15 +42,24 @@
     z-index: 1;
   }
   
+
   .user-groups:hover .dropdown-content {
     display: block;
   }
+
   
   .dropdown-item {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for background and text color */
+  }
+  
+  .dropdown-item:hover {
+    background-color: #2C3E50; /* Change the background color on hover */
+    color: #ECF0F1; /* Light text color for contrast */
+    cursor: pointer; /* Change cursor to indicate clickable items */
   }
   
   .user-groups-btn, .sign-out, .sign-in {
@@ -74,21 +83,7 @@
     color: #2C3E50;
   }
 
-  .edit-profile-btn {
-    background: none;
-    border: 2px solid #ECF0F1;
-    padding: 0.5em 1em;
-    border-radius: 15px;
-    color: #ECF0F1;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    margin-right: 10px; /* Adds space between this button and other elements */
-  }
   
-  .edit-profile-btn:hover {
-    background-color: #ECF0F1;
-    color: #2C3E50;
-  }
   /* Add these styles to your existing CSS file or create a new one */
 
   .fullscreen-popup {
