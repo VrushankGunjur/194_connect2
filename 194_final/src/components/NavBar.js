@@ -14,7 +14,7 @@ import connect2 from "../img/connect2.png";
 import "../styles/NavBar.css";
 import  infoIcon  from "../img/info_icon.png"; // Import the info icon
 
-const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser }) => {
+const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue }) => {
   const [user] = useAuthState(auth);
   const [showDropdown, setShowDropdown] = useState(false);
   const [userGroups, setUserGroups] = useState([]); // State to hold user groups
@@ -87,9 +87,7 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser }) => {
   const handleSignOut = () => {
     signOut(auth).catch((error) => console.error("Error signing out:", error));
   };
-  const handleUpdateProfile = () => {
-    // Logic to open profile update modal or navigate to profile update component
-  };
+
 
   const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
   const togglePopup = () => setShowPopup(!showPopup);
@@ -183,7 +181,7 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser }) => {
               </div>
             )}
           </div>
-          <button onClick={handleUpdateProfile} className="update-profile" type="button">
+          <button onClick={updateProfileTrue} className="update-profile" type="button">
             Update Profile
           </button>
           <button onClick={handleSignOut} className="sign-out" type="button">

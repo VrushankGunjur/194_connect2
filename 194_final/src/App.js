@@ -6,6 +6,7 @@ import LoadingPage from "./components/LoadingPage";
 import NavBar from "./components/NavBar";
 import UserForm from "./components/UserForm";
 import Welcome from "./components/Welcome";
+import UserProfile from "./components/ProfilePage";
 import { auth, db } from "./firebase"; // Ensure db is imported
 import "./styles/App.css";
 
@@ -15,12 +16,21 @@ function App() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [loadingUserCheck, setLoadingUserCheck] = useState(true); // Separate loading state for user check
   const [currUserGroup, setCurrUserGroup] = useState("Global");
+  const [updateProfile, setUpdateProfile] = useState(false);
 
   // console.log("current user group in app is ", currUserGroup);
   // console.log(currUserGroup)
 
   const handleUserGroupChange = (newUserGroup) => {
     setCurrUserGroup(newUserGroup);
+  };
+
+  const updateProfileTrue = () => {
+    setUpdateProfile(true);
+  };
+
+  const updateProfileFalse = () => {
+    setUpdateProfile(false);
   };
 
   useEffect(() => {
@@ -66,12 +76,17 @@ function App() {
           currUserGroup={currUserGroup}
           setCurrUserGroup={handleUserGroupChange}
           isNewUser={isNewUser}
+          updateProfileTrue={updateProfileTrue}
         />
       ) : null}
       {!user ? (
         <Welcome onSignInComplete={setIsNewUser} />
       ) : isNewUser ? (
         <UserForm onFormSubmit={setFormSubmitted} setIsNewUser={setIsNewUser} />
+      ) : updateProfile ? (
+        <UserProfile
+        updateProfileFalse={updateProfileFalse}
+        />
       ) : (
         <Game
           currUserGroup={currUserGroup}

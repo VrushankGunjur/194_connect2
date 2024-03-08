@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
-// Uncomment the next line if you have CSS styles defined
 // import "../styles/UserProfile.css";
 
-const UserProfile = () => {
+const UserProfile = ({updateProfileFalse}) => {
   const [userProfile, setUserProfile] = useState({
     ProfilePhotoURL: "",
     FirstName: "",
@@ -62,6 +61,8 @@ const UserProfile = () => {
     } else {
       alert("No user logged in.");
     }
+    updateProfileFalse();
+    console.log("handled submit");
   };
 
   return (

@@ -284,6 +284,7 @@ export function Game({ currUserGroup }) {
   const [remainingGuesses, setRemainingGuesses] = useState(20);
   const [allowedGuesses, setAllowedGuesses] = useState(20);
   const [propRemainingGuesses, setPropRemainingGuesses] = useState(100);
+  const [updatingProfile, setUpdatingProfile] = useState(false);
 
   let dispFeatures = [
     "ProfilePhotoURL",
