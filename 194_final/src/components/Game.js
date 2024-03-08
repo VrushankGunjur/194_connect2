@@ -282,7 +282,7 @@ export function Game({ currUserGroup }) {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [gameFinished, setGameFinished] = useState(false);
   const [remainingGuesses, setRemainingGuesses] = useState(20);
-  const [allowedGuesses, setAllowedGuesses] = useState(20);
+  const [allowedGuesses, setAllowedGuesses] = useState(6);
   const [propRemainingGuesses, setPropRemainingGuesses] = useState(100);
 
   let dispFeatures = [
@@ -337,7 +337,7 @@ export function Game({ currUserGroup }) {
           .filter(
             (user) =>
               user.NewUser === false &&
-              user.id !== currentUserId &&
+            //   user.id !== currentUserId &&
               user.Group.includes(currUserGroup),
           );
         
@@ -345,18 +345,37 @@ export function Game({ currUserGroup }) {
         // maybe we want to shuffle, but then we need to figure out how to maintain consistency.
 
           // Take the first 10 elements from the shuffled array if there are more than 10 users
-        if (usersData.length > 8) {
-            usersData = usersData.slice(0, 8);
-        }
-        setUsers(usersData);
-        if (usersData.length < 40) {
-          setAllowedGuesses(Math.ceil(usersData.length/2));
-          setRemainingGuesses(Math.ceil(usersData.length/2));
-        }
+        // if (usersData.length > 8) {
+        //     usersData = usersData.slice(0, 8);
+        // }
+        // setUsers(usersData);
+        // if (usersData.length < 40) {
+        //   setAllowedGuesses(Math.ceil(usersData.length/2));
+        //   setRemainingGuesses(Math.ceil(usersData.length/2));
+        // }
+
+
+
         if (usersData.length > 0) {
-          const randomIndex = Math.floor(Math.random() * usersData.length);
-          setRandomUser(usersData[randomIndex]);
+          // get our user object, retrieve the match, set random user to the usersData[i] that matches the match
+          var matchId;
+          for (const user of usersData) {
+            if (user.id === currentUserId) {
+                matchId = user.matchId;
+                break;
+            }
+          }
+          const matchedUser = usersData.find((user) => user.id === matchId);
+          console.log(matchedUser);
+          setRandomUser(matchedUser);
+          usersData = usersData.filter((user) => user.id !== currentUserId && user.id !== matchId);
+          const shuffledArray = usersData.sort((a, b) => 0.5 - Math.random()).slice(0, 10);
+          shuffledArray[Math.floor(Math.random() * 9)] = matchedUser;
+          console.log(shuffledArray);
+          setUsers(shuffledArray);
+          //setRandomUser(usersData[randomIndex]);
         }
+
       } catch (error) {
         console.error("Error fetching users:", error);
         setFeedback("Failed to load users.");
