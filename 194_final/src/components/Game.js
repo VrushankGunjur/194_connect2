@@ -346,9 +346,9 @@ export function Game({ currUserGroup }) {
         // maybe we want to shuffle, but then we need to figure out how to maintain consistency.
 
           // Take the first 10 elements from the shuffled array if there are more than 10 users
-        if (usersData.length > 8) {
-            usersData = usersData.slice(0, 8);
-        }
+        // if (usersData.length > 8) {
+        //     usersData = usersData.slice(0, 8);
+        // }
         setUsers(usersData);
         if (usersData.length < 40) {
           setAllowedGuesses(Math.ceil(usersData.length/2));
