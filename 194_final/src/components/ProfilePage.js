@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
-// import "../styles/UserProfile.css";
+import "../styles/UserProfile.css";
 
 const UserProfile = ({updateProfileFalse}) => {
   const [userProfile, setUserProfile] = useState({
@@ -19,6 +19,102 @@ const UserProfile = ({updateProfileFalse}) => {
     Group: "Global", // Assuming this is a single value for simplicity
     IsNewUser: true,
   });
+
+  let majorOptions = [
+    "Aerospace Engineering",
+    "African Studies",
+    "African and African American Studies",
+    "American Studies",
+    "Anthropology",
+    "Applied and Engineering Physics",
+    "Art History",
+    "Art Practice",
+    "Asian American Studies",
+    "Atmospheric / Energy",
+    "Bioengineering",
+    "Biology",
+    "Biomechanical Engineering",
+    "Biomedical Computation",
+    "Chemical Engineering",
+    "Chemistry",
+    "Chicana/o - Latina/o Studies",
+    "Chinese Studies",
+    "Classics",
+    "Communication",
+    "Community Health and Prevention Research",
+    "Comparative Literature",
+    "Comparative Studies in Race and Ethnicity",
+    "Computer Science",
+    "Dance (TAPS Minor)",
+    "Data Science",
+    "Democracy, Development, and the Rule of Law",
+    "Digital Humanities",
+    "Earth Systems",
+    "East Asian Studies",
+    "Education",
+    "Electrical Engineering",
+    "Energy Resources Engineering",
+    "Engineering Physics",
+    "English",
+    "Environmental Systems Engineering",
+    "Ethics in Society",
+    "Film and Media Studies",
+    "French",
+    "Gender, and Sexuality Studies",
+    "German Studies",
+    "Global Studies",
+    "History",
+    "Honors in the Arts",
+    "Human Biology",
+    "Human Rights",
+    "Iberian and Latin American Cultures",
+    "International Policy Studies",
+    "International Relations",
+    "International Security Studies",
+    "Iranian Studies",
+    "Islamic Studies",
+    "Italian",
+    "Japanese",
+    "Jewish Studies",
+    "Korean",
+    "Laboratory Animal Science",
+    "Latin American Studies",
+    "Linguistics",
+    "Management Science and Engineering",
+    "Materials Science and Engineering",
+    "Mathematics",
+    "Mechanical Engineering",
+    "Medieval Studies",
+    "Middle Eastern Language, Literature and Culture",
+    "Modern Languages",
+    "Modern Thought and Literature",
+    "Music",
+    "Music, Science, and Technology",
+    "Native American Studies",
+    "Philosophy",
+    "Philosophy and Religious Studies",
+    "Physics",
+    "Political Science",
+    "Portuguese",
+    "Product Design",
+    "Psychology",
+    "Public Policy",
+    "Religious Studies",
+    "Russian Studies",
+    "Science, Technology, and Society",
+    "Slavic Languages and Literatures",
+    "Sociology",
+    "South Asian Studies",
+    "Spanish",
+    "Statistics",
+    "Sustainability",
+    "Symbolic Systems",
+    "Theater and Performance Studies",
+    "Translation Studies",
+    "Turkish Studies",
+    "Urban Studies",
+    "Women's Studies",
+  ];
 
   const currentUser = auth.currentUser;
 
@@ -133,8 +229,12 @@ const UserProfile = ({updateProfileFalse}) => {
           placeholder="Home State"
         />
         <select name="Major" value={userProfile.Major} onChange={handleChange}>
-          <option value="">Major</option>
-          {/* ... your major options here ... */}
+        <option value="">Major</option>
+        {majorOptions.map((major) => (
+          <option key={major} value={major}>
+            {major}
+          </option>
+        ))}
         </select>
         <button type="submit">Save Changes</button>
       </form>

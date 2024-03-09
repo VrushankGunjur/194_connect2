@@ -281,7 +281,7 @@ export function Game({ currUserGroup }) {
   const [dispUsers, setDispUsers] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [gameFinished, setGameFinished] = useState(false);
-  const [remainingGuesses, setRemainingGuesses] = useState(20);
+  const [remainingGuesses, setRemainingGuesses] = useState(6);
   const [allowedGuesses, setAllowedGuesses] = useState(6);
   const [propRemainingGuesses, setPropRemainingGuesses] = useState(100);
   const [updatingProfile, setUpdatingProfile] = useState(false);
