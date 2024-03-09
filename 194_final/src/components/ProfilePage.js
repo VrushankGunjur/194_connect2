@@ -3,7 +3,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import "../styles/UserProfile.css";
 
-const UserProfile = ({updateProfileFalse}) => {
+const UserProfile = ({ updateProfileFalse }) => {
   const [userProfile, setUserProfile] = useState({
     ProfilePhotoURL: "",
     FirstName: "",
@@ -18,6 +18,7 @@ const UserProfile = ({updateProfileFalse}) => {
     Major: "",
     Group: "Global", // Assuming this is a single value for simplicity
     IsNewUser: true,
+    HotTake: "", // Added HotTake to the initial state
   });
 
   let majorOptions = [
@@ -227,6 +228,13 @@ const UserProfile = ({updateProfileFalse}) => {
           value={userProfile.HomeState}
           onChange={handleChange}
           placeholder="Home State"
+        />
+          <input
+          type="text"
+          name="HotTake"
+          value={userProfile.HotTake}
+          onChange={handleChange}
+          placeholder="Hot Take"
         />
         <select name="Major" value={userProfile.Major} onChange={handleChange}>
         <option value="">Major</option>

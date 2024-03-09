@@ -5,36 +5,31 @@ import {
   doc,
   getDocs,
   updateDoc,
-} from "firebase/firestore"; // Import arrayUnion
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
 import GoogleSignin from "../img/btn_google_signin_dark_pressed_web.png";
 import connect2 from "../img/connect2.png";
 import "../styles/NavBar.css";
-import  infoIcon  from "../img/info_icon.png"; // Import the info icon
+import infoIcon from "../img/info_icon.png";
 
 const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue }) => {
   const [user] = useAuthState(auth);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [userGroups, setUserGroups] = useState([]); // State to hold user groups
+  const [userGroups, setUserGroups] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
 
   const updateGroup = (newGroup) => {
     console.log("trying to update group to:", newGroup);
-    setCurrUserGroup(newGroup); // Assuming setCurrUserGroup is received via props from App
+    setCurrUserGroup(newGroup);
   };
-
-  // useEffect(() => {
-  //   console.log(userGroups); // To check if userGroups updates as expected
-  // }, [userGroups]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setCurrentUserId(user.uid); // Use 'uid' instead of 'id'
+        setCurrentUserId(user.uid);
       } else {
-        // User is signed out
         setCurrentUserId(null);
       }
     });
@@ -49,7 +44,6 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue 
       try {
         const querySnapshot = await getDocs(collection(db, "users"));
 
-        // Extract current user data to find the current user's group
         const currUserData = querySnapshot.docs
           .map((doc) => ({
             id: doc.id,
@@ -58,24 +52,16 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue 
           .filter((user) => user.id === currentUserId);
 
         if (currUserData.length > 0 && !isNewUser) {
-          // const currUserGroup = currUserData[0].Group;
-
           console.log("Current user's group:", currUserGroup);
-          // Add the current user's group to the userGroups state
-          console.log("prev groups are", userGroups);
           setUserGroups((prevGroups) => [...prevGroups, currUserGroup]);
-          console.log("user groups are, in useeffect, " + userGroups);
-
-          console.log("user groups are, in useeffect, " + userGroups);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
-        // Handle error
       }
     };
 
     fetchUsers();
-  }, [currentUserId, isNewUser]); // Dependency array includes user to re-fetch groups when user state changes
+  }, [currentUserId, isNewUser]);
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
@@ -88,13 +74,10 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue 
     signOut(auth).catch((error) => console.error("Error signing out:", error));
   };
 
-
-  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
+  const [showPopup, setShowPopup] = useState(false);
   const togglePopup = () => setShowPopup(!showPopup);
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
-
-  
 
   const addNewGroup = async () => {
     if (!user) {
@@ -109,16 +92,12 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue 
           alert(`You're already in group ${groupName}.`);
           throw new Error(`${groupName} is already in your groups.`);
         }
-        // Update the user document in Firestore to add the group
         const userDocRef = doc(db, "users", user.uid);
         await updateDoc(userDocRef, {
-          Group: arrayUnion(groupName), // Use arrayUnion here
+          Group: arrayUnion(groupName),
         });
-        setCurrUserGroup(groupName); // Set the current user's group (if needed in the parent component
-        // Update userGroups state with the new group
+        setCurrUserGroup(groupName);
         setUserGroups((prevGroups) => [...prevGroups, groupName]);
-        console.log("user groups are" + userGroups);
-        console.log("ADDING NEW GROUP IS DONE");
       } catch (error) {
         console.error("Error adding new group:", error);
       }
@@ -163,20 +142,22 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue 
             {showDropdown && userGroups && (
               <div className="dropdown-content">
                 {userGroups.length > 0 ? (
-                  userGroups.map((group, index) => (
-                    <div
-                      key={index}
-                      className="dropdown-item"
-                      onClick={() => updateGroup(group)}
-                    >
-                      {group}
-                    </div>
-                  ))
+                  userGroups
+                    .filter(group => group !== "Global") // Exclude the "Global" group
+                    .map((group, index) => (
+                      <div
+                        key={index}
+                        className="dropdown-item"
+                        onClick={() => updateGroup(group)}
+                      >
+                        {group}
+                      </div>
+                    ))
                 ) : (
                   <div className="dropdown-item">No groups found</div>
                 )}
                 <div className="dropdown-item" onClick={addNewGroup}>
-                  + Add New Group 
+                  + Add New Group
                 </div>
               </div>
             )}

@@ -25,6 +25,7 @@ const Welcome = ({ onSignInComplete }) => {
             FavoriteSport: "",
             Gender: "",
             Height: "",
+            HotTake: "",
             HomeTown: "",
             Major: "",
             NewUser: true,
