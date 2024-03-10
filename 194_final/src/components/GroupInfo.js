@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { doc, getDoc, updateDoc, arrayRemove } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore';
 import { db } from '../firebase'; 
 import "../styles/GroupInfo.css"; 
 
@@ -75,6 +75,42 @@ const GroupInfo = ({ user, onGroupChange }) => {
       alert("Failed to leave the group. Please try again.");
     }
   };
+
+  const promoteToAdmin = async (userId) => {
+    if (!user) {
+      console.error("No user logged in.");
+      return;
+    }
+  
+    // Ensure the current user is an admin of the group before proceeding.
+    if (!group.admin.includes(user.uid)) {
+      alert("You're not authorized to promote members to admin.");
+      return;
+    }
+  
+    // Ensure the user to be promoted is a member of the group.
+    if (!group.members.includes(userId)) {
+      alert("The user to be promoted is not a member of the group.");
+      return;
+    }
+  
+    try {
+      // Reference to the group document.
+      const groupRef = doc(db, "groups", groupCode);
+  
+      // Add the user to the group's 'admin' field.
+      await updateDoc(groupRef, {
+        admin: arrayUnion(userId),
+      });
+  
+  
+      alert("User promoted to admin successfully.");
+    } catch (error) {
+      console.error("Error promoting user to admin:", error);
+      alert("Failed to promote user to admin.");
+    }
+  };
+  
   
 
   const fetchMembersInfo = async (members) => {
@@ -155,7 +191,13 @@ const GroupInfo = ({ user, onGroupChange }) => {
         {membersInfo.map((member) => (
           <li key={member.id} className="member-item">
             {member.FirstName} {member.LastName}
-            {user && group.admin.includes(user.uid) && (
+            {group.admin.includes(member.id) && (
+              <span className="admin-indicator">(Admin)</span>
+            )}
+            {user && group.admin.includes(user.uid) && !group.admin.includes(member.id) && (
+              <button onClick={() => promoteToAdmin(member.id)} className="promote-button">Promote</button>
+            )}
+            {user && group.admin.includes(user.uid) && member.id != user.uid && (
               <button onClick={() => removeUser(member.id)} className="remove-button">Remove</button>
             )}
           </li>
@@ -164,7 +206,7 @@ const GroupInfo = ({ user, onGroupChange }) => {
       {/* Leave Group Button - Do not show if the user is the only admin */}
       {user && group.members.includes(user.uid) && !(group.admin.length === 1 && group.admin.includes(user.uid)) && (
         <button onClick={leaveGroup} className="leave-group-button">Leave Group</button>
-      )}
+      )}  
     </div>
   </>
 )}

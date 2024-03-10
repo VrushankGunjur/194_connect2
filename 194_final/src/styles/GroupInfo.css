@@ -39,6 +39,7 @@
     padding: 10px;
     border-radius: 5px;
     transition: background-color 0.2s ease;
+    position: relative;
   }
   
   .member-item:not(:last-child) {
@@ -57,6 +58,18 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    margin-left: auto;
+  }
+
+  .promote-button {
+    padding: 6px 12px;
+    background-color: #006400;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-left: auto; 
   }
   
   .remove-button:hover {
@@ -72,4 +85,8 @@
     border-radius: 4px;
     cursor: pointer;
   }
-  
+  .admin-indicator {
+    color: #006400; /* Green color for the admin indicator */
+    font-weight: bold;
+    margin-right: auto; /* Add some space between the member's name and the indicator */
+  }
