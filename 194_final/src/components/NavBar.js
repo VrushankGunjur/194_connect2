@@ -184,11 +184,17 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue,
   }, [user]);
   return (
     <nav className="nav-bar">
-      <img src={connect2} onClick={() => imageClick()} alt="Connect2 Logo" className="logo" />
-      <h1 className="titleHeader">Connect2</h1>
-      <button onClick={togglePopup} className="info-btn">
-        <img src={infoIcon} alt="Info Icon" className="info-icon" />
-      </button>
+      <div className="nav-left">
+        <button onClick={togglePopup} className="info-btn">
+          <img src={infoIcon} alt="Info Icon" className="info-icon" />
+        </button>
+      </div>
+      <div className="logo-and-title">
+        <img src={connect2} onClick={() => imageClick()} alt="Connect2 Logo" className="logo" />
+        <h1>Connect2</h1>
+      </div>
+      <div className="nav-right">
+        
       {showPopup && (
         <div className="fullscreen-popup">
           <div className="popup-content">
@@ -213,11 +219,11 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue,
       )}
       {user ? (
         <div className="nav-right">
+          {userGroups && (
           <div className="user-groups">
             <button onClick={toggleDropdown} className="user-groups-btn">
               User Groups
             </button>
-            {showDropdown && userGroups && (
               <div className="dropdown-content">
                 {userGroups.length > 0 ? (
                   userGroups.map((group) => (
@@ -241,12 +247,13 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue,
                 <div className="dropdown-item" onClick={openAddGroupPage}>+ Join Group</div>
                 <div className="dropdown-item" onClick={openCreateGroupPage}>+ Create Group</div>
               </div>
-            )}
-
           </div>
+          )}
+          {!user.NewUser && (
           <button onClick={updateProfile} className="update-profile" type="button">
             Update Profile
           </button>
+          )}
           <button onClick={handleSignOut} className="sign-out" type="button">
             Sign Out
           </button>
@@ -256,6 +263,7 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue,
           <img src={GoogleSignin} alt="Sign in with Google" />
         </button>
       )}
+      </div>
     </nav>
   );
 };

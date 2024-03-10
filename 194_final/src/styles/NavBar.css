@@ -1,27 +1,52 @@
 /* NavBar.css */
 .nav-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: .5em .5em;
-    background-color: #1c2c4c;
-    color: #fff;
-    position: relative;
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* This should keep the logo-and-title centered */
+  padding: 0.5em;
+  background-color: #1c2c4c;
+  color: #fff;
+}
+
+.logo-and-title {
+  display: flex;
+  align-items: center;
+  color: #ECF0F1;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  /* Removed margin: 0; to allow centering */
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+/* Ensure nav-left and nav-right take up equal space for centering logo-and-title */
+.nav-left, .nav-right {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* Adjust this as needed for your content alignment */
+}
+
+.nav-left {
+  justify-content: flex-start; /* Align the logo-and-title to the left */
+}
+
+.nav-right {
+  justify-content: flex-end; /* Align the user groups and sign-in/sign-out to the right */
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+  flex-shrink: 0;
+}
   .logo {
     height: 50px; /* Adjust based on your logo's aspect ratio */
+    align-items: center;
     width: auto;
     flex-shrink: 0; /* Prevent the logo from shrinking */
-  }
-  
-  .titleHeader {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #ECF0F1;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    margin: 0;
   }
   
   .nav-right {
@@ -88,34 +113,57 @@
   }
 
   
-  /* Add these styles to your existing CSS file or create a new one */
-
   .fullscreen-popup {
     position: fixed;
     top: 0;
     left: 0;
-    width: 110%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Light blue background with higher opacity */
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75); /* Dark background with opacity for contrast */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Ensure it's on top of other elements */
+    z-index: 1000; /* Ensures the popup is on top */
+    padding: 20px; /* Adds some padding around the popup content */
   }
   
   .popup-content {
-    background: #3498db; /* Blue background */
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    max-width: 630px;
-    color: #ecf0f1; /* Light gray text color */
-    font-family: 'Roboto', sans-serif; /* Use a modern sans-serif font */
-    font-size: 16px; /* Standard font size */
-    line-height: 1.6; /* Set the line height */
+    background: #ffffff; /* Light background for the content */
+    border-radius: 8px; /* Rounded corners for modern look */
+    padding: 40px; /* Ample padding for readability */
+    max-width: 600px; /* Maximum width for the popup */
+    width: 100%; /* Full width but respecting the max-width */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-align: center; /* Center the text */
+    color: #333; /* Dark text for contrast */
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif; /* Modern, readable font */
   }
-
-/* Add any additional styles as needed */
+  
+  .popup-content h1 {
+    color: #2C3E50; /* Darker color for headings */
+    margin-bottom: 20px; /* Space below the heading */
+  }
+  
+  .popup-content p, .popup-content ul {
+    margin-bottom: 20px; /* Space between paragraphs and list */
+    line-height: 1.6; /* Improve readability */
+  }
+  
+  .popup-content button {
+    background-color: #4CAF50; /* Pleasant green background */
+    color: #ffffff; /* White text */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding for button */
+    border-radius: 5px; /* Rounded corners for the button */
+    cursor: pointer; /* Change cursor to pointer */
+    font-size: 16px; /* Readable font size */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+  }
+  
+  .popup-content button:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+  }
+  
 
 .info-btn {
   /* Add any existing styles for the button */

@@ -2,6 +2,8 @@ import React from "react";
 import Select from "react-select";
 import "../styles/GameDropDown.css";
 
+const defaultPhotoURL = "https://firebasestorage.googleapis.com/v0/b/cs194-e95a9.appspot.com/o/profilePictures%2Flogo.png?alt=media&token=8dd2a541-8857-4ea2-a6b8-66d53fd8caea"
+
 const GameDropDown = ({ users, onChange, value }) => {
   // Map users to options for React Select
   const options = users.map((user) => ({
@@ -9,7 +11,7 @@ const GameDropDown = ({ users, onChange, value }) => {
     label: user.fullName, // Assuming each user has a `fullName` property
     photoURL: user.ProfilePhotoURL
       ? user.ProfilePhotoURL
-      : "https://firebasestorage.googleapis.com/v0/b/cs194-e95a9.appspot.com/o/profilePictures%2Flogo.png?alt=media&token=8dd2a541-8857-4ea2-a6b8-66d53fd8caea",
+      : defaultPhotoURL,
   }));
 
   // Define a custom option component to display the image and label

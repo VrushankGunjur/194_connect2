@@ -1,92 +1,105 @@
 .group-info-container {
-    max-width: 600px;
-    min-height: 80vh;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .group-info-header {
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .group-info-content {
-    margin-top: 20px;
-  }
-  
-  .group-name,
-  .group-code {
-    color: #555;
-    font-size: 18px;
-    margin: 10px 0;
-  }
-  
-  .members-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-  }
-  
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.group-info-header {
+  color: #2C3E50;
+  border-bottom: 2px solid #2C3E50;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.group-info-content {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.group-name, .group-code {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.members-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+}
+.button-container {
+  margin-left: auto; /* This will push the button container to the far right */
+}
+
+.member-profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 15px;
+  object-fit: cover;
+}
+
+.admin-indicator {
+  margin-left: 10px;
+  background: #4CAF50;
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+}
+
+.promote-button, .remove-button, .leave-group-button {
+  background: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.875rem;
+  margin: 4px 2px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.remove-button {
+  background: #E74C3C;
+}
+
+.promote-button:hover,
+.remove-button:hover,
+.leave-group-button:hover {
+  opacity: 0.8;
+}
+
+/* Additional styling for visual spacing */
+p {
+  line-height: 1.6;
+}
+
+/* Style adjustments for responsive layout */
+@media (max-width: 768px) {
   .member-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background-color 0.2s ease;
-    position: relative;
-  }
-  
-  .member-item:not(:last-child) {
-    margin-bottom: 10px;
-  }
-  
-  .member-item:hover {
-    background-color: #f9f9f9;
-  }
-  
-  .remove-button {
-    padding: 6px 12px;
-    background-color: #ff4b5c;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    margin-left: auto;
+    flex-direction: column;
+    align-items: start;
   }
 
-  .promote-button {
-    padding: 6px 12px;
-    background-color: #006400;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    margin-left: auto; 
-  }
-  
-  .remove-button:hover {
-    background-color: #ff2e4a;
-  }
-  
-  .leave-group-button {
-    padding: 10px 20px;
-    margin-top: 20px;
-    background-color: #f44336; /* Red color for the leave action */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .admin-indicator {
-    color: #006400; /* Green color for the admin indicator */
-    font-weight: bold;
-    margin-right: auto; /* Add some space between the member's name and the indicator */
-  }
+  .promote-button, .remove-button {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;}
+}
