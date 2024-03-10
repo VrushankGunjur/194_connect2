@@ -356,7 +356,6 @@ export function Game({ currUserGroup }) {
         // }
 
 
-
         if (usersData.length > 0) {
           // get our user object, retrieve the match, set random user to the usersData[i] that matches the match
           var matchId;
@@ -370,11 +369,15 @@ export function Game({ currUserGroup }) {
           console.log(matchedUser);
           setRandomUser(matchedUser);
           usersData = usersData.filter((user) => user.id !== currentUserId && user.id !== matchId);
+          console.log("usersData length: ", usersData.length);
           const shuffledArray = usersData.sort((a, b) => 0.5 - Math.random()).slice(0, 10);
           shuffledArray[Math.floor(Math.random() * 9)] = matchedUser;
-          console.log(shuffledArray);
           setUsers(shuffledArray);
-          //setRandomUser(usersData[randomIndex]);
+          console.log("usersdata length: ", usersData.length);
+          console.log("usersdata is : ", usersData);
+          if (usersData.length < 1) {
+            setUsers([]);
+          }
         }
 
       } catch (error) {
@@ -451,12 +454,17 @@ export function Game({ currUserGroup }) {
     }
     setSelectedUserId(""); // Reset for next guess
   };
+
+  console.log("Number of users in group:", users.length);
+
+
+
   return (    
     <div className="gameContainer">
       {currUserGroup && users.length === 0 && !gameFinished ? (
         <>
           <h2 className="header">
-            No users in group {currUserGroup}! Invite others to join.
+            No users in this group! Invite others to join using the code {currUserGroup}.
           </h2>
         </>
       ) : randomUser ? (
@@ -506,6 +514,12 @@ export function Game({ currUserGroup }) {
             </h2>
           )}
         </>
+      ) : users.length < 2 ? (
+        // Show a specific error message if matchId is null
+        <h2 className="header">No one else is in the group!</h2>
+      ) : selectedUserId === "" ? (
+        // Show a specific error message if matchId is null
+        <h2 className="header">No match has been made yet!</h2>
       ) : (
         // Show an error page
         <h2 className="header">There is an error, please reload the page!</h2>

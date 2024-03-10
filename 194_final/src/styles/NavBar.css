@@ -52,9 +52,13 @@
     color: black;
     padding: 12px 16px;
     text-decoration: none;
-    display: block;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for background and text color */
+    display: flex; /* Changed from 'block' to 'flex' for Flexbox layout */
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Keep your smooth transitions */
   }
+  
   
   .dropdown-item:hover {
     background-color: #2C3E50; /* Change the background color on hover */
@@ -126,4 +130,11 @@
   width: 30px; /* Adjust the width of the icon */
   height: 30px; /* Adjust the height of the icon */
   display: block;
+}
+
+.info-icon-groups {
+  cursor: pointer;
+  margin-left: auto; /* Pushes the icon to the far right */
+  width: 20px; /* Adjusted size */
+  height: 20px; /* Adjusted size */
 }

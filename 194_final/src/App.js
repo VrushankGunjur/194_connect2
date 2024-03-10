@@ -1,99 +1,121 @@
-import { doc, getDoc } from "firebase/firestore"; // Import getDoc for reading documents
-import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { Game } from "./components/Game";
-import LoadingPage from "./components/LoadingPage";
-import NavBar from "./components/NavBar";
-import UserForm from "./components/UserForm";
-import Welcome from "./components/Welcome";
-import UserProfile from "./components/ProfilePage";
-import { auth, db } from "./firebase"; // Ensure db is imported
-import "./styles/App.css";
+// Import necessary elements from react-router-dom
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate
+} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { Game } from './components/Game';
+import LoadingPage from './components/LoadingPage';
+import NavBar from './components/NavBar';
+import UserForm from './components/UserForm';
+import Welcome from './components/Welcome';
+import UserProfile from './components/ProfilePage';
+import { auth, db } from './firebase';
+import './styles/App.css';
+import CreateGroup from './components/CreateGroup';
+import GroupInfo from './components/GroupInfo';
+import AddGroup from './components/AddGroup';
 
 function App() {
-  const [user, loadingAuth] = useAuthState(auth); // useAuthState might also indicate loading
+  const [user, loadingAuth] = useAuthState(auth);
   const [isNewUser, setIsNewUser] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [loadingUserCheck, setLoadingUserCheck] = useState(true); // Separate loading state for user check
-  const [currUserGroup, setCurrUserGroup] = useState("Global");
+  const [loadingUserCheck, setLoadingUserCheck] = useState(true);
+  const [currUserGroup, setCurrUserGroup] = useState('Global');
   const [updateProfile, setUpdateProfile] = useState(false);
+  const [groupChangeTrigger, setGroupChangeTrigger] = useState(0); // Initialize a trigger counter
+  
 
-  // console.log("current user group in app is ", currUserGroup);
-  // console.log(currUserGroup)
-
-  const handleUserGroupChange = (newUserGroup) => {
-    setCurrUserGroup(newUserGroup);
+  // Function to be called to indicate group change
+  const handleGroupChange = () => {
+    setGroupChangeTrigger(prev => prev + 1); // Increment trigger to re-fetch groups
   };
 
-  const updateProfileTrue = () => {
-    setUpdateProfile(true);
-  };
-
-  const updateProfileFalse = () => {
-    setUpdateProfile(false);
-  };
 
   useEffect(() => {
     const checkUserStatus = async () => {
       if (!loadingAuth && user) {
-        // Ensure auth state is not loading and user exists
-        console.log("updating newuser status");
-        const userRef = doc(db, "users", user.uid);
+        const userRef = doc(db, 'users', user.uid);
         const userDoc = await getDoc(userRef);
-        console.log("userDoc:", userDoc.data());
         if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setIsNewUser(userData.NewUser);
+          setIsNewUser(userDoc.data().NewUser);
         } else {
           setIsNewUser(true);
         }
       } else if (!loadingAuth) {
-        console.log("user hasn't been initiated or not logged in");
-        setIsNewUser(false); // Assuming a non-logged-in user is not a new user for initial state
+        setIsNewUser(false);
       }
-
       setLoadingUserCheck(false);
     };
 
-    if (loadingAuth) {
-      setLoadingUserCheck(true); // Keep user check loading if auth state is still loading
-    } else {
-      checkUserStatus();
-    }
+    checkUserStatus();
   }, [user, loadingAuth]);
 
   if (loadingAuth || loadingUserCheck) {
-    return <LoadingPage />; // Show a loading state while checking both auth and user status
+    return <LoadingPage />;
   }
 
   return (
-    <div className="App">
-      {console.log(
-        "before game is rendered, currusergroup is " + currUserGroup,
-      )}
-      {user ? (
-        <NavBar
-          currUserGroup={currUserGroup}
-          setCurrUserGroup={handleUserGroupChange}
-          isNewUser={isNewUser}
-          updateProfileTrue={updateProfileTrue}
-        />
-      ) : null}
-      {!user ? (
-        <Welcome onSignInComplete={setIsNewUser} />
-      ) : isNewUser ? (
-        <UserForm onFormSubmit={setFormSubmitted} setIsNewUser={setIsNewUser} />
-      ) : updateProfile ? (
-        <UserProfile
-        updateProfileFalse={updateProfileFalse}
-        />
-      ) : (
-        <Game
-          currUserGroup={currUserGroup}
-          setCurrUserGroup={handleUserGroupChange}
-        />
-      )}
-    </div>
+    <Router>
+      <div className="App">
+        {user && (
+          <NavBar
+            currUserGroup={currUserGroup}
+            setCurrUserGroup={setCurrUserGroup}
+            isNewUser={isNewUser}
+            updateProfileTrue={() => setUpdateProfile(true)}
+            updateProfileFalse={() => setUpdateProfile(false)}
+            fetchGroupsTrigger={groupChangeTrigger} 
+            onGroupChange={handleGroupChange}
+          />
+        )}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              !user ? (
+                <Welcome onSignInComplete={setIsNewUser} />
+              ) : isNewUser ? (
+                <Navigate replace to="/user-form" />
+              ) : updateProfile ? (
+                <Navigate replace to="/profile" />
+              ) : (
+                <Navigate replace to="/game" />
+              )
+            }
+          />
+          <Route 
+            path="/create-group" 
+            element={<CreateGroup user={user}  onGroupChange={handleGroupChange}/>} 
+          />
+          <Route
+            path="/user-form"
+            element={<UserForm onFormSubmit={setIsNewUser} setIsNewUser={setIsNewUser} />}
+          />
+          <Route
+            path="/profile"
+            element={<UserProfile updateProfileFalse={() => setUpdateProfile(false)} />}
+          />
+          <Route
+            path="/game"
+            element={<Game currUserGroup={currUserGroup} />}
+          />
+          <Route 
+            path="/group-info/:groupCode"
+            element={<GroupInfo user={user} onGroupChange={handleGroupChange}/>} 
+          />
+          <Route path="/add-group" 
+            element={<AddGroup user={user} onGroupChange={handleGroupChange}/>} 
+          />
+
+          {/* Redirect any unknown routes to the main page, adjust as necessary */}
+          <Route path="*" element={<Navigate replace to="/" />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
