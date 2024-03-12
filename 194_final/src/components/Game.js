@@ -357,28 +357,41 @@ export function Game({ currUserGroup }) {
 
 
         if (usersData.length > 0) {
-          // get our user object, retrieve the match, set random user to the usersData[i] that matches the match
-          var matchId;
-          for (const user of usersData) {
-            if (user.id === currentUserId) {
-                matchId = user.matchId;
-                break;
-            }
+          var matchId = null;
+          // Find the current user based on currentUserId
+          const currentUser = usersData.find(user => user.id === currentUserId);
+          if (currentUser && currentUser.matches) {
+              // Assuming there might be multiple matches, find the first match within the same group
+              const groupMatch = currentUser.matches.find(match => match.group === currUserGroup);
+              if (groupMatch) {
+                  matchId = groupMatch.matchId;
+              }
           }
-          const matchedUser = usersData.find((user) => user.id === matchId);
+      
+          const matchedUser = matchId ? usersData.find((user) => user.id === matchId) : null;
           console.log(matchedUser);
-          setRandomUser(matchedUser);
+          if (matchedUser) {
+              setRandomUser(matchedUser);
+          }
+      
+          // Filter out the current user and their match from the usersData
           usersData = usersData.filter((user) => user.id !== currentUserId && user.id !== matchId);
           console.log("usersData length: ", usersData.length);
+      
+          // Shuffle the remaining users and select up to 10, ensuring the matched user (if any) is included
           const shuffledArray = usersData.sort((a, b) => 0.5 - Math.random()).slice(0, 10);
-          shuffledArray[Math.floor(Math.random() * 9)] = matchedUser;
+          if (matchedUser) {
+              shuffledArray[Math.floor(Math.random() * shuffledArray.length)] = matchedUser;
+          }
+          
           setUsers(shuffledArray);
           console.log("usersdata length: ", usersData.length);
           console.log("usersdata is : ", usersData);
           if (usersData.length < 1) {
-            setUsers([]);
+              setUsers([]);
           }
-        }
+      }
+      
 
       } catch (error) {
         console.error("Error fetching users:", error);
