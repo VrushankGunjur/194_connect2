@@ -1,13 +1,18 @@
 // Expanded UserForm.js
 import { updateProfile } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore"; // Import Firestore methods
+import { useAuthState } from "react-firebase-hooks/auth"; // If you're using react-firebase-hooks
+import { doc, setDoc, getDoc } from "firebase/firestore"; // Import Firestore methods
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth, db, storage } from "../firebase";
 import "../styles/UserForm.css";
 import cities from '../data/city-pop-200k.json';
 
+
 const UserForm = ({ onFormSubmit, setIsNewUser }) => {
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
   const [formState, setFormState] = useState({
     ProfilePhotoURL: "",
     FirstName: "",
@@ -24,6 +29,24 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
     NewUser: true,
     HotTake: "", // Added HotTake field to the initial state
   });
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (user) {
+        const userRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userRef);
+
+        if (docSnap.exists()) {
+          setFormState(docSnap.data()); // Set form state to existing user profile
+          setIsNewUser(false); // Since the user already has a profile, they are not new
+        } else {
+          setIsNewUser(true); // No profile found, user is new
+        }
+      }
+    };
+
+    fetchUserProfile();
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -100,6 +123,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
 
         onFormSubmit(true); // Assuming this callback is meant to update the parent component's state
         setIsNewUser(formState.FirstName.length === 0 ? true : false);
+        navigate("/game");
       } catch (error) {
         alert(`Failed to upload image and update profile: ${error.message}`);
       }
