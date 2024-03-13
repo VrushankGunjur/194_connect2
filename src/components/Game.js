@@ -476,7 +476,7 @@ export function Game({ currUserGroup }) {
       } else if (randomUser && remainingGuesses === 1) {
         setRemainingGuesses(remainingGuesses - 1);
         setPropRemainingGuesses(100 * ((remainingGuesses - 1) / allowedGuesses));
-        setFeedback('Incorrect guess. You have run out of guesses!');
+        setFeedback('You\'ve run out of guesses! You matched with ' + randomUser.fullName + '. Feel free to chat!');
         setGameFinished(true);
         setGuessedUsers([]);
       } else {
