@@ -1,7 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 import random
-cred = credentials.Certificate('cs194-e95a9-firebase-adminsdk-2c109-81a585e12a.json')
+cred = credentials.Certificate('cs194-e95a9-firebase-adminsdk-2c109-ac3d2fa6cd.json')
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 

@@ -115,7 +115,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser, isNewUser }) => {
     LastName: "",
     Age: "",
     Ethnicity: "",
-    FavoriteColor: "",
+    FavoriteColor: "",  
     FavoriteSport: "",
     Gender: "",
     Height: "",
@@ -212,6 +212,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser, isNewUser }) => {
           ...restOfFormState,
           ProfilePhotoURL: photoURL,
           NewUser: formState.FirstName.length === 0,
+          Group: restOfFormState.Group && restOfFormState.Group.length > 0 ? [...new Set([...restOfFormState.Group, "Global"])] : ["Global"],
         };
 
         const groupRef = doc(db, "groups", "Global");
