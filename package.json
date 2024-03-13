@@ -1,6 +1,7 @@
 {
   "name": "194_final",
   "version": "0.1.0",
+  "homepage": "https://stanfordcs194.github.io/Win24-Team9/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
