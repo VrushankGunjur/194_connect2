@@ -21,12 +21,22 @@ input {
 .App {
   width: 100%;
   min-height: 100vh;
-  background-color: #1c2c4c;
+  background-color: #ffffff;
   color: #4c768d;
-  padding-top: 1px;
 }
 
 /* navbar */
+.navBarContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999; /* Adjust this value to make sure it's above other elements */
+}
+
+.main-content {
+  padding-top: 50px; /* Adjust this value based on the height of your navbar */
+}
 
 
 /* welcome page */

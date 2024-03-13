@@ -1,65 +1,64 @@
-/* Form Container with dark theme adjustments */
+/* Form Container with white theme adjustments */
 .form-container {
-    transform: translateY(70px);
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #333; /* Dark background */
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Subtle light shadow */
-    color: #e0e0e0; /* Light text color */
-  }
-  
-  /* Adjusted styles for uniform width and appearance */
-  .form-container input[type="text"],
-  .form-container input[type="number"],
-  .form-container input[type="file"],
-  .form-container select,
-  .form-container textarea { /* Added for textarea fields */
-    width: calc(100% - 20px); /* Adjust width to account for padding */
-    margin-bottom: 15px;
-    padding: 10px;
-    border: none;
-    background-color: #424242; /* Darker shade for inputs */
-    border-radius: 6px;
-    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1); /* Lighter shadow for depth */
-    color: #e0e0e0; /* Light text color */
-    font-size: 16px; /* Ensure text is easily readable */
-  }
-  
-  /* File Input remains hidden */
-  
-  /* Submit Button with dark theme adjustments */
-  .form-container button[type="submit"] {
-    width: 100%;
-    background-color: #307AFF; /* Bright blue */
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .form-container button[type="submit"]:hover {
-    background-color: #5591FF; /* Lighter blue on hover */
-    transform: translateY(-2px); /* Lift effect */
-  }
-  
-  /* Consistent styling for titles, labels, and focus states */
-  .form-title, .form-label {
-    color: #e0e0e0; /* Light text color */
-  }
-  
-  .form-input:focus, .form-select:focus, 
-  .form-container input[type="text"]:focus,
-  .form-container input[type="number"]:focus,
-  .form-container input[type="email"]:focus,
-  .form-container input[type="password"]:focus,
-  .form-container select:focus,
-  .form-container textarea:focus {
-    outline: none;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Focus shadow */
-  }
-  
+  transform: translateY(70px);
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff; /* Light background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle dark shadow for contrast */
+  color: #333; /* Dark text color for readability */
+}
+
+/* Adjusted styles for uniform width and appearance */
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container input[type="file"],
+.form-container select,
+.form-container textarea { /* Added for textarea fields */
+  width: calc(100% - 20px); /* Adjust width to account for padding */
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc; /* Slight border for definition */
+  background-color: #f9f9f9; /* Slightly off-white for input fields */
+  border-radius: 6px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05); /* Subtle inset shadow for depth */
+  color: #333; /* Dark text color for contrast */
+  font-size: 16px; /* Ensure text is easily readable */
+}
+
+/* File Input adjustments if needed */
+
+/* Submit Button with white theme adjustments */
+.form-container button[type="submit"] {
+  width: 100%;
+  background-color: #007bff; /* Standard blue */
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.form-container button[type="submit"]:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px); /* Lift effect */
+}
+
+/* Consistent styling for titles, labels, and focus states */
+.form-title, .form-label {
+  color: #333; /* Dark text color for readability */
+}
+
+.form-input:focus, .form-select:focus, 
+.form-container input[type="text"]:focus,
+.form-container input[type="number"]:focus,
+.form-container input[type="email"]:focus,
+.form-container input[type="password"]:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Focus shadow for contrast */
+}

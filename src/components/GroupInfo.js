@@ -220,7 +220,7 @@ const GroupInfo = ({ user, onGroupChange }) => {
               !(group.admin.length === 1 && group.admin.includes(user.uid)) ? (
                 <button onClick={leaveGroup} className="leave-group-button">Leave Group</button>
               ) : (
-                <button onClick={leaveGroup} className="delete-group-button">Delete Group</button>
+                <button onClick={leaveGroup} className="leave-group-button">Delete Group</button>
               )
             )}
           </div>

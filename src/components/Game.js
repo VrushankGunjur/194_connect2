@@ -10,37 +10,37 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 
 function deg2rad(deg) {
-    return deg * (Math.PI / 180);
+  return deg * (Math.PI / 180);
 }
 
 //https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
 function getDistanceLatLong(lat1, lon1, lat2, lon2) {
-    // uses Haversine formula for great-circle distances, returns distance in miles
+  // uses Haversine formula for great-circle distances, returns distance in miles
 
-    const R = 3958.8; // radius of the Earth in miles
-    const dLat = deg2rad(lat2 - lat1);
-    const dLon = deg2rad(lon2 - lon1);
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
+  const R = 3958.8; // radius of the Earth in miles
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
-function getCompassDir(lat1, long1, lat2, long2, headX) { 
-    
-    var dLat = lat2-lat1;
-    var dLon = long2-long1;
+function getCompassDir(lat1, long1, lat2, long2, headX) {
 
-    var radians = Math.atan2(dLon, dLat); 
-    var compassReading = radians * (180 / Math.PI);
-    var coordNames = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"];
-    var coordIndex = Math.round(compassReading / 45);
-    if (coordIndex < 0) {
-        coordIndex = coordIndex + 8
-    };
+  var dLat = lat2 - lat1;
+  var dLon = long2 - long1;
 
-    return coordNames[coordIndex];
+  var radians = Math.atan2(dLon, dLat);
+  var compassReading = radians * (180 / Math.PI);
+  var coordNames = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"];
+  var coordIndex = Math.round(compassReading / 45);
+  if (coordIndex < 0) {
+    coordIndex = coordIndex + 8
+  };
+
+  return coordNames[coordIndex];
 }
 
 
@@ -203,7 +203,7 @@ function diff(trueState, guessState) {
 
   for (const key in trueState) {
     // rename diff to 'hints'
-    let diff = { dir: 2, color: 1, r: 2, g: 2, b: 2 , dist: 0, compassDir: ''};
+    let diff = { dir: 2, color: 1, r: 2, g: 2, b: 2, dist: 0, compassDir: '' };
     if (key === "Major") {
       let d = Math.abs(majorVals[trueState[key]] - majorVals[guessState[key]]);
       diff.color = 1 - d;
@@ -219,11 +219,11 @@ function diff(trueState, guessState) {
       let guessColor = guessState.FavoriteColor;
       let trueColorRGB = colorVals[trueColor];
       let guessColorRGB = colorVals[guessColor];
-      
+
       let diffColor = Math.sqrt(
         Math.pow(trueColorRGB[0] - guessColorRGB[0], 2) +
-          Math.pow(trueColorRGB[1] - guessColorRGB[1], 2) +
-          Math.pow(trueColorRGB[2] - guessColorRGB[2], 2),
+        Math.pow(trueColorRGB[1] - guessColorRGB[1], 2) +
+        Math.pow(trueColorRGB[2] - guessColorRGB[2], 2),
       );
       diff.color = 1 - diffColor / 441.6729559300637; // magic number is the max denominator, srqt(255^2 + 255^2 + 255^2)
 
@@ -235,21 +235,21 @@ function diff(trueState, guessState) {
       diff.g = trueColorRGB[1] === guessColorRGB[1] ? 3 : diff.g;
       diff.b = trueColorRGB[2] === guessColorRGB[2] ? 3 : diff.b;
     } else if (key === "HomeState") {
-        // guessState is actually the randomly chosen match (?)
-        const trueLat = Number(trueState.HomeState.split(',')[2]);
-        const trueLong = Number(trueState.HomeState.split(',')[3]);
-        const guessLat = Number(guessState.HomeState.split(',')[2]);
-        const guessLong = Number(guessState.HomeState.split(',')[3]);
-        
-        // can't just take vec dist since earth is spherical and wraps around
-        const dist = getDistanceLatLong(trueLat, trueLong, guessLat, guessLong);
-        diff.color = 1 - dist / normals.Dist;
-        diff.dist = dist.toFixed(2);
+      // guessState is actually the randomly chosen match (?)
+      const trueLat = Number(trueState.HomeState.split(',')[2]);
+      const trueLong = Number(trueState.HomeState.split(',')[3]);
+      const guessLat = Number(guessState.HomeState.split(',')[2]);
+      const guessLong = Number(guessState.HomeState.split(',')[3]);
 
-        // set diff.compassDir
-        diff.compassDir = getCompassDir(trueLat, trueLong, guessLat, guessLong);
-        //console.log(diff.compassDir);
-        console.log(guessState.HomeState);
+      // can't just take vec dist since earth is spherical and wraps around
+      const dist = getDistanceLatLong(trueLat, trueLong, guessLat, guessLong);
+      diff.color = 1 - dist / normals.Dist;
+      diff.dist = dist.toFixed(2);
+
+      // set diff.compassDir
+      diff.compassDir = getCompassDir(trueLat, trueLong, guessLat, guessLong);
+      //console.log(diff.compassDir);
+      console.log(guessState.HomeState);
     } else if (key in colorCutoffsWord) {
       if (trueState[key].toLowerCase() !== guessState[key].toLowerCase()) {
         diff.color = 0;
@@ -326,13 +326,13 @@ export function Game({ currUserGroup }) {
       if (currentUserId) {
         const userRef = doc(db, "users", currentUserId);
         const docSnap = await getDoc(userRef);
-  
+
         if (docSnap.exists() && !docSnap.data().HotTake) {
           setShowHotTakePopup(true); // Show popup if HotTake is empty
         }
       }
     };
-  
+
     fetchCurrentUser();
   }, [currentUserId]);
 
@@ -359,14 +359,14 @@ export function Game({ currUserGroup }) {
           .filter(
             (user) =>
               user.NewUser === false &&
-            //   user.id !== currentUserId &&
+              //   user.id !== currentUserId &&
               user.Group.includes(currUserGroup),
           );
-        
+
         //usersData = shuffleArray(usersData);
         // maybe we want to shuffle, but then we need to figure out how to maintain consistency.
 
-          // Take the first 10 elements from the shuffled array if there are more than 10 users
+        // Take the first 10 elements from the shuffled array if there are more than 10 users
         // if (usersData.length > 8) {
         //     usersData = usersData.slice(0, 8);
         // }
@@ -382,38 +382,38 @@ export function Game({ currUserGroup }) {
           // Find the current user based on currentUserId
           const currentUser = usersData.find(user => user.id === currentUserId);
           if (currentUser && currentUser.matches) {
-              // Assuming there might be multiple matches, find the first match within the same group
-              const groupMatch = currentUser.matches.find(match => match.group === currUserGroup);
-              if (groupMatch) {
-                  matchId = groupMatch.matchId;
-              }
+            // Assuming there might be multiple matches, find the first match within the same group
+            const groupMatch = currentUser.matches.find(match => match.group === currUserGroup);
+            if (groupMatch) {
+              matchId = groupMatch.matchId;
+            }
           }
-      
+
           const matchedUser = matchId ? usersData.find((user) => user.id === matchId) : null;
           console.log(matchedUser);
           if (matchedUser) {
-              setRandomUser(matchedUser);
+            setRandomUser(matchedUser);
           }
-      
+
           // Filter out the current user and their match from the usersData
           usersData = usersData.filter((user) => user.id !== currentUserId && user.id !== matchId);
-          
+
           console.log("usersData length: ", usersData.length);
-      
+
           // Shuffle the remaining users and select up to 10, ensuring the matched user (if any) is included
           const shuffledArray = usersData.sort((a, b) => 0.5 - Math.random()).slice(0, 10);
           if (matchedUser) {
-              shuffledArray[Math.floor(Math.random() * shuffledArray.length)] = matchedUser;
+            shuffledArray[Math.floor(Math.random() * shuffledArray.length)] = matchedUser;
           }
-          
+
           setUsers(shuffledArray);
           console.log("usersdata length: ", usersData.length);
           console.log("usersdata is : ", usersData);
           if (usersData.length < 1) {
-              setUsers([]);
+            setUsers([]);
           }
-      }
-      
+        }
+
 
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -441,12 +441,12 @@ export function Game({ currUserGroup }) {
   const handleHotTakeSubmit = async () => {
     if (hotTakeInput.trim() !== '' && currentUserId) {
       const userRef = doc(db, "users", currentUserId);
-  
+
       // Update HotTake field
       await updateDoc(userRef, {
         HotTake: hotTakeInput,
       });
-  
+
       setShowHotTakePopup(false); // Close the popup
       setHotTakeInput(''); // Reset input field
     }
@@ -455,7 +455,7 @@ export function Game({ currUserGroup }) {
   const handleGuessChange = (selectedOption) => {
     setSelectedUserId(selectedOption ? selectedOption.value : "");
   };
-  
+
 
   const handleGuessSubmit = (event) => {
     event.preventDefault();
@@ -474,13 +474,13 @@ export function Game({ currUserGroup }) {
         setGuessedUsers([]);
       } else if (randomUser && remainingGuesses === 1) {
         setRemainingGuesses(remainingGuesses - 1);
-        setPropRemainingGuesses(100 * ((remainingGuesses - 1)/allowedGuesses));
+        setPropRemainingGuesses(100 * ((remainingGuesses - 1) / allowedGuesses));
         setFeedback('Incorrect guess. You have run out of guesses!');
         setGameFinished(true);
         setGuessedUsers([]);
       } else {
         setRemainingGuesses(remainingGuesses - 1);
-        setPropRemainingGuesses(100 * ((remainingGuesses - 1)/allowedGuesses));
+        setPropRemainingGuesses(100 * ((remainingGuesses - 1) / allowedGuesses));
         setUsers(users.filter((user) => user.id !== selectedUserId));
         setFeedback("Incorrect guess. Try again!");
       }
@@ -497,8 +497,8 @@ export function Game({ currUserGroup }) {
         if (key === "Height") {
           dispUser[key].data = formatHeight(guessedUser[key]);
         } else if (key === "HomeState") {
-            const state = guessedUser[key].split(',');
-            dispUser[key].data = state[0] + ', ' + state[1];
+          const state = guessedUser[key].split(',');
+          dispUser[key].data = state[0] + ', ' + state[1];
         }
         dispUser[key].disp = resDiffs[key];
       }
@@ -511,10 +511,10 @@ export function Game({ currUserGroup }) {
 
 
 
-  return (    
-    
+  return (
+
     <div className="gameContainer">
-            {showHotTakePopup && (
+      {showHotTakePopup && (
         <div className="hotTakePopup">
           <p>Question of the Week: What is your hot take:</p>
           <input
@@ -538,13 +538,20 @@ export function Game({ currUserGroup }) {
               <h2 className="header">Guess Your Match!</h2>
             </>
           )}
+          {gameFinished && (
+            <>
+              <h2 className="header">Game Over!</h2>
+            </>
+          )}
           {guessedUsers.length > 0 && (
             <>
-              <ResultsTable
-                users={guessedUsers}
-                correctGuessId={randomUser.id}
-                dispUsers={dispUsers}
-              />
+              <div className="resultsTableContainer">
+                <ResultsTable
+                  users={guessedUsers}
+                  correctGuessId={randomUser.id}
+                  dispUsers={dispUsers}
+                />
+              </div>
               {gameFinished && (
                 <ChatBox userId={currentUserId} otherUserId={randomUser.id} />
               )}
@@ -565,12 +572,11 @@ export function Game({ currUserGroup }) {
               </form>
             </>
           )}
-          <br />
           {feedback && <p className="header">{feedback}</p>}
           <p className="header">Guesses Remaining: {remainingGuesses}</p>
           <div className="progress-bar-container">
             <div className="progress-bar" style={{ width: `${100 - propRemainingGuesses}%` }} />
-          </div> 
+          </div>
           <h2 className="Extra Spacing" style={{ margin: '20px 0', color: 'rgba(0, 0, 0, 0)' }}>⠀</h2>
           {remainingGuesses === 0 && randomUser && (
             <h2 className="bottom-header" style={{ fontSize: '40px', color: 'white' }}>

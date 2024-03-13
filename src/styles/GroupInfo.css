@@ -76,7 +76,7 @@
   border-radius: 4px;
 }
 
-.remove-button {
+.remove-button, .leave-group-button {
   background: #E74C3C;
 }
 

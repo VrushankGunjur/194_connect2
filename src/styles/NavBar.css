@@ -1,11 +1,13 @@
 /* NavBar.css */
 .nav-bar {
   display: flex;
+  position: fixed;
   align-items: center;
   justify-content: space-between; /* This should keep the logo-and-title centered */
   padding: 0.5em;
-  background-color: #1c2c4c;
+  background-color: #2758b9;
   color: #fff;
+  width: 100vw;
 }
 
 .logo-and-title {

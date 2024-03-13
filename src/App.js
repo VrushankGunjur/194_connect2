@@ -27,7 +27,7 @@ function App() {
   const [currUserGroup, setCurrUserGroup] = useState('Global');
   const [updateProfile, setUpdateProfile] = useState(false);
   const [groupChangeTrigger, setGroupChangeTrigger] = useState(0); // Initialize a trigger counter
-  
+
 
   // Function to be called to indicate group change
   const handleGroupChange = () => {
@@ -62,60 +62,76 @@ function App() {
     <Router basename={process.env.PUBLIC_URL}>
       <div className="App">
         {user && (
-          <NavBar
-            currUserGroup={currUserGroup}
-            setCurrUserGroup={setCurrUserGroup}
-            isNewUser={isNewUser}
-            updateProfileTrue={() => setUpdateProfile(true)}
-            updateProfileFalse={() => setUpdateProfile(false)}
-            fetchGroupsTrigger={groupChangeTrigger} 
-            onGroupChange={handleGroupChange}
-          />
+          <div className="navBarContainer">
+            <NavBar
+              currUserGroup={currUserGroup}
+              setCurrUserGroup={setCurrUserGroup}
+              isNewUser={isNewUser}
+              updateProfileTrue={() => setUpdateProfile(true)}
+              updateProfileFalse={() => setUpdateProfile(false)}
+              fetchGroupsTrigger={groupChangeTrigger}
+              onGroupChange={handleGroupChange}
+            />
+          </div>
         )}
-        <Routes>
-          <Route
-            path="/"
-            element={
-              !user ? (
+        {!user ? (
+          <Routes>
+            <Route
+              path="/"
+              element={
                 <Welcome onSignInComplete={setIsNewUser} />
-              ) : isNewUser ? (
-                <Navigate replace to="/user-form" />
-              ) : updateProfile ? (
-                <Navigate replace to="/profile" />
-              ) : (
-                <Navigate replace to="/game" />
-              )
-            }
-          />
-          <Route 
-            path="/create-group" 
-            element={<CreateGroup user={user}  onGroupChange={handleGroupChange}/>} 
-          />
-          <Route
-            path="/user-form"
-            element={<UserForm onFormSubmit={setIsNewUser} setIsNewUser={setIsNewUser} />}
-          />
-          <Route
-            path="/profile"
-            element={<UserProfile updateProfileFalse={() => setUpdateProfile(false)} />}
-          />
-          <Route
-            path="/game"
-            element={<Game currUserGroup={currUserGroup} />}
-          />
-          <Route 
-            path="/group-info/:groupCode"
-            element={<GroupInfo user={user} onGroupChange={handleGroupChange}/>} 
-          />
-          <Route path="/add-group" 
-            element={<AddGroup user={user} onGroupChange={handleGroupChange}/>} 
-          />
+              }
+            />
+          </Routes>
+        ) : (
+          <>
+            <div className="main-content">
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    isNewUser ? (
+                      <Navigate replace to="/user-form" />
+                    ) : updateProfile ? (
+                      <Navigate replace to="/profile" />
+                    ) : (
+                      <Navigate replace to="/game" />
+                    )
+                  }
+                />
+                <Route
+                  path="/create-group"
+                  element={<CreateGroup user={user} onGroupChange={handleGroupChange} />}
+                />
+                <Route
+                  path="/user-form"
+                  element={<UserForm onFormSubmit={setIsNewUser} setIsNewUser={setIsNewUser} />}
+                />
+                <Route
+                  path="/profile"
+                  element={<UserProfile updateProfileFalse={() => setUpdateProfile(false)} />}
+                />
+                <Route
+                  path="/game"
+                  element={<Game currUserGroup={currUserGroup} />}
+                />
+                <Route
+                  path="/group-info/:groupCode"
+                  element={<GroupInfo user={user} onGroupChange={handleGroupChange} />}
+                />
+                <Route path="/add-group"
+                  element={<AddGroup user={user} onGroupChange={handleGroupChange} />}
+                />
 
-          {/* Redirect any unknown routes to the main page, adjust as necessary */}
-          <Route path="*" element={<Navigate replace to="/" />} />
-        </Routes>
+                {/* Redirect any unknown routes to the main page, adjust as necessary */}
+                <Route path="*" element={<Navigate replace to="/" />} />
+              </Routes>
+            </div>
+          </>
+        )}
       </div>
     </Router>
+
   );
 }
 

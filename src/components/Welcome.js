@@ -77,7 +77,7 @@ const Welcome = ({ onSignInComplete }) => {
       <img src={connect2} alt="Connect2 logo" width="100" height="100" />
       <h2>Welcome to Connect2</h2>
       <p>
-        Sign in with Google to guess and chat with your fellow group members.
+        Sign in to play!
       </p>
       <button
         style={googleSignInButtonStyle}

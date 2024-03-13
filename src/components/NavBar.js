@@ -250,7 +250,7 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue,
           </div>
           )}
           {!user.NewUser && (
-          <button onClick={updateProfile} className="update-profile" type="button">
+          <button onClick={updateProfile} className="user-groups-btn" type="button">
             Update Profile
           </button>
           )}
