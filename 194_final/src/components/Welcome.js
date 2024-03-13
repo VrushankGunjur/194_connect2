@@ -18,6 +18,7 @@ const Welcome = ({ onSignInComplete }) => {
       .then(async (result) => {
         const userRef = doc(db, "users", result.user.uid);
         const docSnap = await getDoc(userRef);
+        console.log(docSnap);
 
         if (!docSnap.exists()) {
           await setDoc(userRef, {
