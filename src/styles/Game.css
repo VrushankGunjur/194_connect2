@@ -1,109 +1,158 @@
 /* Game.css */
 .gameContainer {
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
-    padding: 20px;
-    min-height: 100vh; /* This ensures that gameContainer is at least the height of the viewport */
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    background: #373B44;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #4286f4, #373B44);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #4286f4, #373B44); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  padding: 20px;
+  min-height: 100vh; /* This ensures that gameContainer is at least the height of the viewport */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  background: #373B44;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #4286f4, #373B44);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #4286f4, #373B44); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-  }
-  
-  .header {
-    color: #ffffff;
-    font-size: 2rem;
-    font-family: 'Courier New', Courier, monospace;
-  }
-  
-  .description {
-    color: #ffffff;
-    font-size: 1rem;
-    margin-bottom: 20px;
-    font-family:'Courier New', Courier, monospace;
-  }
-  
-  .formStyle {
-    margin-bottom: 20px;
-  }
-  
-  .update-profile {
-    background: none;
-    border: 2px solid #ECF0F1;
-    padding: 0.5em 1em;
-    border-radius: 15px;
-    color: #ECF0F1;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    margin-left: 1em; /* Adds space between the update profile and the sign-out buttons */
-  }
-  
-  .update-profile:hover {
-    background-color: #ECF0F1;
-    color: #2C3E50;
-  }
-  .guessButton {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-    display: block; /* Makes the button a block-level element */
-    margin: 0 auto; /* Centers the button horizontally */
-  }
-  
-  .guessButton:hover {
-    background-color: #0056b3;
-  }
-  
-  .feedback {
-    color: #ffffff;
-    font-size: 1rem;
-    font-family: 'Courier New', Courier, monospace;
-  }
-  
-  .subheader {
-    color: #ffffff;
-    font-size: 1.5rem;
-    margin-top: 30px;
-    font-family: 'Courier New', Courier, monospace;
-  }
-  
-  .loadingText {
-    font-size: 1rem;
-    color: #666;
-  }
-  
-  .formStyle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+}
+
+.header {
+  color: #ffffff;
+  font-size: 2rem;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.description {
+  color: #ffffff;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  font-family:'Courier New', Courier, monospace;
+}
+
+.formStyle {
+  margin-bottom: 20px;
+}
+
+.update-profile {
+  background: none;
+  border: 2px solid #ECF0F1;
+  padding: 0.5em 1em;
+  border-radius: 15px;
+  color: #ECF0F1;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin-left: 1em; /* Adds space between the update profile and the sign-out buttons */
+}
+
+.update-profile:hover {
+  background-color: #ECF0F1;
+  color: #2C3E50;
+}
+.guessButton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+  display: block; /* Makes the button a block-level element */
+  margin: 0 auto; /* Centers the button horizontally */
+}
+
+.guessButton:hover {
+  background-color: #0056b3;
+}
+
+.feedback {
+  color: #ffffff;
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.subheader {
+  color: #ffffff;
+  font-size: 1.5rem;
+  margin-top: 30px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.loadingText {
+  font-size: 1rem;
+  color: #666;
+}
+
+.formStyle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .gameContainer {
-  text-align: center; /* Center the content within the container */
+text-align: center; /* Center the content within the container */
 }
 
 .progress-bar-container {
-  position: relative;
-  width: 50%; /* Set the width of the progress bar container */
-  margin: 0 auto; /* Center the container horizontally */
-  height: 10px;
-  background: linear-gradient(to right, red, green); /* Set the background gradient */
-  margin-bottom: 10px; /* Adjust as needed */
+position: relative;
+width: 50%; /* Set the width of the progress bar container */
+margin: 0 auto; /* Center the container horizontally */
+height: 10px;
+background: linear-gradient(to right, red, green); /* Set the background gradient */
+margin-bottom: 10px; /* Adjust as needed */
 }
 
 .progress-bar {
-  position: absolute;
-  right: 0;
-  height: 100%;
-  width: 100%; /*var(--progress, 100%);*/
-  background: white; /* Set the background gradient */
-  transition: background 0.3s ease; /* Add a smooth transition effect for the background change */
+position: absolute;
+right: 0;
+height: 100%;
+width: 100%; /*var(--progress, 100%);*/
+background: white; /* Set the background gradient */
+transition: background 0.3s ease; /* Add a smooth transition effect for the background change */
+}
+.hotTakePopup {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+position: fixed;
+top: 20%;
+left: 50%;
+transform: translateX(-50%);
+width: 80%;
+max-width: 400px;
+background: #008080; 
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+z-index: 100;
+color: #F5F5DC; 
+}
+
+.hotTakePopup p {
+margin-bottom: 20px;
+text-align: center;
+color: #F5F5DC;
+}
+
+.hotTakePopup input[type="text"] {
+width: 100%;
+padding: 10px;
+margin-bottom: 20px;
+border: 2px solid #F5F5DC; /* Cream border for the input */
+border-radius: 4px;
+background-color: rgba(245, 245, 220, 0.5); /* Slightly transparent cream */
+color: #005555; /* Dark teal text for contrast */
+}
+
+.hotTakePopup button {
+padding: 10px 20px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+color: #008080; /* Teal text for the button, to inverse popup/bg color scheme */
+font-weight: bold;
+background-color: #F5F5DC; /* Cream background for the button */
+transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.hotTakePopup button:hover {
+background-color: #EDEDD3; /* Slightly darker shade of cream for hover state */
 }
