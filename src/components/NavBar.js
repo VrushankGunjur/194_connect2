@@ -211,7 +211,7 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue,
               <li>🔍 <strong>Arrows</strong> indicate the direction your match is compared to your guess.</li>
               <li><strong>Colors</strong> beyond red and green show how close your match is to your guess.</li>
             </ul>
-            <p>Out of guesses? You won't get your match's responses, but will get their contact!</p>
+            <p>Out of guesses? You won't get your match's responses, but you will get to chat!</p>
             <button onClick={togglePopup}>GO!</button>
           </div>
         </div>
