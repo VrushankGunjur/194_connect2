@@ -105,7 +105,7 @@ function App() {
                 />
                 <Route
                   path="/user-form"
-                  element={<UserForm onFormSubmit={setIsNewUser} setIsNewUser={setIsNewUser} />}
+                  element={<UserForm onFormSubmit={setIsNewUser} setIsNewUser={setIsNewUser} isNewUser={isNewUser} />}
                 />
                 <Route
                   path="/profile"

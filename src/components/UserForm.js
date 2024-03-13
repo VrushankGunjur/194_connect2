@@ -1,7 +1,7 @@
 // Expanded UserForm.js
 import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth"; // If you're using react-firebase-hooks
-import { doc, setDoc, getDoc } from "firebase/firestore"; // Import Firestore methods
+import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore"; // Import Firestore methods
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -106,7 +106,7 @@ let majorOptions = [
 ];
 
 
-const UserForm = ({ onFormSubmit, setIsNewUser }) => {
+const UserForm = ({ onFormSubmit, setIsNewUser, isNewUser }) => {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const [formState, setFormState] = useState({
@@ -208,12 +208,23 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
 
         // Now update Firestore document with new profile and possibly other fields
         const { file, ...restOfFormState } = formState; // Destructure to remove 'file'
-        const updatedFormState = {
+        let updatedFormState = {
           ...restOfFormState,
           ProfilePhotoURL: photoURL,
           NewUser: formState.FirstName.length === 0,
-          Group: ["Global"]
         };
+
+        const groupRef = doc(db, "groups", "Global");
+        const groupSnap = await getDoc(groupRef);
+
+        if (!groupSnap.exists()) {
+          alert("No group found with the provided code.");
+          return;
+        }
+
+        await updateDoc(groupRef, {
+          members: arrayUnion(user.uid),
+        });
 
         const userRef = doc(db, "users", user.uid);
         await setDoc(userRef, updatedFormState, { merge: true });
