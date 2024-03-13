@@ -215,8 +215,13 @@ const GroupInfo = ({ user, onGroupChange }) => {
               ))}
             </ul>
             {/* Leave Group Button - Do not show if the user is the only admin */}
-            {user && group.members.includes(user.uid) && !(group.admin.length === 1 && group.admin.includes(user.uid)) && (
-              <button onClick={leaveGroup} className="leave-group-button">Leave Group</button>
+            {user && group.members.includes(user.uid) && (
+              // if !(group.admin.length === 1 && group.admin.includes(user.uid)) then show the leave group button else show another button
+              !(group.admin.length === 1 && group.admin.includes(user.uid)) ? (
+                <button onClick={leaveGroup} className="leave-group-button">Leave Group</button>
+              ) : (
+                <button onClick={leaveGroup} className="delete-group-button">Delete Group</button>
+              )
             )}
           </div>
         </>

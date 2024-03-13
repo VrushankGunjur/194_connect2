@@ -38,7 +38,7 @@ const CreateGroup = ({ user, onGroupChange }) => {
         Group: arrayUnion(groupCode),
       });
       onGroupChange(); // Call the function to indicate group change
-      navigate('/'); // Redirect to dashboard or another appropriate page
+      navigate(`/group-info/${groupCode}`);
       window.location.reload(); 
     } catch (error) {
       console.error("Error creating new group:", error);
