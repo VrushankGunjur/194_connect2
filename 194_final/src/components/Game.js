@@ -247,7 +247,7 @@ function diff(trueState, guessState) {
         //console.log(diff.compassDir);
         console.log(guessState.HomeState);
     } else if (key in colorCutoffsWord) {
-      if (trueState[key] !== guessState[key]) {
+      if (trueState[key].toLowerCase() !== guessState[key].toLowerCase()) {
         diff.color = 0;
       } else {
         diff.color = 1;
