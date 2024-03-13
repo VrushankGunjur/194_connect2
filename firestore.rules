@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    // Rules for "users" collection
+    match /users/{userId} {
+      // Allow read access to any authenticated user (consider more restrictive rules based on your app's logic)
+      allow read: if request.auth != null;
+      
+      // Allow write access only if the request is made by the authenticated user with the same userId
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Rules for "profilePictures" collection
+    match /profilePictures/{document=**} {
+      // Assuming profile pictures are public, allow read access to anyone
+      allow read: if true;
+
+      // Allow write access only to authenticated users (consider more restrictive rules)
+      allow write: if request.auth != null;
+    }
+
+    // Rules for "messages" collection
+    match /messages/{messageId} {
+      // Allow read access to any authenticated user (you might want to restrict this further)
+      allow read: if request.auth != null;
+      
+      // Allow write access only to authenticated users (consider validating message structure or ownership)
+      allow write: if request.auth != null;
+    }
+
+    // Rules for "Group" collection
+    match /Group/{document=**} {
+      // Allow read access to any authenticated user
+      allow read: if request.auth != null;
+      
+      // Allow write access only to authenticated users
+      allow write: if request.auth != null;
+    }
+
+    // Additional rules here for other collections if necessary
+  }
+}

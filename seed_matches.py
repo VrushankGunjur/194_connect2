@@ -23,6 +23,7 @@ def fetch_groups_and_users():
 def randomize_matches_within_groups(group_users):
     for group_name, users in group_users.items():
         random.shuffle(users)
+        # implement smarter matching algorithm. For each user, 
         for i in range(0, len(users) - 1, 2):
             user1_id = users[i]
             user2_id = users[i + 1]
@@ -48,33 +49,27 @@ def update_user_with_match(user_id, match_id, group_name):
         else:
             user_matches = []
         match_exists = any(match['group'] == new_match['group'] and match['matchId'] == new_match['matchId'] for match in user_matches)
+        
         if not match_exists:
             user_matches.append(new_match)
             transaction.update(user_ref, {'matches': user_matches})
+        
     transaction = db.transaction()
     update_in_transaction(transaction, users_ref, match_entry)
-
-def clear_previous_hottakes():
-    users_ref = db.collection('users')
-    docs = users_ref.stream()
-    batch = db.batch()
-    for doc in docs:
-        user_ref = db.collection('users').document(doc.id)
-        batch.update(user_ref, {'HotTake': ""})
-    batch.commit()
-
 
 def clear_previous_matches():
     users_ref = db.collection('users')
     docs = users_ref.stream()
+    
     batch = db.batch()
     for doc in docs:
         user_ref = db.collection('users').document(doc.id)
         batch.update(user_ref, {'matches': []})
+    
     batch.commit()
 
 def main():
-    clear_previous_hottakes()
+    clear_previous_matches()
     group_users = fetch_groups_and_users()
     randomize_matches_within_groups(group_users)
     print("Groups updated with their random matches.")
