@@ -220,7 +220,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
 
         onFormSubmit(true); // Assuming this callback is meant to update the parent component's state
         setIsNewUser(formState.FirstName.length === 0 ? true : false);
-        navigate("/game");
+        navigate("/");
         window.location.reload(); 
       } catch (error) {
         alert(`Failed to upload image and update profile: ${error.message}`);

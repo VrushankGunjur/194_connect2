@@ -1,6 +1,6 @@
 // Import necessary elements from react-router-dom
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   Navigate
@@ -59,7 +59,7 @@ function App() {
   }
 
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router>
       <div className="App">
         {user && (
           <div className="navBarContainer">

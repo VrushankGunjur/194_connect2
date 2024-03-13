@@ -87,3 +87,53 @@ input[type="text"] {
 .Extra.Spacing {
   visibility: hidden;
 }
+
+.hotTakePopup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 400px;
+  background: #008080; 
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+  z-index: 100;
+  color: #F5F5DC; 
+  }
+  
+  .hotTakePopup p {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #F5F5DC;
+  }
+  
+  .hotTakePopup input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 2px solid #F5F5DC; /* Cream border for the input */
+  border-radius: 4px;
+  background-color: rgba(245, 245, 220, 0.5); /* Slightly transparent cream */
+  color: #005555; /* Dark teal text for contrast */
+  }
+  
+  .hotTakePopup button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #008080; /* Teal text for the button, to inverse popup/bg color scheme */
+  font-weight: bold;
+  background-color: #F5F5DC; /* Cream background for the button */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  .hotTakePopup button:hover {
+  background-color: #EDEDD3; /* Slightly darker shade of cream for hover state */
+  }
