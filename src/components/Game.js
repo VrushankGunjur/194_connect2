@@ -431,7 +431,7 @@ export function Game({ currUserGroup }) {
     if (guessedUser) {
       if (randomUser && selectedUserId === randomUser.id) {
         setFeedback(
-          "You matched with " + randomUser.fullName + "! Feel free to chat!",
+          "You matched with " + randomUser.fullName + "! Message your match using the chatbox!",
         );
         setGameFinished(true);
         setGuessedUsers([]);
