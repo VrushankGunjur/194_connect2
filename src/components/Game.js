@@ -399,18 +399,20 @@ export function Game({ currUserGroup }) {
           // Filter out the current user and their match from the usersData
           usersData = usersData.filter((user) => user.id !== currentUserId && user.id !== matchId);
 
-          console.log("usersData length: ", usersData.length);
-
           // Shuffle the remaining users and select up to 10, ensuring the matched user (if any) is included
           const shuffledArray = usersData.sort((a, b) => 0.5 - Math.random()).slice(0, 10);
+
           if (matchedUser) {
-            shuffledArray[Math.floor(Math.random() * shuffledArray.length)] = matchedUser;
+            if (shuffledArray.length < 10) {
+              shuffledArray.push(matchedUser);
+            }
+            else {
+              shuffledArray[Math.floor(Math.random() * shuffledArray.length)] = matchedUser;
+            }
           }
 
           setUsers(shuffledArray);
-          console.log("usersdata length: ", usersData.length);
-          console.log("usersdata is : ", usersData);
-          if (usersData.length < 1) {
+          if (shuffledArray.length < 1) {
             setUsers([]);
           }
         }
@@ -509,7 +511,8 @@ export function Game({ currUserGroup }) {
   };
 
   console.log("Number of users in group:", users.length);
-
+  console.log("CHeck")
+  console.log(users)
 
 
   return (
