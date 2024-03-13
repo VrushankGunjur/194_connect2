@@ -50,7 +50,11 @@ const Welcome = ({ onSignInComplete }) => {
         } else {
           // User exists in the database, not new.
           onSignInComplete(false); // User is not new.
-          navigate(`/game`)
+          if (docSnap.data().NewUser) {
+            navigate('/user-form')
+          } else {
+            navigate(`/game`)
+          }
         }
       })
       .catch((error) => {
