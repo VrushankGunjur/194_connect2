@@ -298,6 +298,7 @@ export function Game({ currUserGroup }) {
     "Height",
     "HomeState",
     "Major",
+    "HotTake",
   ];
 
   // Your existing handler functions remain unchanged
@@ -376,6 +377,7 @@ export function Game({ currUserGroup }) {
       
           // Filter out the current user and their match from the usersData
           usersData = usersData.filter((user) => user.id !== currentUserId && user.id !== matchId);
+          
           console.log("usersData length: ", usersData.length);
       
           // Shuffle the remaining users and select up to 10, ensuring the matched user (if any) is included
@@ -453,8 +455,10 @@ export function Game({ currUserGroup }) {
       let resDiffs = diff(guessedUser, randomUser);
       let dispUser = {};
       for (const key of dispFeatures) {
+        console.log(dispFeatures);
         dispUser[key] = {};
         dispUser[key].data = guessedUser[key];
+        console.log(dispUser[key]);
         if (key === "Height") {
           dispUser[key].data = formatHeight(guessedUser[key]);
         } else if (key === "HomeState") {

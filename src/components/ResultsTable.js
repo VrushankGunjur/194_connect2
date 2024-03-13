@@ -110,6 +110,7 @@ const ResultsTable = ({ dispUsers }) => {
     return value;
   };
 
+  console.log(dispUsers);
   useEffect(() => {
     // Scroll to the bottom of the page after each guess
     window.scrollTo({ top: document.body.scrollHeight + 100, behavior: 'smooth' });
@@ -130,6 +131,7 @@ const ResultsTable = ({ dispUsers }) => {
           <th>Height</th>
           <th>Hometown</th>
           <th>Major</th>
+          <th>Hot Take</th>
         </tr>
       </thead>
       <tbody>
