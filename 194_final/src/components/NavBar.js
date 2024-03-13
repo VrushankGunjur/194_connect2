@@ -36,7 +36,7 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue,
     console.log("trying to update group to:", newGroup);
     updateProfileFalse();
     setCurrUserGroup(newGroup);
-    navigate('/game'); // Assuming you have a route for the game page
+    navigate('/'); 
   };
 
   const updateProfile = () => {

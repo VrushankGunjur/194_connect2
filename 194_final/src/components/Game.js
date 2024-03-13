@@ -484,6 +484,7 @@ export function Game({ currUserGroup }) {
         <>
           {!gameFinished && (
             <>
+              <h1 className="group-header"> Group: {currUserGroup}</h1>
               <h2 className="header">Guess Your Match!</h2>
             </>
           )}
