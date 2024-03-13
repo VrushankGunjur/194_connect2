@@ -9,6 +9,102 @@ import { auth, db, storage } from "../firebase";
 import "../styles/UserForm.css";
 import cities from '../data/city-pop-200k.json';
 
+let majorOptions = [
+  "Aerospace Engineering",
+  "African Studies",
+  "African and African American Studies",
+  "American Studies",
+  "Anthropology",
+  "Applied and Engineering Physics",
+  "Art History",
+  "Art Practice",
+  "Asian American Studies",
+  "Atmospheric / Energy",
+  "Bioengineering",
+  "Biology",
+  "Biomechanical Engineering",
+  "Biomedical Computation",
+  "Chemical Engineering",
+  "Chemistry",
+  "Chicana/o - Latina/o Studies",
+  "Chinese Studies",
+  "Classics",
+  "Communication",
+  "Community Health and Prevention Research",
+  "Comparative Literature",
+  "Comparative Studies in Race and Ethnicity",
+  "Computer Science",
+  "Dance (TAPS Minor)",
+  "Data Science",
+  "Democracy, Development, and the Rule of Law",
+  "Digital Humanities",
+  "Earth Systems",
+  "East Asian Studies",
+  "Education",
+  "Electrical Engineering",
+  "Energy Resources Engineering",
+  "Engineering Physics",
+  "English",
+  "Environmental Systems Engineering",
+  "Ethics in Society",
+  "Film and Media Studies",
+  "French",
+  "Gender, and Sexuality Studies",
+  "German Studies",
+  "Global Studies",
+  "History",
+  "Honors in the Arts",
+  "Human Biology",
+  "Human Rights",
+  "Iberian and Latin American Cultures",
+  "International Policy Studies",
+  "International Relations",
+  "International Security Studies",
+  "Iranian Studies",
+  "Islamic Studies",
+  "Italian",
+  "Japanese",
+  "Jewish Studies",
+  "Korean",
+  "Laboratory Animal Science",
+  "Latin American Studies",
+  "Linguistics",
+  "Management Science and Engineering",
+  "Materials Science and Engineering",
+  "Mathematics",
+  "Mechanical Engineering",
+  "Medieval Studies",
+  "Middle Eastern Language, Literature and Culture",
+  "Modern Languages",
+  "Modern Thought and Literature",
+  "Music",
+  "Music, Science, and Technology",
+  "Native American Studies",
+  "Philosophy",
+  "Philosophy and Religious Studies",
+  "Physics",
+  "Political Science",
+  "Portuguese",
+  "Product Design",
+  "Psychology",
+  "Public Policy",
+  "Religious Studies",
+  "Russian Studies",
+  "Science, Technology, and Society",
+  "Slavic Languages and Literatures",
+  "Sociology",
+  "South Asian Studies",
+  "Spanish",
+  "Statistics",
+  "Sustainability",
+  "Symbolic Systems",
+  "Theater and Performance Studies",
+  "Translation Studies",
+  "Turkish Studies",
+  "Urban Studies",
+  "Women's Studies",
+];
+
 
 const UserForm = ({ onFormSubmit, setIsNewUser }) => {
   const [user] = useAuthState(auth);
@@ -116,6 +212,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
           ...restOfFormState,
           ProfilePhotoURL: photoURL,
           NewUser: formState.FirstName.length === 0,
+          Group: ["Global"]
         };
 
         const userRef = doc(db, "users", user.uid);
@@ -124,6 +221,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
         onFormSubmit(true); // Assuming this callback is meant to update the parent component's state
         setIsNewUser(formState.FirstName.length === 0 ? true : false);
         navigate("/game");
+        window.location.reload(); 
       } catch (error) {
         alert(`Failed to upload image and update profile: ${error.message}`);
       }
@@ -226,12 +324,14 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
                   </option>
         })}
       </select>
-
       <select name="Major" value={formState.Major} onChange={handleChange}>
         <option value="">Major</option>
-        {/* Add your major options here */}
+        {majorOptions.map((major) => (
+          <option key={major} value={major}>
+            {major}
+          </option>
+        ))}
       </select>
-
       <input
         type="text"
         name="HotTake"

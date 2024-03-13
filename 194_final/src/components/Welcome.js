@@ -5,15 +5,20 @@ import { auth, db } from "../firebase.js";
 import GoogleSignin from "../img/btn_google_signin_dark_pressed_web.png";
 import connect2 from "../img/connect2.png";
 import "../styles/Welcome.css";
+import { useNavigate } from 'react-router-dom';
+
 
 const Welcome = ({ onSignInComplete }) => {
   // Assume `onSignInComplete` accepts two arguments: a flag indicating completion and a isNewUser flag.
+  const navigate = useNavigate();
+
   const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then(async (result) => {
         const userRef = doc(db, "users", result.user.uid);
         const docSnap = await getDoc(userRef);
+        console.log(docSnap);
 
         if (!docSnap.exists()) {
           await setDoc(userRef, {
@@ -36,6 +41,7 @@ const Welcome = ({ onSignInComplete }) => {
             .then(() => {
               console.log("New user document created.");
               onSignInComplete(true); // Call callback function indicating the user is new and sign-in is complete
+              navigate(`/user-form`)
             })
             .catch((error) => {
               console.error("Error creating user document:", error);
@@ -44,6 +50,11 @@ const Welcome = ({ onSignInComplete }) => {
         } else {
           // User exists in the database, not new.
           onSignInComplete(false); // User is not new.
+          if (docSnap.data().NewUser) {
+            navigate('/user-form')
+          } else {
+            navigate(`/game`)
+          }
         }
       })
       .catch((error) => {
