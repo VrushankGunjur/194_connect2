@@ -128,7 +128,7 @@ const ResultsTable = ({ dispUsers }) => {
           <th>Favorite Sport</th>
           <th>Gender</th>
           <th>Height</th>
-          <th>Home State</th>
+          <th>Hometown</th>
           <th>Major</th>
         </tr>
       </thead>
