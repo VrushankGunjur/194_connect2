@@ -158,13 +158,24 @@ const UserForm = ({ onFormSubmit, setIsNewUser }) => {
         onChange={handleChange}
       />
 
-      <input
+      <select
         type="text"
         name="Ethnicity"
-        placeholder="Ethnicity"
         value={formState.Ethnicity}
-        onChange={handleChange}
-      />
+        onChange={handleChange}>
+        <option value="">Ethnicity</option>
+        <option value="South Asian">South Asian</option>
+        <option value="East Asian">East Asian</option>
+        <option value="Southeast Asian">Southeast Asian</option>
+        <option value="Middle Eastern">Middle Eastern</option>
+        <option value="Black">Black</option>
+        <option value="Hispanic/Latino">Hispanic/Latino</option>
+        <option value="White">White</option>
+        <option value="Native American">Native American</option>
+        <option value="Pacific Islander">Pacific Islander</option>
+        <option value="Mixed">Mixed</option>
+        <option value="Other">Other</option>
+      </select>
 
       <select
         name="FavoriteColor"
