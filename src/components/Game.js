@@ -6,6 +6,8 @@ import "../styles/Game.css";
 import ChatBox from "./ChatBox.js"; // Adjust the path as necessary
 import GameDropDown from "./GameDropDown.js";
 import ResultsTable from "./ResultsTable.js";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+
 
 function deg2rad(deg) {
     return deg * (Math.PI / 180);
@@ -25,7 +27,7 @@ function getDistanceLatLong(lat1, lon1, lat2, lon2) {
     return R * c;
 }
 
-function getCompassDir(lat1, long1, lat2, long2, headX) {
+function getCompassDir(lat1, long1, lat2, long2, headX) { 
     
     var dLat = lat2-lat1;
     var dLon = long2-long1;
@@ -40,6 +42,7 @@ function getCompassDir(lat1, long1, lat2, long2, headX) {
 
     return coordNames[coordIndex];
 }
+
 
 // state
 function diff(trueState, guessState) {
@@ -285,7 +288,8 @@ export function Game({ currUserGroup }) {
   const [allowedGuesses, setAllowedGuesses] = useState(6);
   const [propRemainingGuesses, setPropRemainingGuesses] = useState(100);
   const [updatingProfile, setUpdatingProfile] = useState(false);
-
+  const [showHotTakePopup, setShowHotTakePopup] = useState(false);
+  const [hotTakeInput, setHotTakeInput] = useState('');
   let dispFeatures = [
     "ProfilePhotoURL",
     "FirstName",
@@ -315,6 +319,21 @@ export function Game({ currUserGroup }) {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      if (currentUserId) {
+        const userRef = doc(db, "users", currentUserId);
+        const docSnap = await getDoc(userRef);
+  
+        if (docSnap.exists() && !docSnap.data().HotTake) {
+          setShowHotTakePopup(true); // Show popup if HotTake is empty
+        }
+      }
+    };
+  
+    fetchCurrentUser();
+  }, [currentUserId]);
 
   useEffect(() => {
     // This ensures fetchUsers only runs after currentUserId is set (i.e., not null)
@@ -418,9 +437,24 @@ export function Game({ currUserGroup }) {
     return `${feet}'${remainingInches}"`; // Format as X'Y"
   };
 
+  const handleHotTakeSubmit = async () => {
+    if (hotTakeInput.trim() !== '' && currentUserId) {
+      const userRef = doc(db, "users", currentUserId);
+  
+      // Update HotTake field
+      await updateDoc(userRef, {
+        HotTake: hotTakeInput,
+      });
+  
+      setShowHotTakePopup(false); // Close the popup
+      setHotTakeInput(''); // Reset input field
+    }
+  };
+
   const handleGuessChange = (selectedOption) => {
     setSelectedUserId(selectedOption ? selectedOption.value : "");
   };
+  
 
   const handleGuessSubmit = (event) => {
     event.preventDefault();
@@ -433,7 +467,7 @@ export function Game({ currUserGroup }) {
     if (guessedUser) {
       if (randomUser && selectedUserId === randomUser.id) {
         setFeedback(
-          "You matched with " + randomUser.fullName + "! Message your match using the chatbox!",
+          "You matched with " + randomUser.fullName + "! Feel free to chat!",
         );
         setGameFinished(true);
         setGuessedUsers([]);
@@ -477,7 +511,19 @@ export function Game({ currUserGroup }) {
 
 
   return (    
+    
     <div className="gameContainer">
+            {showHotTakePopup && (
+        <div className="hotTakePopup">
+          <p>Question of the Week: What is your hot take:</p>
+          <input
+            type="text"
+            value={hotTakeInput}
+            onChange={(e) => setHotTakeInput(e.target.value)}
+          />
+          <button onClick={handleHotTakeSubmit}>Submit</button>
+        </div>
+      )}
       {currUserGroup && users.length === 0 && !gameFinished ? (
         <>
           <h2 className="header">
@@ -488,7 +534,6 @@ export function Game({ currUserGroup }) {
         <>
           {!gameFinished && (
             <>
-              <h1 className="group-header"> Group: {currUserGroup}</h1>
               <h2 className="header">Guess Your Match!</h2>
             </>
           )}
