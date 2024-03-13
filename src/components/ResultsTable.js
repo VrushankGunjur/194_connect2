@@ -74,10 +74,10 @@ const ResultsTable = ({ dispUsers }) => {
   const getBackgroundColor = (value) => {
     // value from 0 to 1, 0 is red, 1 is green. Return RGB of gradient.
     // linearly scale the red and green values.
-    let r = 255 * (1 - value);
-    let g = 255 * value;
+    let r = Math.min(255 * (1 - value) + 125, 255);
+    let g = Math.min(255 * value + 125, 255);
     if (value > 0 && value < 1) r = 200;
-    return `rgb(${r}, ${g}, 0)`;
+    return `rgb(${r}, ${g}, 125)`;
   };
 
   // Function to convert inches to feet and inches, if necessary

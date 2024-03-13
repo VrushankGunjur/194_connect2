@@ -219,6 +219,7 @@ function diff(trueState, guessState) {
       let guessColor = guessState.FavoriteColor;
       let trueColorRGB = colorVals[trueColor];
       let guessColorRGB = colorVals[guessColor];
+      
       let diffColor = Math.sqrt(
         Math.pow(trueColorRGB[0] - guessColorRGB[0], 2) +
           Math.pow(trueColorRGB[1] - guessColorRGB[1], 2) +
