@@ -343,7 +343,7 @@ def get_response_diff(r1, r2):
         v1 = np.array(model.encode(r1))
         v2 = np.array(model.encode(r2))
         sim = np.dot(v1, v2)/(np.sqrt(np.sum(np.square(v1))) * np.sqrt(np.sum(np.square(v1))))
-        return sim
+        return 1 - sim
         
 def get_user_matches(users):
     users_data = retrieve_group_users_data(users)
@@ -353,6 +353,7 @@ def get_user_matches(users):
         idx_to_user.append(user)
         user_to_idx[user] = i
     N = len(idx_to_user)
+    idx_to_user.append("n/a")
     G = [[0 for _ in range(N)] for _ in range(N)]
     for fi, feature in enumerate(FEATURES):
         largest_sim = 0
@@ -367,16 +368,10 @@ def get_user_matches(users):
             for j in range(i+1,N):
                 G[i][j] += hold[i][j]/largest_sim
                 G[j][i] += hold[j][i]/largest_sim
-        print(fi, feature, G)
-    print(G)
     matching = get_matches(G)
     user_updates = []
     for i in range(N):
-        j = matching[i]
-        if j == -1:
-            user_updates.append((idx_to_user[i], "n/a"))
-        else:
-            user_updates.append((idx_to_user[i], idx_to_user[j]))
+        user_updates.append((idx_to_user[i], idx_to_user[matching[i]]))
     return user_updates
 
 def randomize_matches_within_groups(group_users):
