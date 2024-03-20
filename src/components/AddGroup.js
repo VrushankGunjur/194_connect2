@@ -1,9 +1,8 @@
-// AddGroup.js
 import React, { useState } from 'react';
 import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useNavigate } from 'react-router-dom';
-import '../styles/AddGroup.css'; // You can reuse styles or adjust as needed
+import '../styles/AddGroup.css';
 
 const AddGroup = ({ user, onGroupChange }) => {
   const [groupCode, setGroupCode] = useState('');
@@ -33,8 +32,8 @@ const AddGroup = ({ user, onGroupChange }) => {
         Group: arrayUnion(groupCode),
       });
       alert("Successfully joined the group!");
-      onGroupChange(); // Call the function to indicate group change
-      navigate(`/group-info/${groupCode}`); // Or navigate to a page confirming the join
+      onGroupChange();
+      navigate(`/group-info/${groupCode}`);
       window.location.reload(); 
     } catch (error) {
       console.error("Error joining group:", error);

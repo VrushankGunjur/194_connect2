@@ -6,7 +6,7 @@ const LoadingPage = () => {
   return (
     <div className="loading-page">
       <div className="loading-text">Loading...</div>
-      <div className="loading-circle"></div> {/* Updated from loading-bar to loading-circle */}
+      <div className="loading-circle"></div> 
     </div>
   );
 };

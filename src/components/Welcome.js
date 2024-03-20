@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Welcome = ({ onSignInComplete }) => {
-  // Assume `onSignInComplete` accepts two arguments: a flag indicating completion and a isNewUser flag.
   const navigate = useNavigate();
 
   const googleSignIn = async () => {
@@ -34,22 +33,17 @@ const Welcome = ({ onSignInComplete }) => {
             HomeTown: "",
             Major: "",
             NewUser: true,
-            // newUser: true
-            // createdAt: new Date() // Store the creation date of the user document
-            // Add any other user fields you need
           })
             .then(() => {
               console.log("New user document created.");
-              onSignInComplete(true); // Call callback function indicating the user is new and sign-in is complete
+              onSignInComplete(true); 
               navigate(`/user-form`)
             })
             .catch((error) => {
               console.error("Error creating user document:", error);
-              // Handle the error, e.g., by logging or showing an error message
             });
         } else {
-          // User exists in the database, not new.
-          onSignInComplete(false); // User is not new.
+          onSignInComplete(false); 
           if (docSnap.data().NewUser) {
             navigate('/user-form')
           } else {
@@ -59,7 +53,6 @@ const Welcome = ({ onSignInComplete }) => {
       })
       .catch((error) => {
         console.error("Authentication error:", error);
-        // Handle error, such as by displaying a message to the user.
       });
   };
 
@@ -85,9 +78,7 @@ const Welcome = ({ onSignInComplete }) => {
         size="lg"
         aria-label="Sign in with Google"
       >
-        {/* For accessibility reasons, it's good practice to have textual content or an aria-label for interactive elements */}
       </button>
-      {/* If you have additional content, add here */}
     </main>
   );
 };

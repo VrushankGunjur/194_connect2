@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { doc, getDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase";
 import "../styles/ProfilePage.css";
 
 const UserProfile = ({ updateProfileFalse }) => {
   const [editMode, setEditMode] = useState(false);
-  const navigate = useNavigate(); // Instantiate the navigate function
+  const navigate = useNavigate(); 
   const [userProfile, setUserProfile] = useState({
     ProfilePhotoURL: "",
     FirstName: "",
@@ -19,22 +19,17 @@ const UserProfile = ({ updateProfileFalse }) => {
     Height: "",
     HomeState: "",
     Major: "",
-    Group: "Global", // Assuming this is a single value for simplicity
+    Group: "Global", 
     IsNewUser: true,
-    HotTake: "", // Added HotTake to the initial state
+    HotTake: "", 
   });
 
-
-  const toggleEditMode = () => {
-    setEditMode(!editMode);
-  };
-
   const handleEditProfile = () => {
-    navigate("/user-form"); // Navigate to UserForm component
+    navigate("/user-form"); 
   };
 
   const handleExitProfile = () => {
-    navigate("/game"); // Navigate to UserForm component
+    navigate("/game"); 
   };
 
   const currentUser = auth.currentUser;

@@ -1,11 +1,7 @@
-// UserDropdown.js
+
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
-
-/*
-    Get other people's data when guessing
-*/
 
 const UserDropdown = () => {
   const [users, setUsers] = useState([]);

@@ -1,4 +1,3 @@
-// Import necessary elements from react-router-dom
 import {
   HashRouter as Router,
   Routes,
@@ -26,10 +25,9 @@ function App() {
   const [loadingUserCheck, setLoadingUserCheck] = useState(true);
   const [currUserGroup, setCurrUserGroup] = useState('Global');
   const [updateProfile, setUpdateProfile] = useState(false);
-  const [groupChangeTrigger, setGroupChangeTrigger] = useState(0); // Initialize a trigger counter
+  const [groupChangeTrigger, setGroupChangeTrigger] = useState(0);
 
 
-  // Function to be called to indicate group change
   const handleGroupChange = () => {
     setGroupChangeTrigger(prev => prev + 1); // Increment trigger to re-fetch groups
   };
@@ -123,7 +121,7 @@ function App() {
                   element={<AddGroup user={user} onGroupChange={handleGroupChange} />}
                 />
 
-                {/* Redirect any unknown routes to the main page, adjust as necessary */}
+                {/* Redirect any unknown routes to the main page */}
                 <Route path="*" element={<Navigate replace to="/" />} />
               </Routes>
             </div>

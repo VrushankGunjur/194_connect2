@@ -1,7 +1,6 @@
-// Expanded UserForm.js
 import { updateProfile } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth"; // If you're using react-firebase-hooks
-import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore"; // Import Firestore methods
+import { useAuthState } from "react-firebase-hooks/auth"; 
+import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore"; 
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -106,7 +105,7 @@ let majorOptions = [
 ];
 
 
-const UserForm = ({ onFormSubmit, setIsNewUser, isNewUser }) => {
+const UserForm = ({ onFormSubmit, setIsNewUser }) => {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const [formState, setFormState] = useState({
@@ -123,7 +122,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser, isNewUser }) => {
     Major: "",
     Group: ["Global"],
     NewUser: true,
-    HotTake: "", // Added HotTake field to the initial state
+    HotTake: "", 
   });
 
   useEffect(() => {
@@ -133,10 +132,10 @@ const UserForm = ({ onFormSubmit, setIsNewUser, isNewUser }) => {
         const docSnap = await getDoc(userRef);
 
         if (docSnap.exists()) {
-          setFormState(docSnap.data()); // Set form state to existing user profile
-          setIsNewUser(false); // Since the user already has a profile, they are not new
+          setFormState(docSnap.data());
+          setIsNewUser(false); 
         } else {
-          setIsNewUser(true); // No profile found, user is new
+          setIsNewUser(true);
         }
       }
     };
@@ -146,7 +145,6 @@ const UserForm = ({ onFormSubmit, setIsNewUser, isNewUser }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // Handle file input separately
     if (name === "file") {
       setFormState((prevState) => ({
         ...prevState,
@@ -207,7 +205,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser, isNewUser }) => {
           });
 
         // Now update Firestore document with new profile and possibly other fields
-        const { file, ...restOfFormState } = formState; // Destructure to remove 'file'
+        const { file, ...restOfFormState } = formState; 
         let updatedFormState = {
           ...restOfFormState,
           ProfilePhotoURL: photoURL,
@@ -230,7 +228,7 @@ const UserForm = ({ onFormSubmit, setIsNewUser, isNewUser }) => {
         const userRef = doc(db, "users", user.uid);
         await setDoc(userRef, updatedFormState, { merge: true });
 
-        onFormSubmit(true); // Assuming this callback is meant to update the parent component's state
+        onFormSubmit(true); 
         setIsNewUser(formState.FirstName.length === 0 ? true : false);
         navigate("/");
         window.location.reload(); 

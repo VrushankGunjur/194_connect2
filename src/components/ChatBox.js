@@ -7,7 +7,7 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 import { db } from "../firebase";
-import "../styles/ChatBox.css"; // Ensure this path is correct
+import "../styles/ChatBox.css"; 
 import Message from "./Message";
 import SendMessage from "./SendMessage";
 
@@ -32,7 +32,6 @@ const ChatBox = ({ userId, otherUserId }) => {
         .sort((a, b) => a.createdAt - b.createdAt);
 
       if (userId && otherUserId) {
-        // Client-side filtering for messages between userId and otherUserId
         fetchedMessages = fetchedMessages.filter(
           (message) =>
             (message.senderId === userId &&
@@ -61,7 +60,6 @@ const ChatBox = ({ userId, otherUserId }) => {
       {!isMinimized && (
         <div className="messages-wrapper">
           {messages.map((message) => (
-            // Pass an additional prop to Message to indicate if it's from the current user
             <Message
               key={message.id}
               message={message}

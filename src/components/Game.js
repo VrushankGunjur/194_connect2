@@ -3,7 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../firebase.js";
 import "../styles/Game.css";
-import ChatBox from "./ChatBox.js"; // Adjust the path as necessary
+import ChatBox from "./ChatBox.js"; 
 import GameDropDown from "./GameDropDown.js";
 import ResultsTable from "./ResultsTable.js";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -289,7 +289,6 @@ export function Game({ currUserGroup }) {
   const [remainingGuesses, setRemainingGuesses] = useState(6);
   const [allowedGuesses, setAllowedGuesses] = useState(6);
   const [propRemainingGuesses, setPropRemainingGuesses] = useState(100);
-  const [updatingProfile, setUpdatingProfile] = useState(false);
   const [showHotTakePopup, setShowHotTakePopup] = useState(false);
   const [hotTakeInput, setHotTakeInput] = useState('');
   let dispFeatures = [
@@ -307,14 +306,12 @@ export function Game({ currUserGroup }) {
     "HotTake",
   ];
 
-  // Your existing handler functions remain unchanged
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setCurrentUserId(user.uid); // Use 'uid' instead of 'id'
+        setCurrentUserId(user.uid); 
       } else {
-        // User is signed out
         setCurrentUserId(null);
       }
     });
@@ -329,7 +326,7 @@ export function Game({ currUserGroup }) {
         const docSnap = await getDoc(userRef);
 
         if (docSnap.exists() && !docSnap.data().HotTake) {
-          setShowHotTakePopup(true); // Show popup if HotTake is empty
+          setShowHotTakePopup(true); 
         }
       }
     };
@@ -338,7 +335,6 @@ export function Game({ currUserGroup }) {
   }, [currentUserId]);
 
   useEffect(() => {
-    // This ensures fetchUsers only runs after currentUserId is set (i.e., not null)
     if (currentUserId === null) return;
 
     setFeedback(null);
@@ -354,36 +350,19 @@ export function Game({ currUserGroup }) {
           .map((doc) => ({
             id: doc.id,
             ...doc.data(),
-            fullName: `${doc.data().FirstName} ${doc.data().LastName}`, // Concatenate for display
-            formattedHeight: formatHeight(doc.data().Height), // Convert Height to feet and inches
+            fullName: `${doc.data().FirstName} ${doc.data().LastName}`, 
+            formattedHeight: formatHeight(doc.data().Height), 
           }))
           .filter(
             (user) =>
               user.NewUser === false &&
-              //   user.id !== currentUserId &&
               user.Group.includes(currUserGroup),
           );
 
-        //usersData = shuffleArray(usersData);
-        // maybe we want to shuffle, but then we need to figure out how to maintain consistency.
-
-        // Take the first 10 elements from the shuffled array if there are more than 10 users
-        // if (usersData.length > 8) {
-        //     usersData = usersData.slice(0, 8);
-        // }
-        // setUsers(usersData);
-        // if (usersData.length < 40) {
-        //   setAllowedGuesses(Math.ceil(usersData.length/2));
-        //   setRemainingGuesses(Math.ceil(usersData.length/2));
-        // }
-
-
         if (usersData.length > 0) {
           var matchId = null;
-          // Find the current user based on currentUserId
           const currentUser = usersData.find(user => user.id === currentUserId);
           if (currentUser && currentUser.matches) {
-            // Assuming there might be multiple matches, find the first match within the same group
             const groupMatch = currentUser.matches.find(match => match.group === currUserGroup);
             if (groupMatch) {
               matchId = groupMatch.matchId;
@@ -396,10 +375,8 @@ export function Game({ currUserGroup }) {
             setRandomUser(matchedUser);
           }
 
-          // Filter out the current user and their match from the usersData
           usersData = usersData.filter((user) => user.id !== currentUserId && user.id !== matchId);
 
-          // Shuffle the remaining users and select up to 10, ensuring the matched user (if any) is included
           const shuffledArray = usersData.sort((a, b) => 0.5 - Math.random()).slice(0, 10);
 
           if (matchedUser) {
@@ -425,20 +402,13 @@ export function Game({ currUserGroup }) {
     };
 
     fetchUsers();
-  }, [currentUserId, currUserGroup]); // Re-run when currentUserId changes
+  }, [currentUserId, currUserGroup]); 
 
-  // function shuffleArray(array) {
-  //   for (let i = array.length - 1; i > 0; i--) {
-  //     const j = Math.floor(Math.random() * (i + 1));
-  //     [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-  //   }
-  //   return array;
-  // }
   // Helper function to convert height from inches to feet and inches format
   const formatHeight = (inches) => {
     const feet = Math.floor(inches / 12);
     const remainingInches = inches % 12;
-    return `${feet}'${remainingInches}"`; // Format as X'Y"
+    return `${feet}'${remainingInches}"`; 
   };
 
   const handleHotTakeSubmit = async () => {
@@ -450,8 +420,8 @@ export function Game({ currUserGroup }) {
         HotTake: hotTakeInput,
       });
 
-      setShowHotTakePopup(false); // Close the popup
-      setHotTakeInput(''); // Reset input field
+      setShowHotTakePopup(false); 
+      setHotTakeInput(''); 
     }
   };
 
@@ -590,13 +560,10 @@ export function Game({ currUserGroup }) {
           )}
         </>
       ) : users.length < 2 ? (
-        // Show a specific error message if matchId is null
         <h2 className="header">No one else is in the group!</h2>
       ) : selectedUserId === "" ? (
-        // Show a specific error message if matchId is null
         <h2 className="header">No match has been made yet!</h2>
       ) : (
-        // Show an error page
         <h2 className="header">There is an error, please reload the page!</h2>
       )}
     </div>

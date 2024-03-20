@@ -1,12 +1,9 @@
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import {
-  arrayUnion,
   collection,
   doc,
   getDocs,
   getDoc,
-  updateDoc,
-  setDoc,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -15,13 +12,11 @@ import GoogleSignin from "../img/btn_google_signin_dark_pressed_web.png";
 import connect2 from "../img/connect2.png";
 import "../styles/NavBar.css";
 import infoIcon from "../img/info_icon.png";
-import CreateGroup from './CreateGroup'; // Adjust the path as necessary
 import { useNavigate } from 'react-router-dom';
-import AddGroup from './AddGroup'; // Adjust the path as necessary
 
 
 
-const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue, updateProfileFalse, fetchGroupsTrigger, onGroupChange }) => {
+const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue, updateProfileFalse, fetchGroupsTrigger }) => {
   const [user] = useAuthState(auth);
   const [showDropdown, setShowDropdown] = useState(false);
   const [userGroups, setUserGroups] = useState([]);
@@ -29,7 +24,7 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue,
   const navigate = useNavigate();
 
   const openCreateGroupPage = () => {
-    navigate('/create-group'); // Assuming you have set up a route for this
+    navigate('/create-group'); 
   };
 
   const updateGroup = (newGroup) => {
@@ -41,7 +36,7 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue,
 
   const updateProfile = () => {
     updateProfileTrue();
-    navigate('/profile'); // Assuming you have a route for the profile update page
+    navigate('/profile'); 
   };
 
   useEffect(() => {
@@ -113,13 +108,13 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue,
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .catch((error) => console.error("Error signing in with Google:", error))
-      .finally(() => navigate('/game')); // Navigate to game or dashboard page after sign in
+      .finally(() => navigate('/game')); 
   };
 
   const handleSignOut = () => {
     signOut(auth)
       .catch((error) => console.error("Error signing out:", error))
-      .finally(() => navigate('/')); // Navigate to homepage or welcome page after sign out
+      .finally(() => navigate('/'));
   };
 
   const [showPopup, setShowPopup] = useState(false);
@@ -127,56 +122,13 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue,
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
-  // const addNewGroup = async () => {
-  //   if (!user) {
-  //     alert("You need to be signed in to join a group.");
-  //     return;
-  //   }
-  
-  //   const groupCode = prompt("Enter the group code you wish to join:");
-  
-  //   if (groupCode) {
-  //     try {
-  //       // Check if the group exists
-  //       const groupRef = doc(db, "groups", groupCode);
-  //       const groupSnap = await getDoc(groupRef);
-  
-  //       if (!groupSnap.exists()) {
-  //         alert("Group does not exist. Please check the group code and try again.");
-  //         return;
-  //       }
-  
-  //       // Update the group's 'members' field to include this user
-  //       await updateDoc(groupRef, {
-  //         members: arrayUnion(user.uid),
-  //       });
-  
-  //       // Update the user's 'Group' field to include this group's code
-  //       const userRef = doc(db, "users", user.uid);
-  //       await updateDoc(userRef, {
-  //         Group: arrayUnion(groupCode),
-  //       });
-  
-  //       alert("You have successfully joined the group.");
-  //       // Optionally, update local state or perform additional actions here, e.g., navigate to the group page
-  //     } catch (error) {
-  //       console.error("Error joining group:", error);
-  //       alert("Failed to join group. Please try again later.");
-  //     }
-  //   } else {
-  //     alert("Group code is required to join a group.");
-  //   }
-  //   fetchUserGroups();
-  // };
   const openAddGroupPage = () => {
-    navigate('/add-group'); // Make sure you have defined this route in your router
+    navigate('/add-group'); 
   };
-  
-  
 
   const imageClick = () => {
     updateProfileFalse();
-    navigate('/'); // Navigate to homepage or dashboard page
+    navigate('/'); 
   }
 
   useEffect(() => {
@@ -227,7 +179,7 @@ const NavBar = ({ currUserGroup, setCurrUserGroup, isNewUser, updateProfileTrue,
                 {userGroups.length > 0 ? (
                   userGroups.map((group) => (
                     <div key={group.code} className="dropdown-item" onClick={() => updateGroup(group.code)}>
-                      {group.name} {/* Display the group name */}
+                      {group.name} 
                       <img
                         src={infoIcon}
                         alt="Info"

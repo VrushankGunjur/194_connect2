@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/ResultsTable.css"; // Make sure to import the CSS file
+import "../styles/ResultsTable.css"; 
 
 function sleep(s) {
   return new Promise((resolve) => setTimeout(resolve, 1000 * s));
@@ -31,8 +31,6 @@ const Tile = ({ backgroundColor, text, duration, delayTime, flip }) => {
           }}
         >
           <div className="black-box">
-            {/* Initial black box */}
-            {/* Content revealed after flipping */}
             <div
               style={{
                 width: '100%',
@@ -137,7 +135,6 @@ const ResultsTable = ({ dispUsers }) => {
       <tbody>
         {dispUsers.map((user, index) => (
           <tr key={index}>
-            {/* Iterate over other keys for user data */}
             {Object.keys(user).map((key, keyIndex) => {
               let backgroundColor = "gray";
               let print_value = "";
@@ -157,7 +154,6 @@ const ResultsTable = ({ dispUsers }) => {
                 backgroundColor = getBackgroundColor(user[key].disp.color);
                 print_value = traitValue + ", " + user[key].disp.dist + "mi " + user[key].disp.compassDir;
               } else if (key !== "id") {
-                // Exclude the id and ProfilePhotoURL from rendering as data cells
                 const traitValue = formatTrait(key, user[key].data);
                 const arrow = getArrow(user[key].disp.dir);
                 backgroundColor = getBackgroundColor(user[key].disp.color);

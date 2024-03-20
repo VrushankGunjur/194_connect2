@@ -1,9 +1,8 @@
-// CreateGroup.js
 import React, { useState } from 'react';
 import { doc, updateDoc, setDoc, arrayUnion } from 'firebase/firestore';
-import { db } from '../firebase'; // Ensure this path matches your project structure
-import { useNavigate } from 'react-router-dom'; // For navigation after group creation
-import '../styles/CreateGroup.css'; // Assuming you create a separate CSS file for this component
+import { db } from '../firebase'; 
+import { useNavigate } from 'react-router-dom'; 
+import '../styles/CreateGroup.css'; 
 
 const generateUniqueCode = () => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -16,7 +15,7 @@ const generateUniqueCode = () => {
 
 const CreateGroup = ({ user, onGroupChange }) => {
   const [groupName, setGroupName] = useState('');
-  const navigate = useNavigate(); // Use this for redirecting after creating the group
+  const navigate = useNavigate(); 
 
   const handleCreateGroup = async () => {
     if (!groupName.trim()) {
@@ -37,7 +36,7 @@ const CreateGroup = ({ user, onGroupChange }) => {
       await updateDoc(userDocRef, {
         Group: arrayUnion(groupCode),
       });
-      onGroupChange(); // Call the function to indicate group change
+      onGroupChange(); 
       navigate(`/group-info/${groupCode}`);
       window.location.reload(); 
     } catch (error) {

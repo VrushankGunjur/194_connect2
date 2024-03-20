@@ -2,7 +2,7 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import React, { useState } from "react";
 import { auth, db } from "../firebase";
 
-const SendMessage = ({ scrollRef, userId, otherUserId }) => {
+const SendMessage = ({ otherUserId }) => {
   const [message, setMessage] = useState("");
 
   const sendMessage = async (event) => {
@@ -21,7 +21,6 @@ const SendMessage = ({ scrollRef, userId, otherUserId }) => {
       receiverId: otherUserId,
     });
     setMessage("");
-    // scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   };
   return (
     <form onSubmit={(event) => sendMessage(event)} className="send-message">

@@ -26,7 +26,7 @@ const GroupInfo = ({ user, onGroupChange }) => {
         // Check if the group exists
         if (!groupSnap.exists()) {
           setError("Group not found.");
-          navigate('/'); // Or navigate to an error page or dashboard
+          navigate('/'); 
           return;
         }
 
@@ -38,7 +38,6 @@ const GroupInfo = ({ user, onGroupChange }) => {
           await fetchMembersInfo(groupSnap.data().members);
         } else {
           setError("You do not have access to this group.");
-          // Optionally, navigate away or just set an error message
           navigate('/');
         }
       } catch (err) {
@@ -53,26 +52,23 @@ const GroupInfo = ({ user, onGroupChange }) => {
       fetchGroupAndValidateMember();
     } else {
       setError("You must be signed in to view this page.");
-      navigate('/login'); // Adjust as needed
+      navigate('/login'); 
     }
   }, [user, groupCode, navigate]);
 
   const leaveGroup = async () => {
     try {
-      // Remove user from group's members and possibly admin array
       await updateDoc(doc(db, "groups", groupCode), {
         members: arrayRemove(user.uid),
-        // Only remove from admin array if they are in it
         ...(group.admin.includes(user.uid) && { admin: arrayRemove(user.uid) }),
       });
 
-      // Remove group code from user's Group field
       await updateDoc(doc(db, "users", user.uid), {
         Group: arrayRemove(groupCode),
       });
-      onGroupChange(); // Trigger group change
+      onGroupChange(); 
       alert("You have left the group.");
-      navigate('/'); // Navigate the user away from the group page, perhaps to a dashboard or home
+      navigate('/');
       window.location.reload();
     } catch (error) {
       console.error("Error leaving the group:", error);
@@ -99,7 +95,6 @@ const GroupInfo = ({ user, onGroupChange }) => {
     }
 
     try {
-      // Reference to the group document.
       const groupRef = doc(db, "groups", groupCode);
 
       // Add the user to the group's 'admin' field.
@@ -143,7 +138,6 @@ const GroupInfo = ({ user, onGroupChange }) => {
     }
 
     try {
-      // Reference to the group document.
       const groupRef = doc(db, "groups", groupCode);
 
       // Remove the user from the group's 'admin' and 'members' fields if present.
@@ -162,7 +156,6 @@ const GroupInfo = ({ user, onGroupChange }) => {
 
       console.log("updated user doc")
 
-      // Optionally, update the local state to reflect these changes without needing to refetch.
       setGroup(prevGroup => ({
         ...prevGroup,
         admin: prevGroup.admin.filter(id => id !== userId),
@@ -214,9 +207,7 @@ const GroupInfo = ({ user, onGroupChange }) => {
                 </li>
               ))}
             </ul>
-            {/* Leave Group Button - Do not show if the user is the only admin */}
             {user && group.members.includes(user.uid) && (
-              // if !(group.admin.length === 1 && group.admin.includes(user.uid)) then show the leave group button else show another button
               !(group.admin.length === 1 && group.admin.includes(user.uid)) ? (
                 <button onClick={leaveGroup} className="leave-group-button">Leave Group</button>
               ) : (
